@@ -23,3 +23,4 @@ Verificahub — единая платформа верификации поль�
 - [Публичная оферта](./legal/public_offer)
 - [Политика конфиденциальности](./legal/privacy_policy)
 - [Условия использования](./legal/terms_of_use)
+- [Согласие на обработку персональных данных](./legal/personal_data_consent)

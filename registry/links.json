@@ -11,7 +11,8 @@
     "legal": {
       "public_offer": "/docs/legal/public_offer",
       "privacy_policy": "/docs/legal/privacy_policy",
-      "terms_of_use": "/docs/legal/terms_of_use"
+      "terms_of_use": "/docs/legal/terms_of_use",
+      "personal_data_consent": "/docs/legal/personal_data_consent"
     }
   }
 }
