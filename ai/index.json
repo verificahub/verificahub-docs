@@ -1,0 +1,14 @@
+{
+  "project": "verificahub-docs",
+  "role": "documentation content (Markdown) for Verificahub",
+  "engine_repo": "verificahub-docs-site",
+  "default_locale": "ru",
+  "production_branch": "production",
+  "key_files": {
+    "entry": "docs/index.md",
+    "registry": "registry/links.json",
+    "agents": "AGENTS.md",
+    "trigger_workflow": ".github/workflows/trigger.yml"
+  },
+  "sections": ["start", "api", "legal"]
+}

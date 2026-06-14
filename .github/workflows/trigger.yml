@@ -1,0 +1,20 @@
+name: Trigger Docs Site Rebuild
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [production]
+
+jobs:
+  trigger:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger rebuild in docs site repo
+        env:
+          REPO_TOKEN: ${{ secrets.REPO_TOKEN }}
+        run: |
+          curl --fail -X POST \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${REPO_TOKEN}" \
+            https://api.github.com/repos/verificahub/verificahub-docs-site/dispatches \
+            -d '{"event_type":"docs-update"}'
