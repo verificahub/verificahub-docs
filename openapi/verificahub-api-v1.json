@@ -1,0 +1,761 @@
+{
+  "x-generator": "NSwag v14.6.3.0 (NJsonSchema v11.5.2.0 (Newtonsoft.Json v13.0.0.0))",
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Verificahub API",
+    "description": "External verification API for integrators.",
+    "version": "v1"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:5003"
+    }
+  ],
+  "paths": {
+    "/v1/verify/check": {
+      "post": {
+        "tags": [
+          "V1"
+        ],
+        "summary": "Submit a code (contract parity; not used by v1 auto-verify).",
+        "description": "Not used by the v1 reverse-flash-call flow; retained for compatibility and the future\ncaller-ID-OTP method.",
+        "operationId": "CheckVerificationCode",
+        "requestBody": {
+          "x-name": "CheckCodeRequest",
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CheckCodeRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CheckCodeResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "ExternalBasic": []
+          }
+        ]
+      }
+    },
+    "/v1/balance": {
+      "get": {
+        "tags": [
+          "V1"
+        ],
+        "summary": "Get the account's current balance.",
+        "operationId": "GetBalance",
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetBalanceResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "ExternalBasic": []
+          }
+        ]
+      }
+    },
+    "/v1/usage": {
+      "get": {
+        "tags": [
+          "V1"
+        ],
+        "summary": "Aggregated verification usage over a date range.",
+        "operationId": "GetUsage",
+        "parameters": [
+          {
+            "name": "from",
+            "in": "query",
+            "description": "Inclusive start date.",
+            "schema": {
+              "type": "string",
+              "format": "date",
+              "nullable": true
+            }
+          },
+          {
+            "name": "to",
+            "in": "query",
+            "description": "Inclusive end date.",
+            "schema": {
+              "type": "string",
+              "format": "date",
+              "nullable": true
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetUsageResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "ExternalBasic": []
+          }
+        ]
+      }
+    },
+    "/v1/verify/{request_id}": {
+      "get": {
+        "tags": [
+          "V1"
+        ],
+        "summary": "Fetch the current status of a verification.",
+        "operationId": "GetVerificationStatus",
+        "parameters": [
+          {
+            "name": "request_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "guid"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetVerificationStatusResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "ExternalBasic": []
+          }
+        ]
+      }
+    },
+    "/v1/verify": {
+      "post": {
+        "tags": [
+          "V1"
+        ],
+        "summary": "Initiate a reverse-flash-call verification.",
+        "description": "Returns the gateway number to display; the user calls it and we auto-verify.",
+        "operationId": "InitiateVerification",
+        "requestBody": {
+          "x-name": "InitiateVerificationRequest",
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InitiateVerificationRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReverseFlashCallInitiateResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "ExternalBasic": []
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ProblemDetails": {
+        "type": "object",
+        "additionalProperties": {
+          "nullable": true
+        },
+        "properties": {
+          "type": {
+            "type": "string",
+            "nullable": true
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "detail": {
+            "type": "string",
+            "nullable": true
+          },
+          "instance": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "CheckCodeResponse": {
+        "type": "object",
+        "description": "Success response for a code check.",
+        "additionalProperties": false,
+        "properties": {
+          "request_id": {
+            "type": "string",
+            "description": "The session's id.",
+            "format": "guid"
+          },
+          "status": {
+            "description": "Resulting status.",
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/VerificationStatus"
+              }
+            ]
+          },
+          "phone_number": {
+            "type": "string",
+            "description": "The verified number, normalised to E.164."
+          }
+        }
+      },
+      "VerificationStatus": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "sent",
+          "delivered",
+          "verified",
+          "expired",
+          "failed"
+        ],
+        "enum": [
+          "sent",
+          "delivered",
+          "verified",
+          "expired",
+          "failed"
+        ]
+      },
+      "CheckCodeRequest": {
+        "type": "object",
+        "description": "Body for POST /v1/verify/check.",
+        "additionalProperties": false,
+        "properties": {
+          "request_id": {
+            "type": "string",
+            "description": "The session id to check against.",
+            "format": "guid"
+          },
+          "code": {
+            "type": "string",
+            "description": "The code submitted by the integrator."
+          }
+        }
+      },
+      "GetBalanceResponse": {
+        "type": "object",
+        "description": "Response for GET /v1/balance.",
+        "additionalProperties": false,
+        "properties": {
+          "balance": {
+            "description": "The account's current prepaid balance.",
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/MoneyResponse"
+              }
+            ]
+          }
+        }
+      },
+      "MoneyResponse": {
+        "type": "object",
+        "description": "Monetary amount in API responses.",
+        "additionalProperties": false,
+        "properties": {
+          "amount": {
+            "type": "number",
+            "description": "The amount.",
+            "format": "decimal"
+          },
+          "currency": {
+            "description": "ISO-4217 currency.",
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/Currency"
+              }
+            ]
+          }
+        }
+      },
+      "Currency": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "RUB"
+        ],
+        "enum": [
+          "RUB"
+        ]
+      },
+      "GetUsageResponse": {
+        "type": "object",
+        "description": "Usage summary response.",
+        "additionalProperties": false,
+        "properties": {
+          "from": {
+            "type": "string",
+            "description": "Start of the reported range.",
+            "format": "date"
+          },
+          "to": {
+            "type": "string",
+            "description": "End of the reported range.",
+            "format": "date"
+          },
+          "total_verifications": {
+            "type": "integer",
+            "description": "Total verifications initiated in range.",
+            "format": "int32"
+          },
+          "successful": {
+            "type": "integer",
+            "description": "Count that reached verified.",
+            "format": "int32"
+          },
+          "success_rate": {
+            "type": "number",
+            "description": "Successful divided by total, rounded to 4 places.",
+            "format": "double"
+          },
+          "total_cost": {
+            "description": "Total amount charged across the range.",
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/MoneyResponse"
+              }
+            ]
+          },
+          "by_method": {
+            "type": "object",
+            "description": "Verification counts grouped by method.",
+            "x-dictionaryKey": {
+              "$ref": "#/components/schemas/VerificationMethod"
+            },
+            "additionalProperties": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          "by_status": {
+            "type": "object",
+            "description": "Verification counts grouped by status — the failure breakdown (expired vs\nfailed) integrators use to diagnose drop-off.",
+            "x-dictionaryKey": {
+              "$ref": "#/components/schemas/VerificationStatus"
+            },
+            "additionalProperties": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          "daily": {
+            "type": "array",
+            "description": "Per-day counts across the range, ordered by date — for trend charts. Days with no activity\nare omitted.",
+            "items": {
+              "$ref": "#/components/schemas/UsageDayResponse"
+            }
+          }
+        }
+      },
+      "VerificationMethod": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "reverse_flash_call",
+          "flash_call",
+          "voice",
+          "sms",
+          "telegram"
+        ],
+        "enum": [
+          "reverse_flash_call",
+          "flash_call",
+          "voice",
+          "sms",
+          "telegram"
+        ]
+      },
+      "UsageDayResponse": {
+        "type": "object",
+        "description": "One day's counts in a usage report.",
+        "additionalProperties": false,
+        "properties": {
+          "date": {
+            "type": "string",
+            "format": "date"
+          },
+          "total": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "verified": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "GetUsageRequest": {
+        "type": "object",
+        "description": "Query for GET /v1/usage.",
+        "additionalProperties": false
+      },
+      "GetVerificationStatusResponse": {
+        "type": "object",
+        "description": "Status response.",
+        "additionalProperties": false,
+        "properties": {
+          "request_id": {
+            "type": "string",
+            "description": "The session's id.",
+            "format": "guid"
+          },
+          "phone_number": {
+            "type": "string",
+            "description": "The verified number, normalised to E.164."
+          },
+          "method": {
+            "description": "Verification method.",
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/VerificationMethod"
+              }
+            ]
+          },
+          "status": {
+            "description": "Current status.",
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/VerificationStatus"
+              }
+            ]
+          },
+          "cost": {
+            "description": "Amount charged for this verification.",
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/MoneyResponse"
+              }
+            ]
+          },
+          "created_at": {
+            "type": "string",
+            "description": "When the session was created (UTC).",
+            "format": "date-time"
+          },
+          "verified_at": {
+            "type": "string",
+            "description": "When verification succeeded (UTC), if it did.",
+            "format": "date-time",
+            "nullable": true
+          },
+          "expires_at": {
+            "type": "string",
+            "description": "When the session expires (UTC).",
+            "format": "date-time"
+          }
+        }
+      },
+      "GetVerificationStatusRequest": {
+        "type": "object",
+        "description": "Route binding for GET /v1/verify/{request_id}.",
+        "additionalProperties": false
+      },
+      "ReverseFlashCallInitiateResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/InitiateVerificationResponse"
+          },
+          {
+            "type": "object",
+            "description": "Response for a ReverseFlashCall verification.",
+            "additionalProperties": false,
+            "properties": {
+              "number_to_call": {
+                "type": "string",
+                "description": "Gateway SIM number to display: \"Call this number\"."
+              },
+              "code_length": {
+                "type": "integer",
+                "description": "Code length.",
+                "format": "int32"
+              }
+            }
+          }
+        ]
+      },
+      "InitiateVerificationResponse": {
+        "type": "object",
+        "discriminator": {
+          "propertyName": "method",
+          "mapping": {
+            "telegram": "#/components/schemas/TelegramInitiateResponse",
+            "reverse_flash_call": "#/components/schemas/ReverseFlashCallInitiateResponse"
+          }
+        },
+        "description": "Response for POST /v1/verify, common fields shared by every method.",
+        "x-abstract": true,
+        "additionalProperties": false,
+        "required": [
+          "method"
+        ],
+        "properties": {
+          "request_id": {
+            "type": "string",
+            "description": "The created session's id.",
+            "format": "guid"
+          },
+          "phone_number": {
+            "type": "string",
+            "description": "The verified number, normalised to E.164."
+          },
+          "status": {
+            "description": "Current status.",
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/VerificationStatus"
+              }
+            ]
+          },
+          "cost": {
+            "description": "Amount charged for this verification.",
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/MoneyResponse"
+              }
+            ]
+          },
+          "expires_at": {
+            "type": "string",
+            "description": "When the session expires (UTC) if not verified.",
+            "format": "date-time"
+          },
+          "method": {
+            "type": "string"
+          }
+        }
+      },
+      "TelegramInitiateResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/InitiateVerificationResponse"
+          },
+          {
+            "type": "object",
+            "description": "Response for a Telegram verification.",
+            "additionalProperties": false,
+            "properties": {
+              "code_length": {
+                "type": "integer",
+                "description": "Number of digits in the code the user will receive and must enter.",
+                "format": "int32"
+              }
+            }
+          }
+        ]
+      },
+      "InitiateVerificationRequest": {
+        "type": "object",
+        "description": "Body for POST /v1/verify.",
+        "additionalProperties": false,
+        "properties": {
+          "phone_number": {
+            "type": "string",
+            "description": "End-user number in E.164."
+          },
+          "method": {
+            "description": "Verification method.",
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/VerificationMethod"
+              }
+            ]
+          },
+          "expiry_seconds": {
+            "type": "integer",
+            "description": "Requested session TTL in seconds.",
+            "format": "int32",
+            "nullable": true
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "JWTBearerAuth": {
+        "type": "http",
+        "description": "Enter a JWT token to authorize the requests...",
+        "scheme": "Bearer",
+        "bearerFormat": "JWT"
+      },
+      "ExternalBasic": {
+        "type": "http",
+        "description": "HTTP Basic api_key:api_secret.",
+        "scheme": "basic"
+      }
+    }
+  }
+}

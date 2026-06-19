@@ -4,10 +4,6 @@
     "start": {
       "overview": "/docs/start"
     },
-    "api": {
-      "overview": "/docs/api",
-      "reverse_flash_call": "/docs/api/reverse_flash_call"
-    },
     "legal": {
       "public_offer": "/docs/legal/public_offer",
       "privacy_policy": "/docs/legal/privacy_policy",

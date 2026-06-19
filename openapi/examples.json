@@ -1,0 +1,79 @@
+{
+  "__comment": "Request/response examples merged into the spec by scripts/prepare-openapi.mjs (keyed by operationId). Kept here as an overlay so they survive backend re-exports of verificahub-api-v1.json. Add a new operationId block to document more examples.",
+
+  "InitiateVerification": {
+    "requestBody": {
+      "phone_number": "+79991234567",
+      "method": "reverse_flash_call",
+      "expiry_seconds": 300
+    },
+    "responses": {
+      "201": {
+        "request_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        "phone_number": "+79991234567",
+        "method": "reverse_flash_call",
+        "status": "sent",
+        "cost": {"amount": 0.25, "currency": "RUB"},
+        "expires_at": "2026-06-17T12:35:00Z",
+        "number_to_call": "+79090000000",
+        "code_length": 4
+      }
+    }
+  },
+
+  "GetVerificationStatus": {
+    "responses": {
+      "200": {
+        "request_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        "phone_number": "+79991234567",
+        "method": "reverse_flash_call",
+        "status": "verified",
+        "cost": {"amount": 0.25, "currency": "RUB"},
+        "created_at": "2026-06-17T12:30:00Z",
+        "verified_at": "2026-06-17T12:30:42Z",
+        "expires_at": "2026-06-17T12:35:00Z"
+      }
+    }
+  },
+
+  "CheckVerificationCode": {
+    "requestBody": {
+      "request_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      "code": "1234"
+    },
+    "responses": {
+      "200": {
+        "request_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        "status": "verified",
+        "phone_number": "+79991234567"
+      }
+    }
+  },
+
+  "GetBalance": {
+    "responses": {
+      "200": {
+        "balance": {"amount": 1500.0, "currency": "RUB"}
+      }
+    }
+  },
+
+  "GetUsage": {
+    "responses": {
+      "200": {
+        "from": "2026-06-01",
+        "to": "2026-06-17",
+        "total_verifications": 1280,
+        "successful": 1205,
+        "success_rate": 0.9414,
+        "total_cost": {"amount": 320.0, "currency": "RUB"},
+        "by_method": {"reverse_flash_call": 1280},
+        "by_status": {"verified": 1205, "expired": 60, "failed": 15},
+        "daily": [
+          {"date": "2026-06-16", "total": 95, "verified": 90},
+          {"date": "2026-06-17", "total": 60, "verified": 57}
+        ]
+      }
+    }
+  }
+}

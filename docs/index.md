@@ -15,10 +15,6 @@ Verificahub — единая платформа верификации поль�
 ### Быстрый старт
 - [Обзор и подключение](./start)
 
-### API
-- [Обзор API](./api)
-- [Метод reverse_flash_call](./api/reverse_flash_call)
-
 ### Юридические документы
 - [Публичная оферта](./legal/public_offer)
 - [Политика конфиденциальности](./legal/privacy_policy)

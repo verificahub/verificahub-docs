@@ -16,5 +16,3 @@ curl -X POST https://api.verificahub.ru/v1/verify \
   -H "Authorization: Bearer sk_live_••••" \
   -d '{ "phone": "+79009009090", "method": "reverse_flash_call" }'
 ```
-
-Подробнее о методах — в разделе [API](../api).
