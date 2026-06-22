@@ -1,0 +1,9 @@
+{
+  "label": "Use-case guides",
+  "position": 20,
+  "link": {
+    "type": "generated-index",
+    "title": "Use-case guides",
+    "description": "Ready-made flows for Verificahub: number verification, code entry, balance control and status handling."
+  }
+}

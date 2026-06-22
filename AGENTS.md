@@ -5,7 +5,11 @@ engine lives in `verificahub-docs-site` and pulls this content at build time.
 
 ## Purpose
 - Keep edits focused on Markdown in `docs/` and the `registry/links.json` map.
-- Russian (`ru`) is the default and only locale unless a task adds translations.
+- Russian (`ru`) is the default locale and lives in `docs/`. English (`en`)
+  translations live in `i18n/en/docusaurus-plugin-content-docs/current/` and
+  mirror `docs/` paths/filenames; legal docs are intentionally RU-only (see
+  `i18n/README.md`). When you change a `docs/` page, update its `i18n/en/`
+  counterpart (if one exists), or note it's now out of sync.
 - Keep changes small, reviewable, and safe for production deploys.
 
 ## Working rules
