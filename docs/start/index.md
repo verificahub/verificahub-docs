@@ -13,6 +13,9 @@ sidebar_position: 1
 
 ```bash
 curl -X POST https://api.verificahub.ru/v1/verify \
-  -H "Authorization: Bearer sk_live_••••" \
-  -d '{ "phone": "+79009009090", "method": "reverse_flash_call" }'
+  -u api_key:api_secret \
+  -H "Content-Type: application/json" \
+  -d '{ "phone_number": "+79991234567", "method": "reverse_flash_call" }'
 ```
+
+Дальше — готовые сценарии в разделе [Сценарии использования](../guides/reverse_flash_call) и ответы в [FAQ](../faq).

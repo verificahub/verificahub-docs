@@ -4,6 +4,14 @@
     "start": {
       "overview": "/docs/start"
     },
+    "guides": {
+      "methods": "/docs/guides/methods",
+      "reverse_flash_call": "/docs/guides/reverse_flash_call",
+      "code_verification": "/docs/guides/code_verification",
+      "balance_and_usage": "/docs/guides/balance_and_usage",
+      "errors_and_statuses": "/docs/guides/errors_and_statuses"
+    },
+    "faq": "/docs/faq",
     "legal": {
       "public_offer": "/docs/legal/public_offer",
       "privacy_policy": "/docs/legal/privacy_policy",
