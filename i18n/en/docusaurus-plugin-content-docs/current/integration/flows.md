@@ -61,6 +61,16 @@ sequenceDiagram
 A wrong code returns `400 invalid_code` with `attempts_remaining`; once attempts run out the session
 becomes `failed`.
 
+## sms and flash_call — same code entry, different channel
+
+Both follow the same "code → `/v1/verify/check` → `verified`" shape as Telegram above:
+
+- **`sms`** — the code is delivered to the user by SMS. `POST /v1/verify` returns `code_length` and
+  `status: sent`; the user enters the code and you submit it to `POST /v1/verify/check`.
+- **`flash_call`** — we place a dropped call to the user's number, and **the code is the trailing
+  `code_length` digits of the incoming number**. The user reads them off the screen and enters them; then
+  the same `/v1/verify/check` step.
+
 ## mts_id — operator-asserted (dual path)
 
 The key trait: `mts_id` has **two paths**, and you don't know in advance which fires. Usually the operator

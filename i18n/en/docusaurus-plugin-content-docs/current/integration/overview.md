@@ -54,6 +54,8 @@ Every method is called through the single `POST /v1/verify` endpoint — only th
 | `method` | How it verifies | Does the user type a code? |
 | --- | --- | --- |
 | `reverse_flash_call` | The user calls a number we return; we verify by caller id | No |
+| `flash_call` | We place a dropped call to the user; the code is the trailing digits of the incoming number | Yes — via `/v1/verify/check` |
+| `sms` | A code is delivered by SMS; the user enters it in your UI | Yes — via `/v1/verify/check` |
 | `telegram_otp` | A code is delivered in Telegram; the user enters it in your UI | Yes — via `/v1/verify/check` |
 | `mts_id` | MTS Mobile ID pushes a confirmation to the SIM; on fallback, an SMS code | Only on the SMS-OTP fallback |
 
