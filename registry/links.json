@@ -4,6 +4,12 @@
     "start": {
       "overview": "/docs/start"
     },
+    "integration": {
+      "overview": "/docs/integration/overview",
+      "flows": "/docs/integration/flows",
+      "webhooks": "/docs/integration/webhooks",
+      "best_practices": "/docs/integration/best_practices"
+    },
     "guides": {
       "methods": "/docs/guides/methods",
       "reverse_flash_call": "/docs/guides/reverse_flash_call",

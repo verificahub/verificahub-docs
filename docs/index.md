@@ -15,6 +15,12 @@ Verificahub — единая платформа верификации поль�
 ### Быстрый старт
 - [Обзор и подключение](./start)
 
+### Интеграция с API
+- [Обзор](./integration/overview)
+- [Потоки подтверждения](./integration/flows)
+- [Вебхуки](./integration/webhooks)
+- [Лучшие практики](./integration/best_practices)
+
 ### Сценарии использования
 - [Методы и тарифы](./guides/methods)
 - [Обратный flash-call](./guides/reverse_flash_call)

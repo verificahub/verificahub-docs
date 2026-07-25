@@ -14,6 +14,12 @@ Verificahub is a single platform for verifying user phone numbers: reverse flash
 ### Getting started
 - [Overview and onboarding](./start)
 
+### API integration
+- [Overview](./integration/overview)
+- [Verification flows](./integration/flows)
+- [Webhooks](./integration/webhooks)
+- [Best practices](./integration/best_practices)
+
 ### Use-case guides
 - [Methods and pricing](./guides/methods)
 - [Reverse flash-call](./guides/reverse_flash_call)
