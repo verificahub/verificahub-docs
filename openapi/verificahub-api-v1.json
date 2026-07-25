@@ -8,7 +8,7 @@
   },
   "servers": [
     {
-      "url": "http://localhost:5003"
+      "url": "https://api.verificahub.ru"
     }
   ],
   "paths": {
@@ -17,8 +17,8 @@
         "tags": [
           "V1"
         ],
-        "summary": "Submit a code (contract parity; not used by v1 auto-verify).",
-        "description": "Not used by the v1 reverse-flash-call flow; retained for compatibility and the future\ncaller-ID-OTP method.",
+        "summary": "Submit a verification code.",
+        "description": "For methods that take a typed code: telegram_otp, and mts_id once its SIM-push has fallen back to SMS-OTP. reverse_flash_call auto-verifies and needs no code. For mts_id the code is relayed to the operator and the result arrives asynchronously, so the response status stays 'sent' — poll GET /v1/verify/{request_id} for the outcome.",
         "operationId": "CheckVerificationCode",
         "requestBody": {
           "x-name": "CheckCodeRequest",
@@ -109,6 +109,45 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/GetBalanceResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "ExternalBasic": []
+          }
+        ]
+      }
+    },
+    "/v1/prices": {
+      "get": {
+        "tags": [
+          "V1"
+        ],
+        "summary": "List the live per-method verification prices for your account currency.",
+        "operationId": "GetPrices",
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetPricesResponse"
                 }
               }
             }
@@ -250,8 +289,8 @@
         "tags": [
           "V1"
         ],
-        "summary": "Initiate a reverse-flash-call verification.",
-        "description": "Returns the gateway number to display; the user calls it and we auto-verify.",
+        "summary": "Initiate a phone verification.",
+        "description": "Starts a verification with the chosen method (reverse_flash_call, telegram_otp or mts_id). The 201 response shape is discriminated by the method property; the verification code is never returned.",
         "operationId": "InitiateVerification",
         "requestBody": {
           "x-name": "InitiateVerificationRequest",
@@ -272,7 +311,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ReverseFlashCallInitiateResponse"
+                  "$ref": "#/components/schemas/InitiateVerificationResponse"
                 }
               }
             }
@@ -453,6 +492,65 @@
           "RUB"
         ]
       },
+      "GetPricesResponse": {
+        "type": "object",
+        "description": "The live per-method verification prices for the caller's account currency. Shared by the\nexternal (GET /v1/prices) and dashboard (GET /dashboard/prices) surfaces.",
+        "additionalProperties": false,
+        "properties": {
+          "prices": {
+            "type": "array",
+            "description": "Live prices, one row per available method that has a price, in display order.",
+            "items": {
+              "$ref": "#/components/schemas/MethodPriceResponse"
+            }
+          }
+        }
+      },
+      "MethodPriceResponse": {
+        "type": "object",
+        "description": "The price of one verification method.",
+        "additionalProperties": false,
+        "properties": {
+          "method": {
+            "description": "Verification method.",
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/VerificationMethod"
+              }
+            ]
+          },
+          "price": {
+            "description": "The amount charged per verification for this method.",
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/MoneyResponse"
+              }
+            ]
+          }
+        }
+      },
+      "VerificationMethod": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "reverse_flash_call",
+          "flash_call",
+          "voice",
+          "sms",
+          "telegram_otp",
+          "mts_id",
+          "mts_id_sms_otp"
+        ],
+        "enum": [
+          "reverse_flash_call",
+          "flash_call",
+          "voice",
+          "sms",
+          "telegram_otp",
+          "mts_id",
+          "mts_id_sms_otp"
+        ]
+      },
       "GetUsageResponse": {
         "type": "object",
         "description": "Usage summary response.",
@@ -522,24 +620,6 @@
           }
         }
       },
-      "VerificationMethod": {
-        "type": "string",
-        "description": "",
-        "x-enumNames": [
-          "reverse_flash_call",
-          "flash_call",
-          "voice",
-          "sms",
-          "telegram"
-        ],
-        "enum": [
-          "reverse_flash_call",
-          "flash_call",
-          "voice",
-          "sms",
-          "telegram"
-        ]
-      },
       "UsageDayResponse": {
         "type": "object",
         "description": "One day's counts in a usage report.",
@@ -594,6 +674,10 @@
               }
             ]
           },
+          "awaiting_code": {
+            "type": "boolean",
+            "description": "Whether the flow is now waiting for the user's code to be submitted via\nPOST /v1/verify/check. Always false for methods that need no typed code\n(reverse_flash_call). For mts_id it is true only after the SIM-push\nfalls back to SMS-OTP (mirrors the verification.code_required webhook) — while the\nsilent push is still in flight it stays false, so integrators poll this to know when\nto prompt for a code."
+          },
           "cost": {
             "description": "Amount charged for this verification.",
             "oneOf": [
@@ -625,36 +709,16 @@
         "description": "Route binding for GET /v1/verify/{request_id}.",
         "additionalProperties": false
       },
-      "ReverseFlashCallInitiateResponse": {
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/InitiateVerificationResponse"
-          },
-          {
-            "type": "object",
-            "description": "Response for a ReverseFlashCall verification.",
-            "additionalProperties": false,
-            "properties": {
-              "number_to_call": {
-                "type": "string",
-                "description": "Gateway SIM number to display: \"Call this number\"."
-              },
-              "code_length": {
-                "type": "integer",
-                "description": "Code length.",
-                "format": "int32"
-              }
-            }
-          }
-        ]
-      },
       "InitiateVerificationResponse": {
         "type": "object",
         "discriminator": {
           "propertyName": "method",
           "mapping": {
-            "telegram": "#/components/schemas/TelegramInitiateResponse",
-            "reverse_flash_call": "#/components/schemas/ReverseFlashCallInitiateResponse"
+            "reverse_flash_call": "#/components/schemas/ReverseFlashCallInitiateResponse",
+            "sms": "#/components/schemas/SmsInitiateResponse",
+            "flash_call": "#/components/schemas/FlashCallInitiateResponse",
+            "telegram_otp": "#/components/schemas/TelegramInitiateResponse",
+            "mts_id": "#/components/schemas/MtsIdInitiateResponse"
           }
         },
         "description": "Response for POST /v1/verify, common fields shared by every method.",
@@ -694,10 +758,57 @@
             "description": "When the session expires (UTC) if not verified.",
             "format": "date-time"
           },
+          "code_length": {
+            "type": "integer",
+            "description": "Number of digits in the code the user receives/reads and submits via POST /v1/verify/check.",
+            "format": "int32"
+          },
           "method": {
             "type": "string"
           }
         }
+      },
+      "ReverseFlashCallInitiateResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/InitiateVerificationResponse"
+          },
+          {
+            "type": "object",
+            "description": "Response for a ReverseFlashCall verification.",
+            "additionalProperties": false,
+            "properties": {
+              "number_to_call": {
+                "type": "string",
+                "description": "Gateway SIM number to display: \"Call this number\"."
+              }
+            }
+          }
+        ]
+      },
+      "SmsInitiateResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/InitiateVerificationResponse"
+          },
+          {
+            "type": "object",
+            "description": "Response for a Sms verification — the code is delivered in the SMS.",
+            "additionalProperties": false
+          }
+        ]
+      },
+      "FlashCallInitiateResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/InitiateVerificationResponse"
+          },
+          {
+            "type": "object",
+            "description": "Response for a FlashCall verification — the code is the trailing\ndigits of the caller id the user sees on the incoming call.",
+            "additionalProperties": false
+          }
+        ]
       },
       "TelegramInitiateResponse": {
         "allOf": [
@@ -706,15 +817,20 @@
           },
           {
             "type": "object",
-            "description": "Response for a Telegram verification.",
-            "additionalProperties": false,
-            "properties": {
-              "code_length": {
-                "type": "integer",
-                "description": "Number of digits in the code the user will receive and must enter.",
-                "format": "int32"
-              }
-            }
+            "description": "Response for a TelegramOtp verification — Telegram delivers the\ncode to the user's Telegram account.",
+            "additionalProperties": false
+          }
+        ]
+      },
+      "MtsIdInitiateResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/InitiateVerificationResponse"
+          },
+          {
+            "type": "object",
+            "description": "Response for a MtsId verification — MTS pushes a confirmation to\nthe user's SIM; nothing is typed on the push leg and the result arrives asynchronously over our\nnotification webhook (status starts sent). On SMS-OTP fallback the user types the code and\nthe integrator submits it via POST /v1/verify/check.",
+            "additionalProperties": false
           }
         ]
       },
