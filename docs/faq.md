@@ -20,7 +20,7 @@ sidebar_position: 30
 - **С вводом кода** — `telegram`, `sms`, `flash_call`: пользователь вводит код, вы подтверждаете его через `POST /v1/verify/check`. У `flash_call` код — это последние цифры входящего номера.
 
 ### Как подключиться?
-Оставьте заявку на [verificahub.ru](https://verificahub.ru), получите доступ и API-ключ в личном кабинете — см. [Быстрый старт](./start).
+Оставьте заявку на [verificahub.ru](https://verificahub.ru), получите доступ и API-ключ в личном кабинете — см. [Быстрый старт](./start/index.md).
 
 ## Запросы к API
 

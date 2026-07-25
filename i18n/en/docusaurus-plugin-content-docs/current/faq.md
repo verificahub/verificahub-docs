@@ -20,7 +20,7 @@ By how verification happens, methods split into two types:
 - **Code entry** — `telegram`, `sms`, `flash_call`: the user enters a code and you confirm it via `POST /v1/verify/check`. For `flash_call` the code is the last digits of the incoming number.
 
 ### How do I get started?
-Request access on [verificahub.ru](https://verificahub.ru), then get your API key in the dashboard — see [Getting started](./start).
+Request access on [verificahub.ru](https://verificahub.ru), then get your API key in the dashboard — see [Getting started](./start/index.md).
 
 ## API requests
 
