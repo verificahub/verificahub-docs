@@ -582,7 +582,7 @@
             "format": "double"
           },
           "total_cost": {
-            "description": "Total amount charged across the range.",
+            "description": "Total amount actually billed across the range (sum of charged verifications, excluding\nunbilled expired/failed ones and refunds).",
             "oneOf": [
               {
                 "$ref": "#/components/schemas/MoneyResponse"
@@ -679,7 +679,7 @@
             "description": "Whether the flow is now waiting for the user's code to be submitted via\nPOST /v1/verify/check. Always false for methods that need no typed code\n(reverse_flash_call). For mts_id it is true only after the SIM-push\nfalls back to SMS-OTP (mirrors the verification.code_required webhook) — while the\nsilent push is still in flight it stays false, so integrators poll this to know when\nto prompt for a code."
           },
           "cost": {
-            "description": "Amount charged for this verification.",
+            "description": "The price for this verification (the quoted client price). For a pending, expired or failed\nverification this is the price that would apply — not necessarily an amount that was billed.",
             "oneOf": [
               {
                 "$ref": "#/components/schemas/MoneyResponse"
@@ -746,7 +746,7 @@
             ]
           },
           "cost": {
-            "description": "Amount charged for this verification.",
+            "description": "The price for this verification (the quoted client price); it is billed when the verification\nreaches its billing milestone.",
             "oneOf": [
               {
                 "$ref": "#/components/schemas/MoneyResponse"
