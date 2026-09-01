@@ -6,17 +6,18 @@ sidebar_position: 3
 
 # Code verification
 
-The `telegram`, `sms` and `flash_call` methods follow the same flow: the user receives or reads a short code, enters it in your app, and you confirm the code via the API. Only the delivery channel differs.
+The `telegram`, `sms`, `flash_call` and `max_bot` methods follow the same flow: the user receives or reads a short code, enters it in your app, and you confirm the code via the API. Only the delivery channel differs — `max_bot` has an extra "share number" step in the MAX messenger.
 
 | Method | Where the user gets the code |
 | --- | --- |
 | `telegram` | The code arrives as a Telegram message |
 | `sms` | The code arrives over SMS |
 | `flash_call` | A drop-call to the user's number; the code is the **last digits of the incoming number** |
+| `max_bot` | The code arrives in the MAX messenger after the user opens the bot via `deep_link` and shares their number |
 
 ## Step 1. Initiate the verification
 
-Set the `method` you need (`sms`, `telegram` or `flash_call`):
+Set the `method` you need (`sms`, `telegram`, `flash_call` or `max_bot`):
 
 ```bash
 curl -X POST https://api.verificahub.ru/v1/verify \
@@ -44,10 +45,15 @@ Response `201 Created`:
 
 `code_length` — how many digits the code has. Use it to configure the input field.
 
+:::note max_bot
+For `max_bot`, the response additionally contains a `deep_link` field (`https://max.ru/<bot>?start=<token>`) — show it to the user as a link or a QR code. The code arrives in MAX only after the user opens the bot and shares their number (the same one you're verifying). The method is available if enabled for your account.
+:::
+
 ## Step 2. The user enters the code
 
 - **Telegram / SMS** — the user receives the code in a message and types it in.
 - **Flash Call** — the user gets a short drop-call; the code is the last `code_length` digits of the calling number. The user types them in (no need to answer).
+- **MAX** — the user opens the MAX bot via the `deep_link`, taps "Share number", after which the code arrives in MAX and the user types it in.
 
 ## Step 3. Check the code
 

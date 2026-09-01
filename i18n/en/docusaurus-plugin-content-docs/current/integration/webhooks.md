@@ -18,6 +18,9 @@ don't have to poll.
 is now needed from the user (see [Verification flows](./flows.md)). If the push completes without a code,
 this event never arrives: it is your signal that this particular verification does need a code.
 
+For `max_bot`, `verification.delivered` fires when the code is delivered to the user in MAX (after they open
+the bot and share their number); then `verification.verified` on a successful code check.
+
 ## Payload
 
 ```json

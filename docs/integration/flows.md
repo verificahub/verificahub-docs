@@ -62,6 +62,39 @@ sequenceDiagram
 При неверном коде ответ `400 invalid_code` содержит `attempts_remaining`; после исчерпания попыток
 сессия переходит в `failed`.
 
+## max_bot — код в мессенджере MAX
+
+Мы генерируем код и доставляем его в мессенджере MAX нашим ботом. Отличие от Telegram — в ответе на
+`POST /v1/verify` приходит поле `deep_link` (`https://max.ru/<bot>?start=<token>`); покажите его
+пользователю ссылкой или QR-кодом. Пользователь открывает бота, жмёт **«Поделиться номером»** — и код
+приходит в MAX только после этого. Дальше как обычно: пользователь вводит код у вас, вы отправляете его
+на проверку.
+
+```mermaid
+sequenceDiagram
+    autonumber
+    participant U as Пользователь
+    participant App as Ваш backend
+    participant VH as Verificahub
+    participant MAX as MAX
+    App->>VH: POST /v1/verify {method: max_bot}
+    VH-->>App: request_id, deep_link, code_length, status: sent
+    App-->>U: ссылка или QR на deep_link
+    U->>MAX: открывает бота, жмёт «Поделиться номером»
+    MAX->>VH: контакт пользователя
+    VH->>MAX: доставка кода → delivered
+    MAX-->>U: код в MAX
+    App-->>U: поле ввода кода (code_length цифр)
+    U-->>App: введённый код
+    App->>VH: POST /v1/verify/check {request_id, code}
+    VH-->>App: status: verified (или 400 invalid_code + attempts_remaining)
+```
+
+Пользователь должен поделиться **тем же** номером, для которого запущена проверка, — иначе код не
+отправляется. Код приходит в MAX только после шага «Поделиться номером»: до этого статус `sent`, после
+доставки — `delivered` (и `awaiting_code: true`). Списание — по факту доставки: если пользователь не
+открыл бота или не поделился номером, оплата не взимается.
+
 ## sms и flash_call — тот же ввод кода, другой канал
 
 Оба работают по той же схеме «код → `/v1/verify/check` → `verified`», что и Telegram выше:

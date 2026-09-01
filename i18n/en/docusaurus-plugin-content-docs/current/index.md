@@ -7,7 +7,7 @@ sidebar_position: 1
 
 # Verificahub Documentation
 
-Verificahub is a single platform for verifying user phone numbers: reverse flash-call, flash-call, voice, SMS and Telegram through one API.
+Verificahub is a single platform for verifying user phone numbers: reverse flash-call, flash-call, voice, SMS, Telegram and MAX through one API.
 
 ## Sections
 

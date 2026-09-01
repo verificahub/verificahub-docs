@@ -539,7 +539,8 @@
           "sms",
           "telegram_otp",
           "mts_id",
-          "mts_id_sms_otp"
+          "mts_id_sms_otp",
+          "max_bot"
         ],
         "enum": [
           "reverse_flash_call",
@@ -548,7 +549,8 @@
           "sms",
           "telegram_otp",
           "mts_id",
-          "mts_id_sms_otp"
+          "mts_id_sms_otp",
+          "max_bot"
         ]
       },
       "GetUsageResponse": {
@@ -718,7 +720,8 @@
             "sms": "#/components/schemas/SmsInitiateResponse",
             "flash_call": "#/components/schemas/FlashCallInitiateResponse",
             "telegram_otp": "#/components/schemas/TelegramInitiateResponse",
-            "mts_id": "#/components/schemas/MtsIdInitiateResponse"
+            "mts_id": "#/components/schemas/MtsIdInitiateResponse",
+            "max_bot": "#/components/schemas/MaxBotInitiateResponse"
           }
         },
         "description": "Response for POST /v1/verify, common fields shared by every method.",
@@ -831,6 +834,24 @@
             "type": "object",
             "description": "Response for a MtsId verification — MTS pushes a confirmation to\nthe user's SIM; nothing is typed on the push leg and the result arrives asynchronously over our\nnotification webhook (status starts sent). On SMS-OTP fallback the user types the code and\nthe integrator submits it via POST /v1/verify/check.",
             "additionalProperties": false
+          }
+        ]
+      },
+      "MaxBotInitiateResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/InitiateVerificationResponse"
+          },
+          {
+            "type": "object",
+            "description": "Response for a MaxBot verification — the user opens the MAX bot at\nDeepLink, shares their number, and the bot delivers the code in MAX. The user then types\nit back and it's checked via POST /v1/verify/check. Status starts sent and flips to\ndelivered once the code reaches the user.",
+            "additionalProperties": false,
+            "properties": {
+              "deep_link": {
+                "type": "string",
+                "description": "The MAX deep link to open the bot: https://max.ru/<bot>?start=… (show as a link or QR)."
+              }
+            }
           }
         ]
       },

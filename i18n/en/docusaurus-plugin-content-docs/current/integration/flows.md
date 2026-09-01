@@ -61,6 +61,39 @@ sequenceDiagram
 A wrong code returns `400 invalid_code` with `attempts_remaining`; once attempts run out the session
 becomes `failed`.
 
+## max_bot — a code in the MAX messenger
+
+We generate a code and deliver it in the MAX messenger via our bot. The difference from Telegram: the
+`POST /v1/verify` response carries a `deep_link` field (`https://max.ru/<bot>?start=<token>`); show it to
+the user as a link or a QR code. The user opens the bot and taps **"Share number"** — and only then does
+the code arrive in MAX. From there it's the usual flow: the user enters the code in your UI and you submit
+it for checking.
+
+```mermaid
+sequenceDiagram
+    autonumber
+    participant U as User
+    participant App as Your backend
+    participant VH as Verificahub
+    participant MAX as MAX
+    App->>VH: POST /v1/verify {method: max_bot}
+    VH-->>App: request_id, deep_link, code_length, status: sent
+    App-->>U: link or QR for deep_link
+    U->>MAX: opens the bot, taps "Share number"
+    MAX->>VH: user's contact
+    VH->>MAX: deliver the code → delivered
+    MAX-->>U: code in MAX
+    App-->>U: code input (code_length digits)
+    U-->>App: entered code
+    App->>VH: POST /v1/verify/check {request_id, code}
+    VH-->>App: status: verified (or 400 invalid_code + attempts_remaining)
+```
+
+The user must share the **same** number the verification was started for — otherwise no code is sent. The
+code arrives in MAX only after the "Share number" step: before it the status is `sent`, after delivery it's
+`delivered` (and `awaiting_code: true`). Billing is charge-on-delivery: if the user never opens the bot or
+never shares their number, no charge is applied.
+
 ## sms and flash_call — same code entry, different channel
 
 Both follow the same "code → `/v1/verify/check` → `verified`" shape as Telegram above:

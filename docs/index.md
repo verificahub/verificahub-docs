@@ -8,7 +8,7 @@ sidebar_position: 1
 # Документация Verificahub
 
 Verificahub — единая платформа верификации пользователей: обратный flash-call,
-звонки, голос, SMS, Telegram и ВКонтакте в одном API.
+звонки, голос, SMS, Telegram, MAX и ВКонтакте в одном API.
 
 ## Разделы
 

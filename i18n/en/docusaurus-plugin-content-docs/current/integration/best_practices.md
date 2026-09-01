@@ -50,7 +50,9 @@ Errors are RFC-7807 with a stable `error_code` field. Branch on it, not on the `
 | `rate_limit_exceeded` (429) | Wait for `Retry-After` and retry |
 | `validation_error` (400) | Check field formats (E.164 number, 4–8 digit code) |
 
-When initiation fails (`4xx`/`5xx` on `POST /v1/verify`) no charge is applied.
+When initiation fails (`4xx`/`5xx` on `POST /v1/verify`) no charge is applied. For `max_bot`, billing is
+charge-on-delivery: if the user never opens the bot or never shares their number, the code isn't delivered
+and no charge is applied.
 
 ## Small things that save time
 

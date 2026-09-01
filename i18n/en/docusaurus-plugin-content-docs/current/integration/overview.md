@@ -57,9 +57,10 @@ Every method is called through the single `POST /v1/verify` endpoint — only th
 | `flash_call` | We place a dropped call to the user; the code is the trailing digits of the incoming number | Yes — via `/v1/verify/check` |
 | `sms` | A code is delivered by SMS; the user enters it in your UI | Yes — via `/v1/verify/check` |
 | `telegram_otp` | A code is delivered in Telegram; the user enters it in your UI | Yes — via `/v1/verify/check` |
+| `max_bot` | A code is delivered in the MAX messenger — after the user opens the bot via `deep_link` and shares their number; they enter it in your UI | Yes — via `/v1/verify/check` |
 | `mts_id` | MTS Mobile ID pushes a confirmation to the SIM; on fallback, an SMS code | Only on the SMS-OTP fallback |
 
-`telegram_otp` and `mts_id` are available if enabled for your account. Current per-method prices come from
+`telegram_otp`, `max_bot` and `mts_id` are available if enabled for your account. Current per-method prices come from
 `GET /v1/prices` — don't hardcode tariffs (see [Best practices](./best_practices.md)).
 
 ## Next
