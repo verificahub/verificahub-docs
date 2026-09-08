@@ -14,9 +14,10 @@ Verificahub supports several ways to verify a number. They all use the same endp
 | --- | --- | --- | --- |
 | Reverse flash-call | `reverse_flash_call` | The user calls our number; we confirm by Caller ID — no code | **₽0.25** |
 | Flash Call | `flash_call` | A drop-call to the user's number; the code is the last digits of the incoming number | **₽0.80** |
-| Telegram | `telegram` | The code arrives in Telegram via the official bot | **₽0.90** |
+| Telegram | `telegram_otp` | The code arrives in Telegram via the official bot | **₽0.90** |
 | MAX | `max_bot` | The code arrives in the MAX messenger after the user shares their number in the bot | *per-account rate* |
 | SMS | `sms` | A classic code over SMS — works on any phone | **₽3.00** |
+| MTS ID | `mts_id` | MTS confirms on the SIM (no code entry); on fallback — a code over SMS | **₽2.00** |
 | Voice OTP | `voice` | A voice robot dictates the code | *coming soon* |
 
 Prices are indicative; see current rates at [verificahub.ru](https://verificahub.ru). The `max_bot` method is
@@ -34,7 +35,7 @@ Only `reverse_flash_call`. You show the user a number (`number_to_call`), they c
 
 ### Code entry
 
-`telegram`, `sms`, `flash_call`, `max_bot` (and `voice` in the future). The user receives or reads a code, enters it, and you confirm it via `POST /v1/verify/check`.
+`telegram_otp`, `sms`, `flash_call`, `max_bot` (and `voice` in the future). The user receives or reads a code, enters it, and you confirm it via `POST /v1/verify/check`.
 
 → [Code verification](./code_verification.md)
 

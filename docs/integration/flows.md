@@ -136,7 +136,7 @@ sequenceDiagram
         VH->>MTS: ретрансляция кода
         VH-->>App: status: sent (результат придёт асинхронно)
         MTS-->>VH: результат (id_token)
-        VH-->>App: webhook verification.verified (или .failed)
+        VH-->>App: webhook verification.verified (или .failed / .expired)
     end
 ```
 
@@ -146,7 +146,8 @@ sequenceDiagram
   показывайте ввод кода. До него `awaiting_code: false`.
 - **`/v1/verify/check` асинхронный.** Мы ретранслируем код оператору, а окончательный результат
   приходит чуть позже. Поэтому ответ на `check` — `status: sent`, а не `verified`. Итог узнавайте по
-  `GET /v1/verify/{request_id}` или вебхукам `verification.verified` / `verification.failed`.
+  `GET /v1/verify/{request_id}` или вебхукам `verification.verified` / `verification.failed` /
+  `verification.expired` (истечение таймаута подтверждения оператором приходит как `expired`).
 - **Слишком ранний код** (до отката) вернёт `409 not_pending`.
 
 ## Узнать результат: вебхук или опрос

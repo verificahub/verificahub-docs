@@ -136,7 +136,7 @@ sequenceDiagram
         VH->>MTS: relay the code
         VH-->>App: status: sent (result arrives asynchronously)
         MTS-->>VH: result (id_token)
-        VH-->>App: webhook verification.verified (or .failed)
+        VH-->>App: webhook verification.verified (or .failed / .expired)
     end
 ```
 
@@ -146,7 +146,8 @@ What matters for `mts_id`:
   signal. Before it, `awaiting_code: false`.
 - **`/v1/verify/check` is asynchronous.** We relay the code to the operator, and the final result arrives a
   moment later — so the `check` response is `status: sent`, not `verified`. Learn the outcome from
-  `GET /v1/verify/{request_id}` or the `verification.verified` / `verification.failed` webhooks.
+  `GET /v1/verify/{request_id}` or the `verification.verified` / `verification.failed` /
+  `verification.expired` webhooks (an operator-consent timeout arrives as `expired`).
 - **A code submitted too early** (before the fallback) returns `409 not_pending`.
 
 ## Learn the result: webhook or polling

@@ -6,18 +6,18 @@ sidebar_position: 3
 
 # Code verification
 
-The `telegram`, `sms`, `flash_call` and `max_bot` methods follow the same flow: the user receives or reads a short code, enters it in your app, and you confirm the code via the API. Only the delivery channel differs — `max_bot` has an extra "share number" step in the MAX messenger.
+The `telegram_otp`, `sms`, `flash_call` and `max_bot` methods follow the same flow: the user receives or reads a short code, enters it in your app, and you confirm the code via the API. Only the delivery channel differs — `max_bot` has an extra "share number" step in the MAX messenger.
 
 | Method | Where the user gets the code |
 | --- | --- |
-| `telegram` | The code arrives as a Telegram message |
+| `telegram_otp` | The code arrives as a Telegram message |
 | `sms` | The code arrives over SMS |
 | `flash_call` | A drop-call to the user's number; the code is the **last digits of the incoming number** |
 | `max_bot` | The code arrives in the MAX messenger after the user opens the bot via `deep_link` and shares their number |
 
 ## Step 1. Initiate the verification
 
-Set the `method` you need (`sms`, `telegram`, `flash_call` or `max_bot`):
+Set the `method` you need (`sms`, `telegram_otp`, `flash_call` or `max_bot`):
 
 ```bash
 curl -X POST https://api.verificahub.ru/v1/verify \
