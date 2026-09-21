@@ -42,7 +42,7 @@ curl "https://api.verificahub.ru/v1/usage?from=2026-06-01&to=2026-06-17" \
   "successful": 1205,
   "success_rate": 0.9414,
   "total_cost": { "amount": 712.5, "currency": "RUB" },
-  "by_method": { "reverse_flash_call": 900, "telegram": 200, "sms": 120, "flash_call": 60 },
+  "by_method": { "reverse_flash_call": 900, "mts_id": 200, "sms": 120, "telegram_otp": 60 },
   "by_status": { "verified": 1205, "expired": 60, "failed": 15 },
   "daily": [
     { "date": "2026-06-16", "total": 95, "verified": 90 },
