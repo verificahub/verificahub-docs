@@ -26,6 +26,12 @@ engine lives in `verificahub-docs-site` and pulls this content at build time.
 - Product facts: pay-as-you-go, обратный flash-call от 0,25 ₽; API base
   `https://api.verificahub.ru/v1`; site `https://verificahub.ru`.
 
+## Generated pages — do not edit here
+
+`docs/changelog.md` and `i18n/en/.../changelog.md` are written by CI from
+`verificahub-api/docs/changelog/{ru,en}.md` on every production deploy. Edits made
+in this repo are overwritten on the next one — change the source instead.
+
 ## Standard flow
 1. Apply the smallest valid change for the task.
 2. Verify links/paths when touching navigation pages (`index.md`, categories).
