@@ -10,6 +10,16 @@ What's changing in the customer dashboard — [app.verificahub.ru](https://app.v
 Public API changes have their [own changelog](./changelog.md).
 Newest entries first.
 
+## 1.1.0 — 2026-09-26
+
+### Added
+
+- **Why a verification did not pass.** The verification list and the dashboard now show what
+  actually happened under the status: "Declined by subscriber", "Not delivered", "Wrong code",
+  "No response", "Number unreachable". Previously "Failed" and "Expired" looked the same, though
+  they call for different responses — repeating the same channel after a refusal rarely helps,
+  whereas an undelivered code is worth retrying.
+
 ## 1.0.0 — 2026-09-26
 
 ### Added
