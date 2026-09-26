@@ -28,9 +28,16 @@ engine lives in `verificahub-docs-site` and pulls this content at build time.
 
 ## Generated pages — do not edit here
 
-`docs/changelog.md` and `i18n/en/.../changelog.md` are written by CI from
-`verificahub-api/docs/changelog/{ru,en}.md` on every production deploy. Edits made
-in this repo are overwritten on the next one — change the source instead.
+Both changelogs are written by CI on every production deploy of their source repo.
+Edits made in this repo are overwritten on the next one — change the source instead.
+
+| Page (RU + EN) | Written from |
+| --- | --- |
+| `docs/changelog.md` | `verificahub-api/docs/changelog/{ru,en}.md` |
+| `docs/changelog-app.md` | `verificahub-web-app/docs/changelog/{ru,en}.md` |
+
+The two jobs push to this same branch and each copies its files wholesale, so they
+must never be pointed at the same page.
 
 ## Standard flow
 1. Apply the smallest valid change for the task.

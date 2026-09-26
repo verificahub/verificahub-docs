@@ -19,6 +19,7 @@
     },
     "faq": "/docs/faq",
     "changelog": "/docs/changelog",
+    "changelog_app": "/docs/changelog-app",
     "legal": {
       "public_offer": "/docs/legal/public_offer",
       "privacy_policy": "/docs/legal/privacy_policy",
