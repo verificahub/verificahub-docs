@@ -9,6 +9,17 @@ sidebar_position: 40
 Changes to the public API and to how verification methods behave.
 Newest entries first.
 
+## 2026-09-27
+
+### Added
+
+- **Why a verification failed.** `GET /v1/verify/{request_id}` and the dashboard verification list
+  now return `failure_reason` on unsuccessful verifications: `no_response` (nobody acted before it
+  expired), `declined` (the subscriber refused), `wrong_code` (attempts exhausted), `not_delivered`
+  (the code or call never arrived), `unreachable` (the number cannot be served by this method), or
+  `unknown`. The set is fixed and safe to branch on, and the list endpoint can filter by it
+  (`?filter=failure_reason==not_delivered`).
+
 ## 2026-09-26
 
 ### Added
