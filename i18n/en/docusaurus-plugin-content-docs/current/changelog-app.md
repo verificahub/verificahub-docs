@@ -10,6 +10,13 @@ What's changing in the customer dashboard — [app.verificahub.ru](https://app.v
 Public API changes have their [own changelog](./changelog.md).
 Newest entries first.
 
+## 1.1.1 — 2026-09-26
+
+### Fixed
+
+- **The Settings icon.** It rendered as a shapeless figure instead of a gear — both in the bottom
+  navigation on phones and in the profile menu.
+
 ## 1.1.0 — 2026-09-26
 
 ### Added
