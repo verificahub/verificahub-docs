@@ -9,7 +9,7 @@ sidebar_position: 40
 Changes to the public API and to how verification methods behave.
 Newest entries first.
 
-## 2026-09-27
+## 2026-09-26
 
 ### Added
 
@@ -19,10 +19,6 @@ Newest entries first.
   (the code or call never arrived), `unreachable` (the number cannot be served by this method), or
   `unknown`. The set is fixed and safe to branch on, and the list endpoint can filter by it
   (`?filter=failure_reason==not_delivered`).
-
-## 2026-09-26
-
-### Added
 
 - **Your own low-balance threshold.** `PUT /dashboard/account` now takes
   `low_balance_threshold` — the balance at which we email the account owner. It was previously a
