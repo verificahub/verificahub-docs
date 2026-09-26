@@ -9,6 +9,17 @@ sidebar_position: 40
 Changes to the public API and to how verification methods behave.
 Newest entries first.
 
+## 2026-09-24
+
+### Changed
+
+- **Only Russian mobile numbers are accepted.** `POST /v1/verify` now answers
+  `400 region_not_supported` unless the number is a Russian mobile number (`+79…`). Previously any
+  eleven digits starting with `7` were accepted, which let through Kazakh and Abkhazian numbers,
+  Russian landlines, and typos such as `8890…` that normalisation turned into a plausible-looking
+  `+7890…`. None of these can be delivered to, and none has ever verified — the request is now
+  rejected outright, with no verification created and nothing charged.
+
 ## 2026-09-21
 
 ### Fixed
