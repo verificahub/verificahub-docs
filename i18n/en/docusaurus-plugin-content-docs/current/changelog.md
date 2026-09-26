@@ -9,6 +9,22 @@ sidebar_position: 40
 Changes to the public API and to how verification methods behave.
 Newest entries first.
 
+## 2026-09-26
+
+### Added
+
+- **Your own low-balance threshold.** `PUT /dashboard/account` now takes
+  `low_balance_threshold` — the balance at which we email the account owner. It was previously a
+  single platform-wide figure (100 ₽) that could not be changed. Send `null` to follow the
+  platform default, or `0` to switch the warning off. The response returns both your value and the
+  threshold actually in force (`effective_low_balance_threshold`).
+
+### Fixed
+
+- **Repeat low-balance warnings.** An account already below the threshold stopped receiving the
+  email entirely, no matter how much further the balance fell. The warning now fires once on
+  dropping below the threshold and re-arms after a top-up.
+
 ## 2026-09-24
 
 ### Changed
