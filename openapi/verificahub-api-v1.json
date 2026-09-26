@@ -703,8 +703,37 @@
             "type": "string",
             "description": "When the session expires (UTC).",
             "format": "date-time"
+          },
+          "failure_reason": {
+            "description": "Why the verification did not succeed, or null while it is live or it verified.",
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/VerificationFailureReason"
+              }
+            ]
           }
         }
+      },
+      "VerificationFailureReason": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "no_response",
+          "declined",
+          "wrong_code",
+          "not_delivered",
+          "unreachable",
+          "unknown"
+        ],
+        "enum": [
+          "no_response",
+          "declined",
+          "wrong_code",
+          "not_delivered",
+          "unreachable",
+          "unknown"
+        ]
       },
       "GetVerificationStatusRequest": {
         "type": "object",
