@@ -1,10 +1,11 @@
 ---
-title: История изменений
-sidebar_label: История изменений
-sidebar_position: 40
+title: История изменений API
+sidebar_label: API
+sidebar_position: 1
+slug: /changelog
 ---
 
-# История изменений
+# История изменений API
 
 Изменения в публичном API и в поведении методов верификации.
 Новые записи — сверху.

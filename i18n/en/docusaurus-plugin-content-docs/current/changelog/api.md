@@ -1,10 +1,11 @@
 ---
-title: Changelog
-sidebar_label: Changelog
-sidebar_position: 40
+title: API changelog
+sidebar_label: API
+sidebar_position: 1
+slug: /changelog
 ---
 
-# Changelog
+# API changelog
 
 Changes to the public API and to how verification methods behave.
 Newest entries first.

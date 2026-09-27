@@ -1,7 +1,8 @@
 ---
 title: Dashboard changelog
-sidebar_label: Dashboard changelog
-sidebar_position: 41
+sidebar_label: Dashboard
+sidebar_position: 2
+slug: /changelog-app
 ---
 
 # Dashboard changelog

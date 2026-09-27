@@ -1,7 +1,8 @@
 ---
 title: История изменений кабинета
-sidebar_label: История изменений кабинета
-sidebar_position: 41
+sidebar_label: Личный кабинет
+sidebar_position: 2
+slug: /changelog-app
 ---
 
 # История изменений кабинета

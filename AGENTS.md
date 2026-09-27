@@ -33,8 +33,12 @@ Edits made in this repo are overwritten on the next one — change the source in
 
 | Page (RU + EN) | Written from |
 | --- | --- |
-| `docs/changelog.md` | `verificahub-api/docs/changelog/{ru,en}.md` |
-| `docs/changelog-app.md` | `verificahub-web-app/docs/changelog/{ru,en}.md` |
+| `docs/changelog/api.md` | `verificahub-api/docs/changelog/{ru,en}.md` |
+| `docs/changelog/app.md` | `verificahub-web-app/docs/changelog/{ru,en}.md` |
+
+Each page pins its public URL with `slug:` in its front matter, so the files can be
+regrouped without breaking links. `_category_.json` is hand-maintained — CI writes only
+the two `.md` files and never touches it.
 
 The two jobs push to this same branch and each copies its files wholesale, so they
 must never be pointed at the same page.
