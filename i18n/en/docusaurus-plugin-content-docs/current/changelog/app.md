@@ -11,6 +11,14 @@ What's changing in the customer dashboard — [app.verificahub.ru](https://app.v
 Public API changes have their [own changelog](./api.md).
 Newest entries first.
 
+## 1.2.0 — 2026-09-27
+
+### Added
+
+- **A note about the new dashboard version.** After an update, the home screen shows a strip with
+  the version number; clicking it opens this page in a side panel. The note appears once — as soon
+  as you open or dismiss it, it stays away until the next update.
+
 ## 1.1.1 — 2026-09-26
 
 ### Fixed
