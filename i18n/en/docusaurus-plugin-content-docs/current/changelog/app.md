@@ -8,7 +8,7 @@ slug: /changelog-app
 # Dashboard changelog
 
 What's changing in the customer dashboard — [app.verificahub.ru](https://app.verificahub.ru).
-Public API changes have their [own changelog](./changelog.md).
+Public API changes have their [own changelog](./api.md).
 Newest entries first.
 
 ## 1.1.1 — 2026-09-26
