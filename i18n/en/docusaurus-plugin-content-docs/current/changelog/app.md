@@ -18,6 +18,8 @@ Newest entries first.
 - **A note about the new dashboard version.** After an update, the home screen shows a strip with
   the version number; clicking it opens this page in a side panel. The note appears once — as soon
   as you open or dismiss it, it stays away until the next update.
+- **The changelog is reachable from anywhere.** The panel also opens from the profile menu
+  ("What's new") and from Settings, next to the version number.
 
 ## 1.1.1 — 2026-09-26
 
