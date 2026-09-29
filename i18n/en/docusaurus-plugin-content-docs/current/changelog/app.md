@@ -11,6 +11,22 @@ What's changing in the customer dashboard — [app.verificahub.ru](https://app.v
 Public API changes have their [own changelog](./api.md).
 Newest entries first.
 
+## 1.6.0 — 2026-09-29
+
+### Added
+
+- **The breakdown behind each акт.** Every акт in "Invoice payment" now has a button that
+  downloads an .xlsx breakdown — summary, by method, by status, by day, and the per-charge
+  listing. Every акт has one.
+
+### Fixed
+
+- **Dropdowns and hints were cut off inside tables.** A select inside a dialog, and the receipt
+  hint, could fall outside the table or window and become invisible. They are now always shown
+  in full.
+- **Field labels in the stacked table cards on phones** used the wrong face — Cyrillic fell back
+  to a substitute.
+
 ## 1.5.0 — 2026-09-29
 
 ### Added
