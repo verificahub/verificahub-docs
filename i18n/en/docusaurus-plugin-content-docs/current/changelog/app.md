@@ -15,6 +15,10 @@ Newest entries first.
 
 ### Added
 
+- **The monthly акт and breakdown can be switched on yourself.** Settings → "Cabinet
+  information" has a toggle: after each month closes we email the акт and an .xlsx breakdown of
+  the charges. No requisites are needed — without them the document is issued to the account.
+  Under a signed contract the package is sent regardless, and the toggle is shown inert.
 - **An Analytics tab on verifications.** It used to be a placeholder. Over 7, 30 or 90 days you
   now see how many were attempted and verified, the success rate and what was billed; a daily
   chart with the verified share; and breakdowns by status and by method with their shares. Days
