@@ -26,6 +26,37 @@ engine lives in `verificahub-docs-site` and pulls this content at build time.
 - Product facts: pay-as-you-go, обратный flash-call от 0,25 ₽; API base
   `https://api.verificahub.ru/v1`; site `https://verificahub.ru`.
 
+## Справочник API и его перевод
+
+`openapi/verificahub-api-v1.json` — спецификация, как её экспортирует бэкенд. **Править её
+руками нельзя**: следующий экспорт затрёт правки. Она на английском и остаётся источником истины.
+
+Русская версия справочника собирается наложением оверлея `openapi/ru-overlay.json`:
+
+```json
+{ "/paths/~1v1~1verify/post/summary": {
+    "en": "Initiate a phone verification.",
+    "ru": "Инициировать подтверждение номера." } }
+```
+
+Ключ — JSON Pointer (RFC 6901) до переводимой строки. Рядом с переводом хранится английский
+оригинал **на момент перевода**: если в спецификации он изменился, перевод считается устаревшим
+и в сборке показывается английский текст, а не расходящийся с оригиналом русский. Без этой
+сверки переводы тихо протухают — это главная причина, по которой переводы документации
+перестают соответствовать API.
+
+После экспорта новой спецификации:
+
+```bash
+cd ../verificahub-docs-site
+npm run api:i18n              # что не переведено, что устарело, что осиротело
+npm run api:i18n -- --write   # дописать заготовки, затем заполнить поля "ru"
+```
+
+Страницы справочника (`docs/reference/`, `i18n/en/.../reference/`) генерируются на сборке
+и в репозиториях не хранятся. Русская версия идёт в `docs/` (локаль по умолчанию),
+английская — в `i18n/en/`.
+
 ## Generated pages — do not edit here
 
 Both changelogs are written by CI on every production deploy of their source repo.
