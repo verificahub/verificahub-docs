@@ -11,6 +11,39 @@ What's changing in the customer dashboard — [app.verificahub.ru](https://app.v
 Public API changes have their [own changelog](./api.md).
 Newest entries first.
 
+## 1.5.0 — 2026-09-29
+
+### Added
+
+- **An Analytics tab on verifications.** It used to be a placeholder. Over 7, 30 or 90 days you
+  now see how many were attempted and verified, the success rate and what was billed; a daily
+  chart with the verified share; and breakdowns by status and by method with their shares. Days
+  with no verifications are shown as empty, so the series is not compressed and a drop in traffic
+  is visible.
+- **The low-balance threshold is now visible and configurable.** The warning email used to fire
+  at a fixed 100 ₽ with no way to change it. Settings → "Cabinet information" now shows the
+  amount we write to you at, and lets you change it: keep the default, set your own, or turn
+  the warning off entirely.
+- **A low-balance warning inside the dashboard.** When the balance drops below your threshold, a
+  strip appears above the page with a link to top up — not just an email.
+- **Support chat inside the dashboard.** You can now write to us without leaving the dashboard
+  or switching to email. Your name and address are filled in from your profile — visible, and
+  editable before you send. The chat is available only once you are signed in, and signing out
+  closes the conversation, which matters on a shared computer.
+- **Quick buttons on the home screen** — "Analytics" and "Top up balance". Analytics opens on the
+  right tab and can be linked to directly.
+
+### Fixed
+
+- **The documentation links on the home screen.** "API documentation", "Quick start" and
+  "Method reference" all led to the documentation home page instead of their own sections. Each
+  now opens the right page, in the side panel, without taking you out of the dashboard.
+
+### Changed
+
+- The settings section "Account" is now called **"Cabinet information"**.
+- **The side panel is wider**, and takes the whole screen on a phone or in landscape.
+
 ## 1.2.0 — 2026-09-27
 
 ### Added
