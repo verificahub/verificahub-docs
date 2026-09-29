@@ -10,6 +10,23 @@ slug: /changelog
 Changes to the public API and to how verification methods behave.
 Newest entries first.
 
+## 2026-09-29
+
+### Added
+
+- **Detalization alongside the monthly act.** The monthly act is now accompanied by an `.xlsx`
+  breakdown for the period — four sheets: summary, by verification method, by day, and a
+  line-by-line list of billed verifications with date, masked number, method, status and amount.
+  Download it in the dashboard; the link arrives with the act.
+
+  Amounts come from what was actually charged, so the detalization total matches the act. Everything
+  you were charged for is listed — **including verifications that did not succeed**: SMS is billed on
+  send and Mobile ID per attempt, so billed rows with status "expired" or "failed" do appear, and that
+  is expected. The summary calls those out on their own line, and a "by status" sheet breaks them down.
+
+  Verifications you were never charged for are not listed, but the summary shows how many there were
+  so the period reads in full.
+
 ## 2026-09-26
 
 ### Added
