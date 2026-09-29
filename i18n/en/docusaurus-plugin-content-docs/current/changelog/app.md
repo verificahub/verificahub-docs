@@ -38,6 +38,8 @@ Newest entries first.
 
 ### Fixed
 
+- **The header no longer shifts sideways** when you open a page with a back button — the arrow
+  appears to the left of the logo without moving anything.
 - **The documentation links on the home screen.** "API documentation", "Quick start" and
   "Method reference" all led to the documentation home page instead of their own sections. Each
   now opens the right page, in the side panel, without taking you out of the dashboard.
@@ -49,6 +51,9 @@ Newest entries first.
 
 ### Changed
 
+- **Help moved into the profile menu.** The separate "?" button beside the avatar is gone:
+  documentation, the developer chat and support now live in the profile dropdown. The "API
+  status" link was removed — there is no status page yet.
 - The settings section "Account" is now called **"Cabinet information"**.
 - **The side panel is wider**, and takes the whole screen on a phone or in landscape.
 - **Organisation requisites moved to their own page.** On a computer they could be edited right
