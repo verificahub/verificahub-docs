@@ -11,22 +11,6 @@ What's changing in the customer dashboard — [app.verificahub.ru](https://app.v
 Public API changes have their [own changelog](./api.md).
 Newest entries first.
 
-## 1.6.0 — 2026-09-29
-
-### Added
-
-- **The breakdown behind each акт.** Every акт in "Invoice payment" now has a button that
-  downloads an .xlsx breakdown — summary, by method, by status, by day, and the per-charge
-  listing. Every акт has one.
-
-### Fixed
-
-- **Dropdowns and hints were cut off inside tables.** A select inside a dialog, and the receipt
-  hint, could fall outside the table or window and become invisible. They are now always shown
-  in full.
-- **Field labels in the stacked table cards on phones** used the wrong face — Cyrillic fell back
-  to a substitute.
-
 ## 1.5.0 — 2026-09-29
 
 ### Added
@@ -48,17 +32,32 @@ Newest entries first.
   closes the conversation, which matters on a shared computer.
 - **Quick buttons on the home screen** — "Analytics" and "Top up balance". Analytics opens on the
   right tab and can be linked to directly.
+- **The breakdown behind each акт.** Every акт in "Invoice payment" now has a button that
+  downloads an .xlsx breakdown — summary, by method, by status, by day, and the per-charge
+  listing. Every акт has one.
 
 ### Fixed
 
 - **The documentation links on the home screen.** "API documentation", "Quick start" and
   "Method reference" all led to the documentation home page instead of their own sections. Each
   now opens the right page, in the side panel, without taking you out of the dashboard.
+- **Dropdowns and hints were cut off inside tables.** A select inside a dialog, and the receipt
+  hint, could fall outside the table or window and become invisible. They are now always shown
+  in full.
+- **Field labels in the stacked table cards on phones** used the wrong face — Cyrillic fell back
+  to a substitute.
 
 ### Changed
 
 - The settings section "Account" is now called **"Cabinet information"**.
 - **The side panel is wider**, and takes the whole screen on a phone or in landscape.
+- **Organisation requisites moved to their own page.** On a computer they could be edited right
+  on "Invoice payment", while on a phone they had a separate page. It is now the same
+  everywhere: a card with the requisites and an "Edit" button, or "Fill in requisites" when they
+  are not set yet.
+- **Акты are no longer hidden behind requisites.** The monthly package reports your own
+  consumption and needs no requisites, so акты and their breakdowns are visible to everyone who
+  receives them. Requisites are still required to issue an invoice.
 
 ## 1.2.0 — 2026-09-27
 
