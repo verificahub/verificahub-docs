@@ -42,6 +42,8 @@ Newest entries first.
 
 ### Fixed
 
+- **The chat button no longer covers the bottom navigation** on phones — it now sits above the
+  tab bar.
 - **The header no longer shifts sideways** when you open a page with a back button — the arrow
   appears to the left of the logo without moving anything.
 - **The documentation links on the home screen.** "API documentation", "Quick start" and
