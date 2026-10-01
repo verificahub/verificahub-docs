@@ -90,7 +90,7 @@
         "tags": [
           "V1"
         ],
-        "summary": "Get the account's current balance.",
+        "summary": "Get the account's current balance, credit limit and spending room.",
         "operationId": "GetBalance",
         "responses": {
           "401": {
@@ -453,7 +453,24 @@
         "additionalProperties": false,
         "properties": {
           "balance": {
-            "description": "The account's current prepaid balance.",
+            "description": "The account's current balance. Negative when the account is spending against an agreed\ncredit_limit.",
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/MoneyResponse"
+              }
+            ]
+          },
+          "credit_limit": {
+            "description": "How far below zero this account may go, or null when it may not — the\nprepaid default, where service stops at a zero balance.",
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/MoneyResponse"
+              }
+            ]
+          },
+          "available": {
+            "description": "What is actually left to spend: balance plus credit_limit. This is the figure\nverifications are gated on, so it is the one to watch — a request costing more than this is\nrefused with insufficient_balance (402).",
             "oneOf": [
               {
                 "$ref": "#/components/schemas/MoneyResponse"

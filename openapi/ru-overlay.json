@@ -1,15 +1,347 @@
 {
-  "/info/title": {
-    "en": "Verificahub API",
-    "ru": "Verificahub API"
+  "/components/schemas/CheckCodeRequest/description": {
+    "en": "Body for POST /v1/verify/check.",
+    "ru": "Тело запроса POST /v1/verify/check."
+  },
+  "/components/schemas/CheckCodeRequest/properties/code/description": {
+    "en": "The code submitted by the integrator.",
+    "ru": "Код, переданный интегратором."
+  },
+  "/components/schemas/CheckCodeRequest/properties/request_id/description": {
+    "en": "The session id to check against.",
+    "ru": "Идентификатор сессии, для которой проверяется код."
+  },
+  "/components/schemas/CheckCodeResponse/description": {
+    "en": "Success response for a code check.",
+    "ru": "Ответ на проверку кода."
+  },
+  "/components/schemas/CheckCodeResponse/properties/phone_number/description": {
+    "en": "The verified number, normalised to E.164.",
+    "ru": "Подтверждённый номер, приведённый к формату E.164."
+  },
+  "/components/schemas/CheckCodeResponse/properties/request_id/description": {
+    "en": "The session's id.",
+    "ru": "Идентификатор сессии."
+  },
+  "/components/schemas/CheckCodeResponse/properties/status/description": {
+    "en": "Resulting status.",
+    "ru": "Итоговый статус."
+  },
+  "/components/schemas/FlashCallInitiateResponse/allOf/1/description": {
+    "en": "Response for a FlashCall verification — the code is the trailing\ndigits of the caller id the user sees on the incoming call.",
+    "ru": "Ответ для подтверждения методом flash_call — кодом служат последние цифры номера, с которого поступает входящий вызов."
+  },
+  "/components/schemas/GetBalanceResponse/description": {
+    "en": "Response for GET /v1/balance.",
+    "ru": "Ответ на GET /v1/balance."
+  },
+  "/components/schemas/GetBalanceResponse/properties/available/description": {
+    "en": "What is actually left to spend: balance plus credit_limit. This is the figure\nverifications are gated on, so it is the one to watch — a request costing more than this is\nrefused with insufficient_balance (402).",
+    "ru": "Сколько фактически осталось потратить: `balance` плюс `credit_limit`. Именно по этому значению проверяются запросы на подтверждение, поэтому ориентироваться нужно на него — запрос дороже доступного остатка отклоняется с `insufficient_balance` (402)."
+  },
+  "/components/schemas/GetBalanceResponse/properties/balance/description": {
+    "en": "The account's current balance. Negative when the account is spending against an agreed\ncredit_limit.",
+    "ru": "Текущий баланс аккаунта. Отрицательный, если аккаунт расходует средства в рамках согласованного `credit_limit`."
+  },
+  "/components/schemas/GetBalanceResponse/properties/credit_limit/description": {
+    "en": "How far below zero this account may go, or null when it may not — the\nprepaid default, where service stops at a zero balance.",
+    "ru": "Насколько ниже нуля может уйти баланс, или `null`, если не может, — это значение по умолчанию при предоплате, когда обслуживание останавливается на нуле. Устанавливается нами по договору, из кабинета не меняется."
+  },
+  "/components/schemas/GetPricesResponse/description": {
+    "en": "The live per-method verification prices for the caller's account currency. Shared by the\nexternal (GET /v1/prices) and dashboard (GET /dashboard/prices) surfaces.",
+    "ru": "Действующие цены по методам подтверждения в валюте аккаунта. Общий ответ для внешнего API (GET /v1/prices) и личного кабинета (GET /dashboard/prices)."
+  },
+  "/components/schemas/GetPricesResponse/properties/prices/description": {
+    "en": "Live prices, one row per available method that has a price, in display order.",
+    "ru": "Действующие цены: по одной строке на каждый доступный метод, у которого задана цена, в порядке отображения."
+  },
+  "/components/schemas/GetUsageRequest/description": {
+    "en": "Query for GET /v1/usage.",
+    "ru": "Параметры запроса GET /v1/usage."
+  },
+  "/components/schemas/GetUsageResponse/description": {
+    "en": "Usage summary response.",
+    "ru": "Сводка по использованию."
+  },
+  "/components/schemas/GetUsageResponse/properties/by_method/description": {
+    "en": "Verification counts grouped by method.",
+    "ru": "Количество подтверждений в разбивке по методам."
+  },
+  "/components/schemas/GetUsageResponse/properties/by_status/description": {
+    "en": "Verification counts grouped by status — the failure breakdown (expired vs\nfailed) integrators use to diagnose drop-off.",
+    "ru": "Количество подтверждений в разбивке по статусам — та самая разбивка неуспешных (истёкшие против неуспешных), по которой интеграторы разбирают потери."
+  },
+  "/components/schemas/GetUsageResponse/properties/daily/description": {
+    "en": "Per-day counts across the range, ordered by date — for trend charts. Days with no activity\nare omitted.",
+    "ru": "Количество по дням за период, по возрастанию даты — для графиков. Дни без активности пропускаются."
+  },
+  "/components/schemas/GetUsageResponse/properties/from/description": {
+    "en": "Start of the reported range.",
+    "ru": "Начало отчётного периода."
+  },
+  "/components/schemas/GetUsageResponse/properties/success_rate/description": {
+    "en": "Successful divided by total, rounded to 4 places.",
+    "ru": "Доля успешных: успешные, делённые на общее число, с округлением до 4 знаков."
+  },
+  "/components/schemas/GetUsageResponse/properties/successful/description": {
+    "en": "Count that reached verified.",
+    "ru": "Сколько из них дошло до статуса verified."
+  },
+  "/components/schemas/GetUsageResponse/properties/to/description": {
+    "en": "End of the reported range.",
+    "ru": "Конец отчётного периода."
+  },
+  "/components/schemas/GetUsageResponse/properties/total_cost/description": {
+    "en": "Total amount actually billed across the range (sum of charged verifications, excluding\nunbilled expired/failed ones and refunds).",
+    "ru": "Сумма, фактически списанная за период (по тарифицированным подтверждениям, без учёта нетарифицируемых истёкших и неуспешных, а также возвратов)."
+  },
+  "/components/schemas/GetUsageResponse/properties/total_verifications/description": {
+    "en": "Total verifications initiated in range.",
+    "ru": "Всего подтверждений инициировано за период."
+  },
+  "/components/schemas/GetVerificationStatusRequest/description": {
+    "en": "Route binding for GET /v1/verify/{request_id}.",
+    "ru": "Параметры пути для GET /v1/verify/{request_id}."
+  },
+  "/components/schemas/GetVerificationStatusResponse/description": {
+    "en": "Status response.",
+    "ru": "Ответ со статусом подтверждения."
+  },
+  "/components/schemas/GetVerificationStatusResponse/properties/awaiting_code/description": {
+    "en": "Whether the flow is now waiting for the user's code to be submitted via\nPOST /v1/verify/check. Always false for methods that need no typed code\n(reverse_flash_call). For mts_id it is true only after the SIM-push\nfalls back to SMS-OTP (mirrors the verification.code_required webhook) — while the\nsilent push is still in flight it stays false, so integrators poll this to know when\nto prompt for a code.",
+    "ru": "Ожидается ли сейчас ввод кода пользователем через POST /v1/verify/check. Для методов, не требующих ввода кода (reverse_flash_call), всегда false. Для mts_id становится true только после того, как SIM-push не прошёл и сработал резерв по SMS (то же событие, что и вебхук verification.code_required); пока push ещё выполняется, остаётся false. Интеграторы опрашивают это поле, чтобы понять, когда показать пользователю ввод кода."
+  },
+  "/components/schemas/GetVerificationStatusResponse/properties/cost/description": {
+    "en": "The price for this verification (the quoted client price). For a pending, expired or failed\nverification this is the price that would apply — not necessarily an amount that was billed.",
+    "ru": "Цена этого подтверждения (та, что объявлена клиенту). Для незавершённого, истёкшего или неуспешного подтверждения это цена, которая была бы применена, — не обязательно фактически списанная сумма."
+  },
+  "/components/schemas/GetVerificationStatusResponse/properties/created_at/description": {
+    "en": "When the session was created (UTC).",
+    "ru": "Когда сессия создана (UTC)."
+  },
+  "/components/schemas/GetVerificationStatusResponse/properties/expires_at/description": {
+    "en": "When the session expires (UTC).",
+    "ru": "Когда истекает сессия (UTC)."
+  },
+  "/components/schemas/GetVerificationStatusResponse/properties/failure_reason/description": {
+    "en": "Why the verification did not succeed, or null while it is live or it verified.",
+    "ru": "Почему подтверждение не состоялось; null, пока сессия активна или если она завершилась успешно."
+  },
+  "/components/schemas/GetVerificationStatusResponse/properties/method/description": {
+    "en": "Verification method.",
+    "ru": "Метод подтверждения."
+  },
+  "/components/schemas/GetVerificationStatusResponse/properties/phone_number/description": {
+    "en": "The verified number, normalised to E.164.",
+    "ru": "Подтверждённый номер, приведённый к формату E.164."
+  },
+  "/components/schemas/GetVerificationStatusResponse/properties/request_id/description": {
+    "en": "The session's id.",
+    "ru": "Идентификатор сессии."
+  },
+  "/components/schemas/GetVerificationStatusResponse/properties/status/description": {
+    "en": "Current status.",
+    "ru": "Текущий статус."
+  },
+  "/components/schemas/GetVerificationStatusResponse/properties/verified_at/description": {
+    "en": "When verification succeeded (UTC), if it did.",
+    "ru": "Когда подтверждение прошло успешно (UTC), если прошло."
+  },
+  "/components/schemas/InitiateVerificationRequest/description": {
+    "en": "Body for POST /v1/verify.",
+    "ru": "Тело запроса POST /v1/verify."
+  },
+  "/components/schemas/InitiateVerificationRequest/properties/expiry_seconds/description": {
+    "en": "Requested session TTL in seconds.",
+    "ru": "Запрашиваемое время жизни сессии в секундах."
+  },
+  "/components/schemas/InitiateVerificationRequest/properties/method/description": {
+    "en": "Verification method.",
+    "ru": "Метод подтверждения."
+  },
+  "/components/schemas/InitiateVerificationRequest/properties/phone_number/description": {
+    "en": "End-user number in E.164.",
+    "ru": "Номер пользователя в формате E.164."
+  },
+  "/components/schemas/InitiateVerificationResponse/description": {
+    "en": "Response for POST /v1/verify, common fields shared by every method.",
+    "ru": "Ответ на POST /v1/verify: поля, общие для всех методов."
+  },
+  "/components/schemas/InitiateVerificationResponse/properties/code_length/description": {
+    "en": "Number of digits in the code the user receives/reads and submits via POST /v1/verify/check.",
+    "ru": "Сколько цифр в коде, который пользователь получает или считывает и передаёт через POST /v1/verify/check."
+  },
+  "/components/schemas/InitiateVerificationResponse/properties/cost/description": {
+    "en": "The price for this verification (the quoted client price); it is billed when the verification\nreaches its billing milestone.",
+    "ru": "Цена этого подтверждения (та, что объявлена клиенту); списывается, когда подтверждение достигает своей точки тарификации."
+  },
+  "/components/schemas/InitiateVerificationResponse/properties/expires_at/description": {
+    "en": "When the session expires (UTC) if not verified.",
+    "ru": "Когда истекает сессия (UTC), если подтверждение не состоится."
+  },
+  "/components/schemas/InitiateVerificationResponse/properties/phone_number/description": {
+    "en": "The verified number, normalised to E.164.",
+    "ru": "Подтверждённый номер, приведённый к формату E.164."
+  },
+  "/components/schemas/InitiateVerificationResponse/properties/request_id/description": {
+    "en": "The created session's id.",
+    "ru": "Идентификатор созданной сессии."
+  },
+  "/components/schemas/InitiateVerificationResponse/properties/status/description": {
+    "en": "Current status.",
+    "ru": "Текущий статус."
+  },
+  "/components/schemas/MaxBotInitiateResponse/allOf/1/description": {
+    "en": "Response for a MaxBot verification — the user opens the MAX bot at\nDeepLink, shares their number, and the bot delivers the code in MAX. The user then types\nit back and it's checked via POST /v1/verify/check. Status starts sent and flips to\ndelivered once the code reaches the user.",
+    "ru": "Ответ для подтверждения методом max_bot — пользователь открывает бота MAX по ссылке deep_link, делится своим номером, и бот доставляет код в MAX. Затем пользователь вводит код, а интегратор проверяет его через POST /v1/verify/check. Статус начинается с sent и переходит в delivered, когда код доставлен пользователю."
+  },
+  "/components/schemas/MaxBotInitiateResponse/allOf/1/properties/deep_link/description": {
+    "en": "The MAX deep link to open the bot: https://max.ru/<bot>?start=… (show as a link or QR).",
+    "ru": "Ссылка для открытия бота MAX: https://max.ru/<bot>?start=… (покажите ссылкой или QR-кодом)."
+  },
+  "/components/schemas/MethodPriceResponse/description": {
+    "en": "The price of one verification method.",
+    "ru": "Цена одного метода подтверждения."
+  },
+  "/components/schemas/MethodPriceResponse/properties/method/description": {
+    "en": "Verification method.",
+    "ru": "Метод подтверждения."
+  },
+  "/components/schemas/MethodPriceResponse/properties/price/description": {
+    "en": "The amount charged per verification for this method.",
+    "ru": "Сумма, списываемая за одно подтверждение этим методом."
+  },
+  "/components/schemas/MoneyResponse/description": {
+    "en": "Monetary amount in API responses.",
+    "ru": "Денежная сумма в ответах API."
+  },
+  "/components/schemas/MoneyResponse/properties/amount/description": {
+    "en": "The amount.",
+    "ru": "Сумма."
+  },
+  "/components/schemas/MoneyResponse/properties/currency/description": {
+    "en": "ISO-4217 currency.",
+    "ru": "Валюта по ISO-4217."
+  },
+  "/components/schemas/MtsIdInitiateResponse/allOf/1/description": {
+    "en": "Response for a MtsId verification — MTS pushes a confirmation to\nthe user's SIM; nothing is typed on the push leg and the result arrives asynchronously over our\nnotification webhook (status starts sent). On SMS-OTP fallback the user types the code and\nthe integrator submits it via POST /v1/verify/check.",
+    "ru": "Ответ для подтверждения методом mts_id — МТС отправляет подтверждение на SIM-карту пользователя; на этом этапе ничего вводить не нужно, а результат приходит асинхронно на наш вебхук (статус начинается с sent). Если сработал резерв по SMS, пользователь вводит код, а интегратор передаёт его через POST /v1/verify/check."
+  },
+  "/components/schemas/ReverseFlashCallInitiateResponse/allOf/1/description": {
+    "en": "Response for a ReverseFlashCall verification.",
+    "ru": "Ответ для подтверждения методом reverse_flash_call."
+  },
+  "/components/schemas/ReverseFlashCallInitiateResponse/allOf/1/properties/number_to_call/description": {
+    "en": "Gateway SIM number to display: \"Call this number\".",
+    "ru": "Номер шлюзовой SIM-карты, который нужно показать пользователю: «Позвоните на этот номер»."
+  },
+  "/components/schemas/SmsInitiateResponse/allOf/1/description": {
+    "en": "Response for a Sms verification — the code is delivered in the SMS.",
+    "ru": "Ответ для подтверждения методом sms — код приходит в SMS-сообщении."
+  },
+  "/components/schemas/TelegramInitiateResponse/allOf/1/description": {
+    "en": "Response for a TelegramOtp verification — Telegram delivers the\ncode to the user's Telegram account.",
+    "ru": "Ответ для подтверждения методом telegram_otp — Telegram доставляет код в аккаунт пользователя."
+  },
+  "/components/schemas/UsageDayResponse/description": {
+    "en": "One day's counts in a usage report.",
+    "ru": "Показатели за один день в отчёте об использовании."
+  },
+  "/components/securitySchemes/ExternalBasic/description": {
+    "en": "HTTP Basic api_key:api_secret.",
+    "ru": "HTTP Basic: api_key:api_secret."
+  },
+  "/components/securitySchemes/JWTBearerAuth/description": {
+    "en": "Enter a JWT token to authorize the requests...",
+    "ru": "Введите JWT-токен для авторизации запросов…"
   },
   "/info/description": {
     "en": "External verification API for integrators.",
     "ru": "Внешний API подтверждения номеров для интеграторов."
   },
-  "/paths/~1v1~1verify~1check/post/summary": {
-    "en": "Submit a verification code.",
-    "ru": "Отправить код подтверждения."
+  "/info/title": {
+    "en": "Verificahub API",
+    "ru": "Verificahub API"
+  },
+  "/paths/~1v1~1balance/get/responses/200/description": {
+    "en": "Success",
+    "ru": "Успешно"
+  },
+  "/paths/~1v1~1balance/get/responses/401/description": {
+    "en": "Unauthorized",
+    "ru": "Не авторизован"
+  },
+  "/paths/~1v1~1balance/get/responses/403/description": {
+    "en": "Forbidden",
+    "ru": "Доступ запрещён"
+  },
+  "/paths/~1v1~1balance/get/summary": {
+    "en": "Get the account's current balance, credit limit and spending room.",
+    "ru": "Текущий баланс аккаунта, кредитный лимит и доступный остаток."
+  },
+  "/paths/~1v1~1prices/get/responses/200/description": {
+    "en": "Success",
+    "ru": "Успешно"
+  },
+  "/paths/~1v1~1prices/get/responses/401/description": {
+    "en": "Unauthorized",
+    "ru": "Не авторизован"
+  },
+  "/paths/~1v1~1prices/get/responses/403/description": {
+    "en": "Forbidden",
+    "ru": "Доступ запрещён"
+  },
+  "/paths/~1v1~1prices/get/summary": {
+    "en": "List the live per-method verification prices for your account currency.",
+    "ru": "Действующие цены по методам подтверждения в валюте вашего аккаунта."
+  },
+  "/paths/~1v1~1usage/get/parameters/0/description": {
+    "en": "Inclusive start date.",
+    "ru": "Начало периода, включительно."
+  },
+  "/paths/~1v1~1usage/get/parameters/1/description": {
+    "en": "Inclusive end date.",
+    "ru": "Конец периода, включительно."
+  },
+  "/paths/~1v1~1usage/get/responses/200/description": {
+    "en": "Success",
+    "ru": "Успешно"
+  },
+  "/paths/~1v1~1usage/get/responses/401/description": {
+    "en": "Unauthorized",
+    "ru": "Не авторизован"
+  },
+  "/paths/~1v1~1usage/get/responses/403/description": {
+    "en": "Forbidden",
+    "ru": "Доступ запрещён"
+  },
+  "/paths/~1v1~1usage/get/summary": {
+    "en": "Aggregated verification usage over a date range.",
+    "ru": "Сводная статистика подтверждений за период."
+  },
+  "/paths/~1v1~1verify/post/description": {
+    "en": "Starts a verification with the chosen method (reverse_flash_call, telegram_otp or mts_id). The 201 response shape is discriminated by the method property; the verification code is never returned.",
+    "ru": "Запускает подтверждение выбранным методом (reverse_flash_call, telegram_otp или mts_id). Структура ответа 201 определяется значением поля method; код подтверждения в ответе не возвращается никогда."
+  },
+  "/paths/~1v1~1verify/post/responses/201/description": {
+    "en": "Created",
+    "ru": "Создано"
+  },
+  "/paths/~1v1~1verify/post/responses/400/description": {
+    "en": "Bad Request",
+    "ru": "Некорректный запрос"
+  },
+  "/paths/~1v1~1verify/post/responses/401/description": {
+    "en": "Unauthorized",
+    "ru": "Не авторизован"
+  },
+  "/paths/~1v1~1verify/post/responses/403/description": {
+    "en": "Forbidden",
+    "ru": "Доступ запрещён"
+  },
+  "/paths/~1v1~1verify/post/summary": {
+    "en": "Initiate a phone verification.",
+    "ru": "Инициировать подтверждение номера."
   },
   "/paths/~1v1~1verify~1check/post/description": {
     "en": "For methods that take a typed code: telegram_otp, and mts_id once its SIM-push has fallen back to SMS-OTP. reverse_flash_call auto-verifies and needs no code. For mts_id the code is relayed to the operator and the result arrives asynchronously, so the response status stays 'sent' — poll GET /v1/verify/{request_id} for the outcome.",
@@ -35,65 +367,9 @@
     "en": "Not Found",
     "ru": "Не найдено"
   },
-  "/paths/~1v1~1balance/get/summary": {
-    "en": "Get the account's current balance.",
-    "ru": "Текущий баланс аккаунта."
-  },
-  "/paths/~1v1~1balance/get/responses/200/description": {
-    "en": "Success",
-    "ru": "Успешно"
-  },
-  "/paths/~1v1~1balance/get/responses/401/description": {
-    "en": "Unauthorized",
-    "ru": "Не авторизован"
-  },
-  "/paths/~1v1~1balance/get/responses/403/description": {
-    "en": "Forbidden",
-    "ru": "Доступ запрещён"
-  },
-  "/paths/~1v1~1prices/get/summary": {
-    "en": "List the live per-method verification prices for your account currency.",
-    "ru": "Действующие цены по методам подтверждения в валюте вашего аккаунта."
-  },
-  "/paths/~1v1~1prices/get/responses/200/description": {
-    "en": "Success",
-    "ru": "Успешно"
-  },
-  "/paths/~1v1~1prices/get/responses/401/description": {
-    "en": "Unauthorized",
-    "ru": "Не авторизован"
-  },
-  "/paths/~1v1~1prices/get/responses/403/description": {
-    "en": "Forbidden",
-    "ru": "Доступ запрещён"
-  },
-  "/paths/~1v1~1usage/get/summary": {
-    "en": "Aggregated verification usage over a date range.",
-    "ru": "Сводная статистика подтверждений за период."
-  },
-  "/paths/~1v1~1usage/get/parameters/0/description": {
-    "en": "Inclusive start date.",
-    "ru": "Начало периода, включительно."
-  },
-  "/paths/~1v1~1usage/get/parameters/1/description": {
-    "en": "Inclusive end date.",
-    "ru": "Конец периода, включительно."
-  },
-  "/paths/~1v1~1usage/get/responses/200/description": {
-    "en": "Success",
-    "ru": "Успешно"
-  },
-  "/paths/~1v1~1usage/get/responses/401/description": {
-    "en": "Unauthorized",
-    "ru": "Не авторизован"
-  },
-  "/paths/~1v1~1usage/get/responses/403/description": {
-    "en": "Forbidden",
-    "ru": "Доступ запрещён"
-  },
-  "/paths/~1v1~1verify~1{request_id}/get/summary": {
-    "en": "Fetch the current status of a verification.",
-    "ru": "Текущий статус подтверждения."
+  "/paths/~1v1~1verify~1check/post/summary": {
+    "en": "Submit a verification code.",
+    "ru": "Отправить код подтверждения."
   },
   "/paths/~1v1~1verify~1{request_id}/get/responses/200/description": {
     "en": "Success",
@@ -111,276 +387,8 @@
     "en": "Not Found",
     "ru": "Не найдено"
   },
-  "/paths/~1v1~1verify/post/summary": {
-    "en": "Initiate a phone verification.",
-    "ru": "Инициировать подтверждение номера."
-  },
-  "/paths/~1v1~1verify/post/description": {
-    "en": "Starts a verification with the chosen method (reverse_flash_call, telegram_otp or mts_id). The 201 response shape is discriminated by the method property; the verification code is never returned.",
-    "ru": "Запускает подтверждение выбранным методом (reverse_flash_call, telegram_otp или mts_id). Структура ответа 201 определяется значением поля method; код подтверждения в ответе не возвращается никогда."
-  },
-  "/paths/~1v1~1verify/post/responses/201/description": {
-    "en": "Created",
-    "ru": "Создано"
-  },
-  "/paths/~1v1~1verify/post/responses/400/description": {
-    "en": "Bad Request",
-    "ru": "Некорректный запрос"
-  },
-  "/paths/~1v1~1verify/post/responses/401/description": {
-    "en": "Unauthorized",
-    "ru": "Не авторизован"
-  },
-  "/paths/~1v1~1verify/post/responses/403/description": {
-    "en": "Forbidden",
-    "ru": "Доступ запрещён"
-  },
-  "/components/schemas/CheckCodeResponse/description": {
-    "en": "Success response for a code check.",
-    "ru": "Ответ на проверку кода."
-  },
-  "/components/schemas/CheckCodeResponse/properties/request_id/description": {
-    "en": "The session's id.",
-    "ru": "Идентификатор сессии."
-  },
-  "/components/schemas/CheckCodeResponse/properties/status/description": {
-    "en": "Resulting status.",
-    "ru": "Итоговый статус."
-  },
-  "/components/schemas/CheckCodeResponse/properties/phone_number/description": {
-    "en": "The verified number, normalised to E.164.",
-    "ru": "Подтверждённый номер, приведённый к формату E.164."
-  },
-  "/components/schemas/CheckCodeRequest/description": {
-    "en": "Body for POST /v1/verify/check.",
-    "ru": "Тело запроса POST /v1/verify/check."
-  },
-  "/components/schemas/CheckCodeRequest/properties/request_id/description": {
-    "en": "The session id to check against.",
-    "ru": "Идентификатор сессии, для которой проверяется код."
-  },
-  "/components/schemas/CheckCodeRequest/properties/code/description": {
-    "en": "The code submitted by the integrator.",
-    "ru": "Код, переданный интегратором."
-  },
-  "/components/schemas/GetBalanceResponse/description": {
-    "en": "Response for GET /v1/balance.",
-    "ru": "Ответ на GET /v1/balance."
-  },
-  "/components/schemas/GetBalanceResponse/properties/balance/description": {
-    "en": "The account's current prepaid balance.",
-    "ru": "Текущий остаток на балансе аккаунта."
-  },
-  "/components/schemas/MoneyResponse/description": {
-    "en": "Monetary amount in API responses.",
-    "ru": "Денежная сумма в ответах API."
-  },
-  "/components/schemas/MoneyResponse/properties/amount/description": {
-    "en": "The amount.",
-    "ru": "Сумма."
-  },
-  "/components/schemas/MoneyResponse/properties/currency/description": {
-    "en": "ISO-4217 currency.",
-    "ru": "Валюта по ISO-4217."
-  },
-  "/components/schemas/GetPricesResponse/description": {
-    "en": "The live per-method verification prices for the caller's account currency. Shared by the\nexternal (GET /v1/prices) and dashboard (GET /dashboard/prices) surfaces.",
-    "ru": "Действующие цены по методам подтверждения в валюте аккаунта. Общий ответ для внешнего API (GET /v1/prices) и личного кабинета (GET /dashboard/prices)."
-  },
-  "/components/schemas/GetPricesResponse/properties/prices/description": {
-    "en": "Live prices, one row per available method that has a price, in display order.",
-    "ru": "Действующие цены: по одной строке на каждый доступный метод, у которого задана цена, в порядке отображения."
-  },
-  "/components/schemas/MethodPriceResponse/description": {
-    "en": "The price of one verification method.",
-    "ru": "Цена одного метода подтверждения."
-  },
-  "/components/schemas/MethodPriceResponse/properties/method/description": {
-    "en": "Verification method.",
-    "ru": "Метод подтверждения."
-  },
-  "/components/schemas/MethodPriceResponse/properties/price/description": {
-    "en": "The amount charged per verification for this method.",
-    "ru": "Сумма, списываемая за одно подтверждение этим методом."
-  },
-  "/components/schemas/GetUsageResponse/description": {
-    "en": "Usage summary response.",
-    "ru": "Сводка по использованию."
-  },
-  "/components/schemas/GetUsageResponse/properties/from/description": {
-    "en": "Start of the reported range.",
-    "ru": "Начало отчётного периода."
-  },
-  "/components/schemas/GetUsageResponse/properties/to/description": {
-    "en": "End of the reported range.",
-    "ru": "Конец отчётного периода."
-  },
-  "/components/schemas/GetUsageResponse/properties/total_verifications/description": {
-    "en": "Total verifications initiated in range.",
-    "ru": "Всего подтверждений инициировано за период."
-  },
-  "/components/schemas/GetUsageResponse/properties/successful/description": {
-    "en": "Count that reached verified.",
-    "ru": "Сколько из них дошло до статуса verified."
-  },
-  "/components/schemas/GetUsageResponse/properties/success_rate/description": {
-    "en": "Successful divided by total, rounded to 4 places.",
-    "ru": "Доля успешных: успешные, делённые на общее число, с округлением до 4 знаков."
-  },
-  "/components/schemas/GetUsageResponse/properties/total_cost/description": {
-    "en": "Total amount actually billed across the range (sum of charged verifications, excluding\nunbilled expired/failed ones and refunds).",
-    "ru": "Сумма, фактически списанная за период (по тарифицированным подтверждениям, без учёта нетарифицируемых истёкших и неуспешных, а также возвратов)."
-  },
-  "/components/schemas/GetUsageResponse/properties/by_method/description": {
-    "en": "Verification counts grouped by method.",
-    "ru": "Количество подтверждений в разбивке по методам."
-  },
-  "/components/schemas/GetUsageResponse/properties/by_status/description": {
-    "en": "Verification counts grouped by status — the failure breakdown (expired vs\nfailed) integrators use to diagnose drop-off.",
-    "ru": "Количество подтверждений в разбивке по статусам — та самая разбивка неуспешных (истёкшие против неуспешных), по которой интеграторы разбирают потери."
-  },
-  "/components/schemas/GetUsageResponse/properties/daily/description": {
-    "en": "Per-day counts across the range, ordered by date — for trend charts. Days with no activity\nare omitted.",
-    "ru": "Количество по дням за период, по возрастанию даты — для графиков. Дни без активности пропускаются."
-  },
-  "/components/schemas/UsageDayResponse/description": {
-    "en": "One day's counts in a usage report.",
-    "ru": "Показатели за один день в отчёте об использовании."
-  },
-  "/components/schemas/GetUsageRequest/description": {
-    "en": "Query for GET /v1/usage.",
-    "ru": "Параметры запроса GET /v1/usage."
-  },
-  "/components/schemas/GetVerificationStatusResponse/description": {
-    "en": "Status response.",
-    "ru": "Ответ со статусом подтверждения."
-  },
-  "/components/schemas/GetVerificationStatusResponse/properties/request_id/description": {
-    "en": "The session's id.",
-    "ru": "Идентификатор сессии."
-  },
-  "/components/schemas/GetVerificationStatusResponse/properties/phone_number/description": {
-    "en": "The verified number, normalised to E.164.",
-    "ru": "Подтверждённый номер, приведённый к формату E.164."
-  },
-  "/components/schemas/GetVerificationStatusResponse/properties/method/description": {
-    "en": "Verification method.",
-    "ru": "Метод подтверждения."
-  },
-  "/components/schemas/GetVerificationStatusResponse/properties/status/description": {
-    "en": "Current status.",
-    "ru": "Текущий статус."
-  },
-  "/components/schemas/GetVerificationStatusResponse/properties/awaiting_code/description": {
-    "en": "Whether the flow is now waiting for the user's code to be submitted via\nPOST /v1/verify/check. Always false for methods that need no typed code\n(reverse_flash_call). For mts_id it is true only after the SIM-push\nfalls back to SMS-OTP (mirrors the verification.code_required webhook) — while the\nsilent push is still in flight it stays false, so integrators poll this to know when\nto prompt for a code.",
-    "ru": "Ожидается ли сейчас ввод кода пользователем через POST /v1/verify/check. Для методов, не требующих ввода кода (reverse_flash_call), всегда false. Для mts_id становится true только после того, как SIM-push не прошёл и сработал резерв по SMS (то же событие, что и вебхук verification.code_required); пока push ещё выполняется, остаётся false. Интеграторы опрашивают это поле, чтобы понять, когда показать пользователю ввод кода."
-  },
-  "/components/schemas/GetVerificationStatusResponse/properties/cost/description": {
-    "en": "The price for this verification (the quoted client price). For a pending, expired or failed\nverification this is the price that would apply — not necessarily an amount that was billed.",
-    "ru": "Цена этого подтверждения (та, что объявлена клиенту). Для незавершённого, истёкшего или неуспешного подтверждения это цена, которая была бы применена, — не обязательно фактически списанная сумма."
-  },
-  "/components/schemas/GetVerificationStatusResponse/properties/created_at/description": {
-    "en": "When the session was created (UTC).",
-    "ru": "Когда сессия создана (UTC)."
-  },
-  "/components/schemas/GetVerificationStatusResponse/properties/verified_at/description": {
-    "en": "When verification succeeded (UTC), if it did.",
-    "ru": "Когда подтверждение прошло успешно (UTC), если прошло."
-  },
-  "/components/schemas/GetVerificationStatusResponse/properties/expires_at/description": {
-    "en": "When the session expires (UTC).",
-    "ru": "Когда истекает сессия (UTC)."
-  },
-  "/components/schemas/GetVerificationStatusResponse/properties/failure_reason/description": {
-    "en": "Why the verification did not succeed, or null while it is live or it verified.",
-    "ru": "Почему подтверждение не состоялось; null, пока сессия активна или если она завершилась успешно."
-  },
-  "/components/schemas/GetVerificationStatusRequest/description": {
-    "en": "Route binding for GET /v1/verify/{request_id}.",
-    "ru": "Параметры пути для GET /v1/verify/{request_id}."
-  },
-  "/components/schemas/InitiateVerificationResponse/description": {
-    "en": "Response for POST /v1/verify, common fields shared by every method.",
-    "ru": "Ответ на POST /v1/verify: поля, общие для всех методов."
-  },
-  "/components/schemas/InitiateVerificationResponse/properties/request_id/description": {
-    "en": "The created session's id.",
-    "ru": "Идентификатор созданной сессии."
-  },
-  "/components/schemas/InitiateVerificationResponse/properties/phone_number/description": {
-    "en": "The verified number, normalised to E.164.",
-    "ru": "Подтверждённый номер, приведённый к формату E.164."
-  },
-  "/components/schemas/InitiateVerificationResponse/properties/status/description": {
-    "en": "Current status.",
-    "ru": "Текущий статус."
-  },
-  "/components/schemas/InitiateVerificationResponse/properties/cost/description": {
-    "en": "The price for this verification (the quoted client price); it is billed when the verification\nreaches its billing milestone.",
-    "ru": "Цена этого подтверждения (та, что объявлена клиенту); списывается, когда подтверждение достигает своей точки тарификации."
-  },
-  "/components/schemas/InitiateVerificationResponse/properties/expires_at/description": {
-    "en": "When the session expires (UTC) if not verified.",
-    "ru": "Когда истекает сессия (UTC), если подтверждение не состоится."
-  },
-  "/components/schemas/InitiateVerificationResponse/properties/code_length/description": {
-    "en": "Number of digits in the code the user receives/reads and submits via POST /v1/verify/check.",
-    "ru": "Сколько цифр в коде, который пользователь получает или считывает и передаёт через POST /v1/verify/check."
-  },
-  "/components/schemas/ReverseFlashCallInitiateResponse/allOf/1/description": {
-    "en": "Response for a ReverseFlashCall verification.",
-    "ru": "Ответ для подтверждения методом reverse_flash_call."
-  },
-  "/components/schemas/ReverseFlashCallInitiateResponse/allOf/1/properties/number_to_call/description": {
-    "en": "Gateway SIM number to display: \"Call this number\".",
-    "ru": "Номер шлюзовой SIM-карты, который нужно показать пользователю: «Позвоните на этот номер»."
-  },
-  "/components/schemas/SmsInitiateResponse/allOf/1/description": {
-    "en": "Response for a Sms verification — the code is delivered in the SMS.",
-    "ru": "Ответ для подтверждения методом sms — код приходит в SMS-сообщении."
-  },
-  "/components/schemas/FlashCallInitiateResponse/allOf/1/description": {
-    "en": "Response for a FlashCall verification — the code is the trailing\ndigits of the caller id the user sees on the incoming call.",
-    "ru": "Ответ для подтверждения методом flash_call — кодом служат последние цифры номера, с которого поступает входящий вызов."
-  },
-  "/components/schemas/TelegramInitiateResponse/allOf/1/description": {
-    "en": "Response for a TelegramOtp verification — Telegram delivers the\ncode to the user's Telegram account.",
-    "ru": "Ответ для подтверждения методом telegram_otp — Telegram доставляет код в аккаунт пользователя."
-  },
-  "/components/schemas/MtsIdInitiateResponse/allOf/1/description": {
-    "en": "Response for a MtsId verification — MTS pushes a confirmation to\nthe user's SIM; nothing is typed on the push leg and the result arrives asynchronously over our\nnotification webhook (status starts sent). On SMS-OTP fallback the user types the code and\nthe integrator submits it via POST /v1/verify/check.",
-    "ru": "Ответ для подтверждения методом mts_id — МТС отправляет подтверждение на SIM-карту пользователя; на этом этапе ничего вводить не нужно, а результат приходит асинхронно на наш вебхук (статус начинается с sent). Если сработал резерв по SMS, пользователь вводит код, а интегратор передаёт его через POST /v1/verify/check."
-  },
-  "/components/schemas/MaxBotInitiateResponse/allOf/1/description": {
-    "en": "Response for a MaxBot verification — the user opens the MAX bot at\nDeepLink, shares their number, and the bot delivers the code in MAX. The user then types\nit back and it's checked via POST /v1/verify/check. Status starts sent and flips to\ndelivered once the code reaches the user.",
-    "ru": "Ответ для подтверждения методом max_bot — пользователь открывает бота MAX по ссылке deep_link, делится своим номером, и бот доставляет код в MAX. Затем пользователь вводит код, а интегратор проверяет его через POST /v1/verify/check. Статус начинается с sent и переходит в delivered, когда код доставлен пользователю."
-  },
-  "/components/schemas/MaxBotInitiateResponse/allOf/1/properties/deep_link/description": {
-    "en": "The MAX deep link to open the bot: https://max.ru/<bot>?start=… (show as a link or QR).",
-    "ru": "Ссылка для открытия бота MAX: https://max.ru/<bot>?start=… (покажите ссылкой или QR-кодом)."
-  },
-  "/components/schemas/InitiateVerificationRequest/description": {
-    "en": "Body for POST /v1/verify.",
-    "ru": "Тело запроса POST /v1/verify."
-  },
-  "/components/schemas/InitiateVerificationRequest/properties/phone_number/description": {
-    "en": "End-user number in E.164.",
-    "ru": "Номер пользователя в формате E.164."
-  },
-  "/components/schemas/InitiateVerificationRequest/properties/method/description": {
-    "en": "Verification method.",
-    "ru": "Метод подтверждения."
-  },
-  "/components/schemas/InitiateVerificationRequest/properties/expiry_seconds/description": {
-    "en": "Requested session TTL in seconds.",
-    "ru": "Запрашиваемое время жизни сессии в секундах."
-  },
-  "/components/securitySchemes/JWTBearerAuth/description": {
-    "en": "Enter a JWT token to authorize the requests...",
-    "ru": "Введите JWT-токен для авторизации запросов…"
-  },
-  "/components/securitySchemes/ExternalBasic/description": {
-    "en": "HTTP Basic api_key:api_secret.",
-    "ru": "HTTP Basic: api_key:api_secret."
+  "/paths/~1v1~1verify~1{request_id}/get/summary": {
+    "en": "Fetch the current status of a verification.",
+    "ru": "Текущий статус подтверждения."
   }
 }
