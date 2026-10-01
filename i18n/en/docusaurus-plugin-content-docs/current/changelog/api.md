@@ -10,6 +10,26 @@ slug: /changelog
 Changes to the public API and to how verification methods behave.
 Newest entries first.
 
+## 2026-10-01
+
+### Added
+
+- **Credit limit: a permitted negative balance.** For accounts where this is agreed in a contract,
+  verifications keep working once the balance goes below zero, down to the agreed floor. Every other
+  account behaves exactly as before: verifications stop at a zero balance.
+
+  `GET /v1/balance` gains two fields:
+
+  - `credit_limit` — how far below zero the balance may go, or `null` if it may not;
+  - `available` — what is actually left to spend: `balance` + `credit_limit`.
+
+  **Watch `available`, not `balance`.** A request costing more than `available` is refused with
+  `insufficient_balance` (402) — the error code has not changed. On an account with a credit limit
+  `balance` can legitimately be negative, and that on its own is not an error.
+
+  The low-balance email is now measured against remaining room rather than against zero, so a
+  credited account is warned as it nears its floor instead of as its balance crosses zero.
+
 ## 2026-09-29
 
 ### Added
