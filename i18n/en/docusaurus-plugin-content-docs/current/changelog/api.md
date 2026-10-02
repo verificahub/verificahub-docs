@@ -10,6 +10,18 @@ slug: /changelog
 Changes to the public API and to how verification methods behave.
 Newest entries first.
 
+## 2026-10-02
+
+### Fixed
+
+- **Invoice PDF download in the dashboard.** The download button on a счёт returned an
+  error and no file came through. Fixed — the invoice now downloads, and arrives with a
+  meaningful name ("Счет № 3 от 29.09.26.pdf" instead of "invoice-3.pdf").
+
+  We also keep our own copy from the moment a счёт is issued, so it **stays downloadable
+  for 30 days** regardless of how long the file link itself lasts. If you need an invoice
+  for accounting beyond that, download and keep it within the window.
+
 ## 2026-10-01
 
 ### Added
