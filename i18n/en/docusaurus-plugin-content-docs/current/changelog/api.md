@@ -75,10 +75,15 @@ Newest entries first.
 - **`GET /meta` and `GET /config` now include the number-lookup services** as a separate
   `lookups` list, plus `lookup_statuses` and `bulk_lookup_statuses` dictionaries in `/config`.
 
-- **`max_otp` — the code arrives in MAX directly, with no bot to open.** A new verification method
-  alongside the existing `max_bot`: no link to open, no number to share, the message simply arrives.
+- **`max_otp` — the code arrives in MAX directly, with no bot to open. 2.00 ₽.** A new
+  verification method alongside the existing `max_bot`: no link to open, no number to share, the
+  message simply arrives.
 
-  `max_bot` is unchanged — this is a separate method, not a replacement.
+  **`max_bot` is unchanged, and it is over six times cheaper — 0.30 ₽ against 2.00 ₽.** These are
+  two different methods at two different prices, not one replacing the other: with `max_bot` the
+  user opens a bot from a link and shares their number, with `max_otp` they do nothing. Choosing
+  between them trades price for that step, and the names alone did not say which was which — so
+  `GET /meta` and `GET /config` now label them separately, "MAX" and "MAX Bot".
 
   Charged on send: delivery is synchronous, so the response comes back after the message has
   landed. **A number that is not on MAX creates no verification and costs nothing**, as with any
