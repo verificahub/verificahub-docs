@@ -47,16 +47,15 @@ Newest entries first.
 
 ### Fixed
 
-- **The back button no longer takes up room in the header on desktop** — it is only needed on
-  phones, and the space reserved for it was taken from the navigation.
+- **The header no longer shifts sideways** when you open a sub-page. On phones the back arrow
+  appears to the left of the logo without moving anything; on desktop there is none at all —
+  it has the full menu, and the space reserved for the arrow was taken from the navigation.
 - **Number lookups in the transactions list.** Charges for a number lookup no longer show as an
   unknown type — they have their own label.
 - **The low-balance warning now counts available funds** — the balance plus any agreed credit
   limit, not the balance alone. On an account with a limit it no longer fires early.
 - **The chat button no longer covers the bottom navigation** on phones — it now sits above the
   tab bar.
-- **The header no longer shifts sideways** when you open a page with a back button — the arrow
-  appears to the left of the logo without moving anything.
 - **The documentation links on the home screen.** "API documentation", "Quick start" and
   "Method reference" all led to the documentation home page instead of their own sections. Each
   now opens the right page, in the side panel, without taking you out of the dashboard.
