@@ -10,6 +10,34 @@ slug: /changelog
 Changes to the public API and to how verification methods behave.
 Newest entries first.
 
+## 2026-10-07
+
+### Added
+
+- **`max_otp` — the code arrives in MAX directly, with no bot to open.** A new verification method
+  alongside the existing `max_bot`: no link to open, no number to share, the message simply arrives.
+
+  `max_bot` is unchanged — this is a separate method, not a replacement.
+
+  Charged on send: delivery is synchronous, so the response comes back after the message has
+  landed. **A number that is not on MAX creates no verification and costs nothing**, as with any
+  other undeliverable.
+
+### Added
+
+- **Number lookup — two new services.** Separate from verification: a lookup proves nothing about
+  who holds the number, it reads what the operator's registry says.
+
+  - `POST /v1/lookup/number-info` — operator, region, and whether the number has been ported. **0,80 ₽**
+  - `POST /v1/lookup/activity` — how active the number is in the network, 0 to 1. **1,50 ₽**
+
+  Both work on every Russian operator. Every response carries `cost` — exactly what was charged;
+  reconcile your invoice against it.
+
+  **"No data for this number" is an answer, not an error:** you get `200` with `status: "no_data"`,
+  and we do not charge for it, nor for a number outside a service's operator coverage. Errors stay
+  errors: malformed number (`400`), insufficient funds (`402`), service unavailable (`503`).
+
 ## 2026-10-02
 
 ### Fixed
