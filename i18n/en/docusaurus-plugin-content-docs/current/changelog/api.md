@@ -23,9 +23,14 @@ Newest entries first.
   { "method": "max_otp", "phone_number": "+79991234567" }
   ```
 
-  The message names your service and its website, so the recipient can tell whose code it is.
-  Both come from the account name and website in the dashboard — check that what is there is what
-  you want shown to people.
+  The message carries your website and name, so the recipient can tell whose code it is:
+
+  ```
+  2483 - ваш код подтверждения на ресурсе партнера https://example.ru (Пример (c) ООО «Пример»)
+  ```
+
+  The name comes from the account name, followed by the legal name from your requisites when they
+  are filled in. Check in the dashboard that what is there is what you want shown to people.
 
   Charged on send: delivery is synchronous, so the response comes back after it. **A number that
   is not on MAX creates no verification and costs nothing** — `422`, as with any other
