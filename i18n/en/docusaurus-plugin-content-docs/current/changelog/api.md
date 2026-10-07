@@ -113,6 +113,15 @@ Newest entries first.
 
 ### Fixed
 
+- **Activity checks answered `503` instead of "no data".** When a number has no activity score,
+  `POST /v1/lookup/activity` returned `503 lookup_unavailable` — "try again later" for a request
+  whose answer will not change. It now returns what was promised: `200` with
+  `status: "no_data"` and `cost` of 0.
+
+  There is no point retrying: the operator has no activity score for that number. **A number-info
+  check on the same number may well answer** — it is a property of the service, not of the number,
+  so checking it with the other service is worth doing.
+
 - **Bulk activity checks: the first number of the list was not checked, and numbers with no answer
   reached the invoice.** The job looked complete, but its result was missing the first row, and the
   cost was computed from how many numbers were processed rather than how many answered.
