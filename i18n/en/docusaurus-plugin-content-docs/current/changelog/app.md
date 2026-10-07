@@ -11,7 +11,7 @@ What's changing in the customer dashboard — [app.verificahub.ru](https://app.v
 Public API changes have their [own changelog](./api.md).
 Newest entries first.
 
-## 1.5.0 — 2026-09-29
+## 1.6.0 — 2026-10-07
 
 ### Added
 
@@ -24,6 +24,37 @@ Newest entries first.
   information" has a toggle: after each month closes we email the акт and an .xlsx breakdown of
   the charges. No requisites are needed — without them the document is issued to the account.
   Under a signed contract the package is sent regardless, and the toggle is shown inert.
+- **A "More" section on phones.** The tab bar holds five tabs, so invoices, transaction history,
+  settings and support now sit together on one page listing every section — some of them could
+  not be reached from a phone before.
+
+### Fixed
+
+- **The header no longer shifts sideways** when you open a sub-page. On phones the back arrow
+  appears to the left of the logo without moving anything; on desktop there is none at all —
+  it has the full menu, and the space reserved for the arrow was taken from the navigation.
+- **Number lookups in the transactions list.** Charges for a number lookup no longer show as an
+  unknown type — they have their own label.
+- **The low-balance warning now counts available funds** — the balance plus any agreed credit
+  limit, not the balance alone. On an account with a limit it no longer fires early.
+
+### Changed
+
+- **Shorter navigation.** Balance, transaction history and invoices are now one "Payments" item
+  in the top bar — once "Number lookup" appeared the links stopped fitting and labels were being
+  clipped. On phones Settings is no longer a tab: it is already in the profile menu, and a sixth
+  tab squeezed every label.
+- **Help moved into the profile menu.** The separate "?" button beside the avatar is gone:
+  documentation, the developer chat and support now live in the profile dropdown. The "API
+  status" link was removed — there is no status page yet.
+- **Support chat moved to its own page on phones.** It opens from the "Support" page under
+  "More", so it is not loaded on every screen and no button floats over the tab bar. On desktop
+  nothing changes.
+
+## 1.5.0 — 2026-09-29
+
+### Added
+
 - **An Analytics tab on verifications.** It used to be a placeholder. Over 7, 30 or 90 days you
   now see how many were attempted and verified, the success rate and what was billed; a daily
   chart with the verified share; and breakdowns by status and by method with their shares. Days
@@ -38,12 +69,7 @@ Newest entries first.
 - **Support chat inside the dashboard.** You can now write to us without leaving the dashboard
   or switching to email. Your name and address are filled in from your profile — visible, and
   editable before you send. The chat is available only once you are signed in, and signing out
-  closes the conversation, which matters on a shared computer. On phones the chat lives on its
-  own "Support" page (under "More"), so it is not loaded on every screen and no button floats
-  over the tab bar.
-- **A "More" section on phones.** The tab bar holds five tabs, so invoices, transaction history,
-  settings and support now sit together on one page listing every section — some of them could
-  not be reached from a phone before.
+  closes the conversation, which matters on a shared computer.
 - **Quick buttons on the home screen** — "Analytics" and "Top up balance". Analytics opens on the
   right tab and can be linked to directly.
 - **The breakdown behind each акт.** Every акт in "Invoice payment" now has a button that
@@ -52,13 +78,6 @@ Newest entries first.
 
 ### Fixed
 
-- **The header no longer shifts sideways** when you open a sub-page. On phones the back arrow
-  appears to the left of the logo without moving anything; on desktop there is none at all —
-  it has the full menu, and the space reserved for the arrow was taken from the navigation.
-- **Number lookups in the transactions list.** Charges for a number lookup no longer show as an
-  unknown type — they have their own label.
-- **The low-balance warning now counts available funds** — the balance plus any agreed credit
-  limit, not the balance alone. On an account with a limit it no longer fires early.
 - **The documentation links on the home screen.** "API documentation", "Quick start" and
   "Method reference" all led to the documentation home page instead of their own sections. Each
   now opens the right page, in the side panel, without taking you out of the dashboard.
@@ -70,13 +89,6 @@ Newest entries first.
 
 ### Changed
 
-- **Shorter navigation.** Balance, transaction history and invoices are now one "Payments" item
-  in the top bar — once "Number lookup" appeared the links stopped fitting and labels were being
-  clipped. On phones Settings is no longer a tab: it is already in the profile menu, and a sixth
-  tab squeezed every label.
-- **Help moved into the profile menu.** The separate "?" button beside the avatar is gone:
-  documentation, the developer chat and support now live in the profile dropdown. The "API
-  status" link was removed — there is no status page yet.
 - The settings section "Account" is now called **"Cabinet information"**.
 - **The side panel is wider**, and takes the whole screen on a phone or in landscape.
 - **Organisation requisites moved to their own page.** On a computer they could be edited right
