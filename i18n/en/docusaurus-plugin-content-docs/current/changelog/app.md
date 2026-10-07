@@ -15,6 +15,11 @@ Newest entries first.
 
 ### Added
 
+- **Bulk number lookup.** A new "Number lookup" section: upload a CSV list, pick the service —
+  number activity, or carrier data (operator, porting, region) — and get a results file. Up to
+  50,000 numbers at a time. Duplicates are not charged twice, and lines without a Russian mobile
+  number are skipped and listed with their line numbers. The per-number price is shown before you
+  submit, and your running checks — with status and final cost — are listed below.
 - **The monthly акт and breakdown can be switched on yourself.** Settings → "Cabinet
   information" has a toggle: after each month closes we email the акт and an .xlsx breakdown of
   the charges. No requisites are needed — without them the document is issued to the account.
