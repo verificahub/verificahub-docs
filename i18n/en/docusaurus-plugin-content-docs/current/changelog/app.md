@@ -38,7 +38,12 @@ Newest entries first.
 - **Support chat inside the dashboard.** You can now write to us without leaving the dashboard
   or switching to email. Your name and address are filled in from your profile — visible, and
   editable before you send. The chat is available only once you are signed in, and signing out
-  closes the conversation, which matters on a shared computer.
+  closes the conversation, which matters on a shared computer. On phones the chat lives on its
+  own "Support" page (under "More"), so it is not loaded on every screen and no button floats
+  over the tab bar.
+- **A "More" section on phones.** The tab bar holds five tabs, so invoices, transaction history,
+  settings and support now sit together on one page listing every section — some of them could
+  not be reached from a phone before.
 - **Quick buttons on the home screen** — "Analytics" and "Top up balance". Analytics opens on the
   right tab and can be linked to directly.
 - **The breakdown behind each акт.** Every акт in "Invoice payment" now has a button that
@@ -54,8 +59,6 @@ Newest entries first.
   unknown type — they have their own label.
 - **The low-balance warning now counts available funds** — the balance plus any agreed credit
   limit, not the balance alone. On an account with a limit it no longer fires early.
-- **The chat button no longer covers the bottom navigation** on phones — it now sits above the
-  tab bar.
 - **The documentation links on the home screen.** "API documentation", "Quick start" and
   "Method reference" all led to the documentation home page instead of their own sections. Each
   now opens the right page, in the side panel, without taking you out of the dashboard.
