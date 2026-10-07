@@ -47,6 +47,8 @@ Newest entries first.
 
 ### Fixed
 
+- **The back button no longer takes up room in the header on desktop** — it is only needed on
+  phones, and the space reserved for it was taken from the navigation.
 - **Number lookups in the transactions list.** Charges for a number lookup no longer show as an
   unknown type — they have their own label.
 - **The low-balance warning now counts available funds** — the balance plus any agreed credit
@@ -66,6 +68,10 @@ Newest entries first.
 
 ### Changed
 
+- **Shorter navigation.** Balance, transaction history and invoices are now one "Payments" item
+  in the top bar — once "Number lookup" appeared the links stopped fitting and labels were being
+  clipped. On phones Settings is no longer a tab: it is already in the profile menu, and a sixth
+  tab squeezed every label.
 - **Help moved into the profile menu.** The separate "?" button beside the avatar is gone:
   documentation, the developer chat and support now live in the profile dropdown. The "API
   status" link was removed — there is no status page yet.
