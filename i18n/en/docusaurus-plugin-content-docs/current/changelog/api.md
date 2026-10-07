@@ -14,95 +14,41 @@ Newest entries first.
 
 ### Added
 
-- **`GET /v1/prices` now returns number-lookup tariffs too.** A `lookups` list sits alongside
-  `prices` — everything as before, plus the price of each number-lookup service.
-
-  They are **two separate lists**, and should stay separate: a verification is charged at its own
-  milestone (send, attempt or success, depending on the method), a lookup per answer. A service
-  with no live tariff is not listed.
-
-- **`GET /v1/usage` counts number lookups separately.** A new `lookups` block:
+- **`max_otp` — a new verification method: the code arrives as a MAX message. 2.00 ₽.** Nothing to
+  open — no link, no bot, no app: the message simply arrives, like an SMS. The user types the code
+  into `POST /v1/verify/check`, as with `sms`.
 
   ```json
-  "lookups": {
-    "total": 40,
-    "billable": 37,
-    "total_cost": { "amount": 31.10, "currency": "RUB" },
-    "by_method": { "number_info": 25, "activity_score": 15 },
-    "by_status": { "ok": 37, "no_data": 3 }
-  }
+  POST /v1/verify
+  { "method": "max_otp", "phone_number": "+79991234567" }
   ```
 
-  The report's top-level fields are still verifications only — lookups are **not** included in
-  them. Spend for the range is `total_cost` **+** `lookups.total_cost`. `billable` is how many
-  requests were charged for; it is below `total` by exactly those with no data for the number.
+  The message names your service and its website, so the recipient can tell whose code it is.
+  Both come from the account name and website in the dashboard — check that what is there is what
+  you want shown to people.
 
-- **Number lookups now appear in the акт and its detalization.** A lookup charge is a service
-  rendered, and until now it was in neither the акт's amount nor the detalization — the document
-  understated consumption. The акт is now summed over all of the period's services, and the
-  detalization has a dedicated "Проверки номеров" sheet: a single lookup as a row with its masked
-  number, a bulk job as one row naming the file and how many of its numbers were charged. The
-  summary splits the total into verifications and number lookups.
+  Charged on send: delivery is synchronous, so the response comes back after it. **A number that
+  is not on MAX creates no verification and costs nothing** — `422`, as with any other
+  undeliverable.
 
-  Amounts on акты for past periods are unchanged — this is not applied retroactively; check the
-  detalization for the current month.
+  **`max_bot` stays, and it is over six times cheaper — 0.30 ₽ against 2.00 ₽.** They are two
+  different methods, not one replacing the other: with `max_bot` the user opens a bot from a link
+  and shares their number, with `max_otp` they do nothing. Choosing between them trades price for
+  that step.
 
-### Fixed
+- **Number lookups — two new services.** Separate from verification: a lookup does not prove
+  anyone owns the number, it tells you about the number itself.
 
-- **Bulk activity checks dropped the first number of the list and billed for rows that had no
-  answer.** Two faults in one place, both in the exchange with the data provider:
+  - `POST /v1/lookup/number-info` — operator, region, and whether the number was ported. **0.80 ₽**
+  - `POST /v1/lookup/activity` — how active the number is in the network, 0 to 1. **1.50 ₽**
 
-  - the first number of an uploaded list was never checked: the report came back complete, simply
-    one number short, with nothing to indicate anything had gone wrong;
-  - the cost was computed from how many numbers the provider parsed rather than how many it
-    answered, so a number with no data still reached the invoice.
+  Both work on numbers from any RU operator. Every response carries `cost` — exactly what was
+  charged; reconcile against it.
 
-  Both fixed. **You now pay only for numbers that came back with an answer** — the same rule as a
-  single check, and the one that already applied to number-info checks. A job shows both counts:
-  `numbers_processed` for how many were worked through, `numbers_billed` for how many were charged.
-
-  Jobs that ran before the fix are worth resubmitting: their result file is missing its first row.
-  If one of them was charged more than it has answers for, tell us and we will refund the
-  difference.
-
-### Changed
-
-- **`max_bot` is now labelled "MAX Bot" in the reference data, and "MAX" means `max_otp`.** Both
-  methods used to be shown as "MAX", which made it impossible to pick the right one by name. The
-  values themselves (`max_otp`, `max_bot`) are unchanged — only the labels in `GET /meta` and
-  `GET /config` moved.
-
-- **`GET /meta` and `GET /config` now include the number-lookup services** as a separate
-  `lookups` list, plus `lookup_statuses` and `bulk_lookup_statuses` dictionaries in `/config`.
-
-- **`max_otp` — the code arrives in MAX directly, with no bot to open. 2.00 ₽.** A new
-  verification method alongside the existing `max_bot`: no link to open, no number to share, the
-  message simply arrives.
-
-  **`max_bot` is unchanged, and it is over six times cheaper — 0.30 ₽ against 2.00 ₽.** These are
-  two different methods at two different prices, not one replacing the other: with `max_bot` the
-  user opens a bot from a link and shares their number, with `max_otp` they do nothing. Choosing
-  between them trades price for that step, and the names alone did not say which was which — so
-  `GET /meta` and `GET /config` now label them separately, "MAX" and "MAX Bot".
-
-  Charged on send: delivery is synchronous, so the response comes back after the message has
-  landed. **A number that is not on MAX creates no verification and costs nothing**, as with any
-  other undeliverable.
-
-### Added
-
-- **Number lookup — two new services.** Separate from verification: a lookup proves nothing about
-  who holds the number, it reads what the operator's registry says.
-
-  - `POST /v1/lookup/number-info` — operator, region, and whether the number has been ported. **0,80 ₽**
-  - `POST /v1/lookup/activity` — how active the number is in the network, 0 to 1. **1,50 ₽**
-
-  Both work on every Russian operator. Every response carries `cost` — exactly what was charged;
-  reconcile your invoice against it.
-
-  **"No data for this number" is an answer, not an error:** you get `200` with `status: "no_data"`,
-  and we do not charge for it, nor for a number outside a service's operator coverage. Errors stay
-  errors: malformed number (`400`), insufficient funds (`402`), service unavailable (`503`).
+  **"No data for this number" is an answer, not an error:** it returns `200` with
+  `status: "no_data"`, and we do not charge for it, nor for a number outside a service's operator
+  coverage. Errors stay errors: malformed number (`400`), insufficient funds (`402`), service
+  unavailable (`503`).
 
 - **Check a list of numbers from the dashboard.** Upload a file of numbers (CSV, or simply one
   number per line) and get the results back as a file; up to 50,000 numbers at a time.
@@ -120,6 +66,59 @@ Newest entries first.
 
   The results stay downloadable for a limited time: the file holds your numbers, and we do not
   keep them longer than needed.
+
+- **Lookup tariffs in `GET /v1/prices`.** A `lookups` list now sits alongside `prices`. They are
+  two separate lists and should stay separate: a verification is charged at its own milestone
+  (send, attempt or success, depending on the method), a lookup per answer. A service with no live
+  tariff is not listed.
+
+- **Lookup usage in `GET /v1/usage`.** A new `lookups` block:
+
+  ```json
+  "lookups": {
+    "total": 40,
+    "billable": 37,
+    "total_cost": { "amount": 31.10, "currency": "RUB" },
+    "by_method": { "number_info": 25, "activity_score": 15 },
+    "by_status": { "ok": 37, "no_data": 3 }
+  }
+  ```
+
+  The report's top-level fields are still verifications only — lookups are **not** included in
+  them. Spend for the range is `total_cost` **+** `lookups.total_cost`. `billable` is how many
+  requests were charged for; it is below `total` by exactly those with no data for the number.
+
+- **Lookup services in the reference data** from `GET /meta` and `GET /config`: a separate
+  `lookups` list, plus `lookup_statuses` and `bulk_lookup_statuses` in `/config`.
+
+### Changed
+
+- **Number lookups are included in the акт and its detalization.** They count towards the акт's
+  amount alongside verifications, and the detalization gives them their own "Проверки номеров"
+  sheet: a single lookup as a row with its masked number, a bulk job as one row naming the file
+  and how many of its numbers were charged. The summary splits the total into verifications and
+  number lookups.
+
+  Amounts on акты for past periods are not recalculated.
+
+- **`max_bot` is now labelled "MAX Bot" in the reference data, and "MAX" means `max_otp`.** Both
+  methods used to be shown as "MAX", which made it impossible to pick the right one by name. The
+  values (`max_otp`, `max_bot`) are unchanged — only the labels in `GET /meta` and `GET /config`
+  moved.
+
+### Fixed
+
+- **Bulk activity checks: the first number of the list was not checked, and numbers with no answer
+  reached the invoice.** The job looked complete, but its result was missing the first row, and the
+  cost was computed from how many numbers were processed rather than how many answered.
+
+  **You now pay only for numbers that came back with an answer** — the same rule as a single
+  check. A job shows both counts: `numbers_processed` for how many were worked through,
+  `numbers_billed` for how many were charged.
+
+  Jobs that ran before the fix are worth running again: their result file is missing its first row.
+  If one of them was charged more than it has answers for, tell us and we will refund the
+  difference.
 
 ## 2026-10-02
 
