@@ -14,6 +14,49 @@ Newest entries first.
 
 ### Added
 
+- **`GET /v1/prices` now returns number-lookup tariffs too.** A `lookups` list sits alongside
+  `prices` — everything as before, plus the price of each number-lookup service.
+
+  They are **two separate lists**, and should stay separate: a verification is charged at its own
+  milestone (send, attempt or success, depending on the method), a lookup per answer. A service
+  with no live tariff is not listed.
+
+- **`GET /v1/usage` counts number lookups separately.** A new `lookups` block:
+
+  ```json
+  "lookups": {
+    "total": 40,
+    "billable": 37,
+    "total_cost": { "amount": 31.10, "currency": "RUB" },
+    "by_method": { "number_info": 25, "activity_score": 15 },
+    "by_status": { "ok": 37, "no_data": 3 }
+  }
+  ```
+
+  The report's top-level fields are still verifications only — lookups are **not** included in
+  them. Spend for the range is `total_cost` **+** `lookups.total_cost`. `billable` is how many
+  requests were charged for; it is below `total` by exactly those with no data for the number.
+
+- **Number lookups now appear in the акт and its detalization.** A lookup charge is a service
+  rendered, and until now it was in neither the акт's amount nor the detalization — the document
+  understated consumption. The акт is now summed over all of the period's services, and the
+  detalization has a dedicated "Проверки номеров" sheet: a single lookup as a row with its masked
+  number, a bulk job as one row naming the file and how many of its numbers were charged. The
+  summary splits the total into verifications and number lookups.
+
+  Amounts on акты for past periods are unchanged — this is not applied retroactively; check the
+  detalization for the current month.
+
+### Changed
+
+- **`max_bot` is now labelled "MAX Bot" in the reference data, and "MAX" means `max_otp`.** Both
+  methods used to be shown as "MAX", which made it impossible to pick the right one by name. The
+  values themselves (`max_otp`, `max_bot`) are unchanged — only the labels in `GET /meta` and
+  `GET /config` moved.
+
+- **`GET /meta` and `GET /config` now include the number-lookup services** as a separate
+  `lookups` list, plus `lookup_statuses` and `bulk_lookup_statuses` dictionaries in `/config`.
+
 - **`max_otp` — the code arrives in MAX directly, with no bot to open.** A new verification method
   alongside the existing `max_bot`: no link to open, no number to share, the message simply arrives.
 
