@@ -38,6 +38,23 @@ Newest entries first.
   and we do not charge for it, nor for a number outside a service's operator coverage. Errors stay
   errors: malformed number (`400`), insufficient funds (`402`), service unavailable (`503`).
 
+- **Check a list of numbers from the dashboard.** Upload a file of numbers (CSV, or simply one
+  number per line) and get the results back as a file; up to 50,000 numbers at a time.
+
+  You choose the check — number activity or number info. The price is the same as for a single
+  check; the speed is not: an activity list is computed in one go and comes back quickly, while
+  number info is collected a number at a time, so a large list takes hours rather than minutes.
+
+  **You pay for the numbers that came back with an answer.** A number with no answer is not
+  counted — the same rule as for a single check. The balance is checked before the job starts, so
+  a job you cannot pay for is not half-run. A job that never completes costs nothing.
+
+  Repeats in the file count once. Lines that are not a checkable number are left out of the job
+  and returned to you with their line numbers — including the file's header row.
+
+  The results stay downloadable for a limited time: the file holds your numbers, and we do not
+  keep them longer than needed.
+
 ## 2026-10-02
 
 ### Fixed
