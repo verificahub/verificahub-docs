@@ -42,6 +42,10 @@ Newest entries first.
 
 ### Fixed
 
+- **Number lookups in the transactions list.** Charges for a number lookup no longer show as an
+  unknown type — they have their own label.
+- **The low-balance warning now counts available funds** — the balance plus any agreed credit
+  limit, not the balance alone. On an account with a limit it no longer fires early.
 - **The chat button no longer covers the bottom navigation** on phones — it now sits above the
   tab bar.
 - **The header no longer shifts sideways** when you open a page with a back button — the arrow
