@@ -47,6 +47,24 @@ Newest entries first.
   Amounts on акты for past periods are unchanged — this is not applied retroactively; check the
   detalization for the current month.
 
+### Fixed
+
+- **Bulk activity checks dropped the first number of the list and billed for rows that had no
+  answer.** Two faults in one place, both in the exchange with the data provider:
+
+  - the first number of an uploaded list was never checked: the report came back complete, simply
+    one number short, with nothing to indicate anything had gone wrong;
+  - the cost was computed from how many numbers the provider parsed rather than how many it
+    answered, so a number with no data still reached the invoice.
+
+  Both fixed. **You now pay only for numbers that came back with an answer** — the same rule as a
+  single check, and the one that already applied to number-info checks. A job shows both counts:
+  `numbers_processed` for how many were worked through, `numbers_billed` for how many were charged.
+
+  Jobs that ran before the fix are worth resubmitting: their result file is missing its first row.
+  If one of them was charged more than it has answers for, tell us and we will refund the
+  difference.
+
 ### Changed
 
 - **`max_bot` is now labelled "MAX Bot" in the reference data, and "MAX" means `max_otp`.** Both
