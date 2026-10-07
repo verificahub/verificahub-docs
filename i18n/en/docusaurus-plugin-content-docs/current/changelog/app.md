@@ -15,11 +15,18 @@ Newest entries first.
 
 ### Added
 
-- **Bulk number lookup.** A new "Number lookup" section: upload a CSV list, pick the service —
-  number activity, or carrier data (operator, porting, region) — and get a results file. Up to
-  50,000 numbers at a time. Duplicates are not charged twice, and lines without a Russian mobile
-  number are skipped and listed with their line numbers. The per-number price is shown before you
-  submit, and your running checks — with status and final cost — are listed below.
+- **Verification over MAX — 2 ₽.** A new `max_otp` method: the code arrives as a message straight
+  to the number in MAX — no bot to open, no link to follow, no contact to share. The message says
+  whose code it is: your company name and site. If the number is not on MAX, no verification is
+  created and nothing is charged.
+- **Number lookups (HLR) — two new services.** "Carrier data" — operator, region and whether the
+  number was ported (0.80 ₽). "Number activity" — how live the number is in the network (1.50 ₽).
+  These are not verification: a lookup reads what the operator's registry says, and you pay per
+  answer — no answer, no charge.
+- **Bulk number checking in the dashboard.** The "Number lookup" section takes a CSV list and
+  checks every number at once — up to 50,000 at a time. Duplicates are not charged twice, lines
+  without a Russian mobile number are skipped and listed with their line numbers, the per-number
+  price is shown before you submit, and the finished result downloads as a file.
 - **The monthly акт and breakdown can be switched on yourself.** Settings → "Cabinet
   information" has a toggle: after each month closes we email the акт and an .xlsx breakdown of
   the charges. No requisites are needed — without them the document is issued to the account.
