@@ -1,5 +1,5 @@
 {
-  "version": "2026-06-15",
+  "version": "2026-10-18",
   "sections": {
     "start": {
       "overview": "/docs/start"
@@ -9,6 +9,11 @@
       "flows": "/docs/integration/flows",
       "webhooks": "/docs/integration/webhooks",
       "best_practices": "/docs/integration/best_practices"
+    },
+    "id": {
+      "overview": "/docs/id/overview",
+      "integration": "/docs/id/integration",
+      "embedding": "/docs/id/embedding"
     },
     "guides": {
       "methods": "/docs/guides/methods",

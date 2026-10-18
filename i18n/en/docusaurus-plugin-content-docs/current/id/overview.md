@@ -1,0 +1,68 @@
+---
+title: Verificahub ID — overview
+sidebar_label: Overview
+sidebar_position: 1
+---
+
+# Verificahub ID
+
+Verificahub ID is a ready-made phone number sign-in page. You send the user to
+`id.verificahub.ru`, they sign in with a convenient method and come back to you, and your server
+receives their verified number and a signed assertion (JWT).
+
+The flow works like an OAuth 2.0 authorization code flow: the browser only passes through the sign-in
+page, and your server collects the number directly from us, using a one-time code and the client secret.
+
+## Verificahub ID or the API
+
+| | Verificahub ID | [Verificahub API](../integration/overview.md) |
+|---|---|---|
+| Interface | a ready-made sign-in page with your branding | you build it yourself |
+| What your server does | redirects the user and exchanges the code for the number | creates a session, receives webhooks, checks codes |
+| Result | number + JWT signed by Verificahub | session status |
+| Use it when | you need phone sign-in quickly and without your own UI | you need full control over the interface |
+
+## How it works
+
+```mermaid
+sequenceDiagram
+    autonumber
+    participant U as User's browser
+    participant App as Your backend
+    participant ID as id-api.verificahub.ru
+    participant P as id.verificahub.ru
+    App-->>U: 302 to /authorize (client_id, redirect_uri, state, nonce)
+    U->>ID: GET /authorize
+    ID-->>U: 302 to the sign-in page
+    U->>P: user signs in
+    P-->>U: 302 to your redirect_uri?code&state
+    U->>App: GET redirect_uri?code&state
+    App->>ID: POST /exchange (clientId, clientSecret, code)
+    ID-->>App: phoneNumber, method, assertion (JWT)
+```
+
+Step by step: see [Integration](./integration.md). Popups and mobile apps are covered in
+[Where to open the page](./embedding.md).
+
+## Sign-in methods
+
+The set of methods is configured in the client settings. Verificahub ID currently supports:
+
+| Method | `method` | `acr` level |
+|---|---|---|
+| SIM push (MTS Mobile ID) — a request to the SIM card, no code to enter | `mts_id` | `high` |
+| SMS with a code | `sms` | `medium` |
+| Code in Telegram | `telegram_otp` | `medium` |
+
+For now, the first method in the client's list is used. Letting the user pick a method, sign-in with
+accounts (Yandex ID, VK ID, Sber ID, T-ID, MTS ID) and a code in MAX are in development.
+
+## What your server receives
+
+- **Phone number** in E.164 format (`+79991234567`).
+- **Sign-in method** (`method`) and **assurance level** (`acr`).
+- **Assertion** — a JWT signed with the Verificahub ID key. Trust this, not the other fields of the
+  response: verify the signature against the public keys at
+  `https://id-api.verificahub.ru/.well-known/jwks.json`.
+
+Verificahub ID never asks for or passes on the user's passwords, codes or card details.
