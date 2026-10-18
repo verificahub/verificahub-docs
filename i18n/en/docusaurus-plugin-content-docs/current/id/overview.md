@@ -46,7 +46,11 @@ Step by step: see [Integration](./integration.md). Popups and mobile apps are co
 
 ## Sign-in methods
 
-The set of methods is configured in the client settings. Verificahub ID currently supports:
+The set and order of methods are configured in the client settings. Either the user picks a method
+(`choice`), or the page asks for the number straight away and Verificahub picks the method from the list
+(`ladder`).
+
+**By phone number** — Verificahub verifies the number:
 
 | Method | `method` | `acr` level |
 |---|---|---|
@@ -54,8 +58,16 @@ The set of methods is configured in the client settings. Verificahub ID currentl
 | SMS with a code | `sms` | `medium` |
 | Code in Telegram | `telegram_otp` | `medium` |
 
-For now, the first method in the client's list is used. Letting the user pick a method, sign-in with
-accounts (Yandex ID, VK ID, Sber ID, T-ID, MTS ID) and a code in MAX are in development.
+**With an account** — the number comes from a provider the user already confirmed it with:
+
+| Provider | `method` | `acr` level |
+|---|---|---|
+| Yandex ID | `yandex` | `low` |
+| VK ID | `vk` | `low` |
+
+Account sign-in is `low`: the provider vouches for a number confirmed at some point, not for the SIM card
+in the user's hand right now. If possession of the number at sign-in matters to you, check `acr` and ask
+for a code when it is `low`. Sber ID, T-ID, MTS ID and a code in MAX are in development.
 
 ## What your server receives
 

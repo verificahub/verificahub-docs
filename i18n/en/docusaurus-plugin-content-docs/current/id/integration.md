@@ -50,6 +50,11 @@ GET https://id-api.verificahub.ru/authorize
 | `redirect_uri` | yes | One of the registered addresses, exact match. |
 | `state` | no, but you need it | Returned unchanged — this is your CSRF protection. |
 | `nonce` | no, but you need it | Included in the assertion — binds it to this sign-in. |
+| `ui_locales` (or `lang`) | no | Page language: `ru` or `en`. Takes an OIDC list, so `en-GB en` works too. Defaults to the client's language. |
+| `theme` | no | `light` or `dark` — for apps whose theme differs from the system one. Defaults to the device theme. |
+| `display=touch` (or `embed=1`) | no | The page inside a mobile WebView: no footer, the app draws the frame. |
+
+Values outside these lists are dropped, not passed through.
 
 `/authorize` redirects the user to the sign-in page. A sign-in request lives for 10 minutes (by default).
 
@@ -63,6 +68,14 @@ https://your.app/auth/callback?code=…&state=RANDOM_STATE
 
 Compare `state` with the stored value. If it doesn't match, abort the sign-in. `code` is single-use
 and valid for 60 seconds (by default): exchange it right away.
+
+If the user cancels, the standard OAuth refusal comes back instead of a code:
+
+```
+https://your.app/auth/callback?error=access_denied&state=RANDOM_STATE
+```
+
+Show your sign-in screen again — a cancelled sign-in request is no longer valid.
 
 ## 4. Exchange the code for the number
 
@@ -108,11 +121,16 @@ Errors come back as `{ "error": "…", "message": "…" }`:
 | Claim | Value |
 |---|---|
 | `phone_number` | number in E.164 |
-| `acr` | `high` — confirmed by the carrier (SIM push), `medium` — the user entered a code |
-| `amr` | single-element array — the sign-in method |
+| `acr` | `high` — confirmed by the carrier (SIM push), `medium` — the user entered a code, `low` — the number from a Yandex ID or VK ID account |
+| `amr` | single-element array — the sign-in method (`sms`, `mts_id`, `yandex`, …) |
 | `nonce` | your `nonce` or `""` |
 
-There is no `sub` claim: the user identifier is the phone number itself.
+There is no `sub` claim: the user identifier is the phone number itself. The provider's own user id is
+never released either.
+
+An account sign-in may also add profile claims — `name`, `given_name`, `family_name`, `email`,
+`email_verified`, `gender`, `birthdate` — but only those the client's scopes allow. By default a client
+receives the number alone. Before signing in, the user sees exactly what will be shared.
 
 Node.js example with the [`jose`](https://github.com/panva/jose) library:
 
@@ -135,3 +153,5 @@ if (payload.nonce !== session.nonce || payload.phone_number_verified !== true) t
 2. `state` is generated on the server and checked on return.
 3. The code is exchanged for the number only on the server, with `client_secret`.
 4. Trust the `assertion` signature, not the response body.
+5. Handle `error=access_denied` on `redirect_uri` — that is how a cancelled sign-in comes back.
+6. If possession of the number at sign-in matters, check `acr`.

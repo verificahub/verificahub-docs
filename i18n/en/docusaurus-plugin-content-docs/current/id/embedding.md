@@ -64,15 +64,13 @@ a spinner"), not the result. The result is what your server received from `/exch
 
 ## Page parameters
 
-The page understands these parameters in its URL. **`/authorize` does not pass them through yet** —
-support in `/authorize` is in development; until then the page picks the language from the client's
-`defaultLocale` and follows the device theme.
+Pass them to `/authorize` and it carries them over to the sign-in page. Values outside the lists are dropped.
 
-| Parameter | What it does |
+| `/authorize` parameter | What it does |
 |---|---|
-| `embed=1` | No footer — for a WebView where the app draws the frame. |
-| `lang=ru\|en` | Page language. Defaults to the client's `defaultLocale`, otherwise Russian. |
+| `ui_locales=ru\|en` (or `lang`) | Page language. Defaults to the client's `defaultLocale`, otherwise Russian. |
 | `theme=light\|dark` | Pins the theme — for apps whose theme differs from the system one. By default the page follows the device theme. |
+| `display=touch` (or `embed=1`) | No footer — for a WebView where the app draws the frame. |
 
 ## Sizes
 
