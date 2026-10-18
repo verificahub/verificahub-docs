@@ -11,6 +11,26 @@ What's changing in the customer dashboard — [app.verificahub.ru](https://app.v
 Public API changes have their [own changelog](./api.md).
 Newest entries first.
 
+## 1.8.0 — 2026-10-18
+
+### Added
+
+- **Let us feature your project.** The home screen now carries a card: we publish integration
+  examples on verificahub.ru and are happy to discuss yours. The details — what exactly we
+  publish, on what terms, and how to reach us — are on their own page. The card can be dismissed;
+  the page stays under "More".
+
+### Changed
+
+- **Creating an embedded-verification client is now a few steps.** Instead of one long form:
+  "Basics" (name, display name, logo, terms and privacy links), "Connection" (redirect URIs,
+  origins, webhook) and "Verification methods". You can only move on once the current step has
+  what it needs, so a client cannot be created half-configured.
+- **Verification methods are now cards.** One per row, each with a line explaining it — what
+  separates SMS from Telegram and MTS ID, and the order they will be tried in.
+- **Colours and the verification page language moved to the client's own page.** That is
+  styling rather than setup, and it is easier to adjust once there is something to look at.
+
 ## 1.7.0 — 2026-10-18
 
 ### Changed
