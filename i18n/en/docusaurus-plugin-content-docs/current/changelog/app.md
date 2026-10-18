@@ -11,6 +11,14 @@ What's changing in the customer dashboard — [app.verificahub.ru](https://app.v
 Public API changes have their [own changelog](./api.md).
 Newest entries first.
 
+## 1.7.0 — 2026-10-18
+
+### Changed
+
+- **Verifications and number lookup are now one "Checks" item.** In the top bar they were two
+  adjacent links named almost the same thing — now they sit together in one dropdown. On phones
+  they are grouped the same way on the "More" page, and the tab bar is unchanged.
+
 ## 1.6.0 — 2026-10-07
 
 ### Added
