@@ -121,7 +121,7 @@ Errors come back as `{ "error": "…", "message": "…" }`:
 | Claim | Value |
 |---|---|
 | `phone_number` | number in E.164 |
-| `acr` | `high` — confirmed by the carrier (SIM push), `medium` — the user entered a code, `low` — the number from a Yandex ID or VK ID account |
+| `acr` | `high` — confirmed by the carrier (SIM push), `medium` — the user entered a code we sent or the digits of our calling number, `low` — “call us”, or the number from a Yandex ID / VK ID account |
 | `amr` | single-element array — the sign-in method (`sms`, `mts_id`, `yandex`, …) |
 | `nonce` | your `nonce` or `""` |
 

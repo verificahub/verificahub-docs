@@ -55,8 +55,11 @@ The set and order of methods are configured in the client settings. Either the u
 | Method | `method` | `acr` level |
 |---|---|---|
 | SIM push (MTS Mobile ID) — a request to the SIM card, no code to enter | `mts_id` | `high` |
+| Phone call — the code is the last digits of the number we call from | `flash_call` | `medium` |
 | SMS with a code | `sms` | `medium` |
 | Code in Telegram | `telegram_otp` | `medium` |
+| Code in MAX | `max_otp` | `medium` |
+| “Call us” — the user calls our number, matched by caller ID | `reverse_flash_call` | `low` |
 
 **With an account** — the number comes from a provider the user already confirmed it with:
 
@@ -65,9 +68,11 @@ The set and order of methods are configured in the client settings. Either the u
 | Yandex ID | `yandex` | `low` |
 | VK ID | `vk` | `low` |
 
-Account sign-in is `low`: the provider vouches for a number confirmed at some point, not for the SIM card
-in the user's hand right now. If possession of the number at sign-in matters to you, check `acr` and ask
-for a code when it is `low`. Sber ID, T-ID, MTS ID and a code in MAX are in development.
+Two methods are `low`, for different reasons. With “call us” nothing secret travels: we match the caller
+ID of an incoming call, and one can be forged. With account sign-in the provider vouches for a number
+confirmed at some point, not for the SIM card in the user's hand right now. If possession of the number at
+sign-in matters to you, check `acr` and ask for a code when it is `low`. Sber ID, T-ID and MTS ID are in
+development.
 
 ## What your server receives
 
