@@ -20,7 +20,24 @@ Newest entries first.
   edit — no need to save first. There is an "open in a new tab" button beside it for the full
   page. Nothing is sent anywhere in the preview, and the confirmation code is always 1234.
 
+- **Four more verification methods, plus quick sign-in.** Clients can now use MAX (code and bot),
+  flash call and reverse flash call — the cabinet previously offered only the three most
+  expensive channels although the platform delivers all seven. Flash call is the cheapest of
+  them. Quick sign-in through Yandex ID and VK ID is enabled in the same place.
+
+- **Colours are picked from a palette.** The primary and accent colours now have a normal colour
+  picker with the brand colours beside it, instead of typing a hex by hand.
+
+- **A reminder about requisites.** The sign-in page has an "about the company" block built from
+  your account requisites. If they are missing, the cabinet now says so and links to where they
+  are filled in.
+
 ### Changed
+
+- **"Code length" and "code lifetime" are gone.** These fields did nothing: the verification
+  engine sets both, and the cabinet's setting showed a different number. For clients set to six,
+  the sign-in page drew six boxes for a four-digit code, which could not be entered. The fields
+  are removed; the engine defines the code's shape.
 
 - **The dropdowns in client settings now match the rest of the cabinet.** Client state, method
   selection and language were the browser's own dropdowns and looked out of place next to the
