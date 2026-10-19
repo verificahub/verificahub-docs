@@ -11,6 +11,21 @@ What's changing in the customer dashboard — [app.verificahub.ru](https://app.v
 Public API changes have their [own changelog](./api.md).
 Newest entries first.
 
+## 1.10.0 — 2026-10-19
+
+### Added
+
+- **A preview of the sign-in page inside client settings.** A new section shows the page your
+  users will actually see: name, logo, colour and the methods you picked are applied live as you
+  edit — no need to save first. There is an "open in a new tab" button beside it for the full
+  page. Nothing is sent anywhere in the preview, and the confirmation code is always 1234.
+
+### Changed
+
+- **The dropdowns in client settings now match the rest of the cabinet.** Client state, method
+  selection and language were the browser's own dropdowns and looked out of place next to the
+  other fields. They are now the same dropdowns used everywhere else.
+
 ## 1.9.1 — 2026-10-19
 
 ### Fixed
