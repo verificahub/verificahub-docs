@@ -11,6 +11,15 @@ What's changing in the customer dashboard — [app.verificahub.ru](https://app.v
 Public API changes have their [own changelog](./api.md).
 Newest entries first.
 
+## 1.9.1 — 2026-10-19
+
+### Fixed
+
+- **The dashboard crashed right after a client was created.** When the secret dialog closed and
+  the dashboard moved to the new client's page, that page rendered before its data arrived and
+  the screen went blank until a reload. The client itself was created correctly — only the
+  redirect to it broke.
+
 ## 1.9.0 — 2026-10-19
 
 ### Changed
