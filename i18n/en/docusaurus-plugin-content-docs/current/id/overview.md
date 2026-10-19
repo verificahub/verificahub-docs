@@ -59,6 +59,7 @@ The set and order of methods are configured in the client settings. Either the u
 | SMS with a code | `sms` | `medium` |
 | Code in Telegram | `telegram_otp` | `medium` |
 | Code in MAX | `max_otp` | `medium` |
+| MAX bot — the user opens the bot and shares their number, the bot sends a code | `max_bot` | `medium` |
 | “Call us” — the user calls our number, matched by caller ID | `reverse_flash_call` | `low` |
 
 **With an account** — the number comes from a provider the user already confirmed it with:
