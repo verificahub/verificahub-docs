@@ -11,6 +11,27 @@ What's changing in the customer dashboard — [app.verificahub.ru](https://app.v
 Public API changes have their [own changelog](./api.md).
 Newest entries first.
 
+## 1.9.0 — 2026-10-19
+
+### Changed
+
+- **Client setup has been rewritten.** Creating one now runs in four steps: registration (name,
+  logo, display name), connection details, verification methods and code settings. Each step
+  says which one it is, and validation errors appear under the field they belong to rather than
+  in a list at the top.
+
+- **Domains and redirect URLs are entered one per row.** They used to be listed in a text box,
+  one per line, which made it hard to see how many you had. Each address now has its own row
+  with "add" and "remove" beside it.
+
+- **An existing client has its own settings sections.** Instead of one long form there is a side
+  menu: Client (state, name, logo, client ID and secret), Connection, Methods and Appearance.
+  The client ID and secret sit together under "Access keys"; the secret is still shown only on
+  creation and after a refresh.
+
+- **A client is enabled or disabled by picking its state** rather than through a toggle button,
+  so its current state is readable without decoding a button label.
+
 ## 1.8.0 — 2026-10-18
 
 ### Added
