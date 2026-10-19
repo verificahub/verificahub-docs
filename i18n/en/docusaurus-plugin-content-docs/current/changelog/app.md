@@ -25,8 +25,9 @@ Newest entries first.
   expensive channels although the platform delivers all seven. Flash call is the cheapest of
   them. Quick sign-in through Yandex ID and VK ID is enabled in the same place.
 
-- **Colours are picked from a palette.** The primary and accent colours now have a normal colour
-  picker with the brand colours beside it, instead of typing a hex by hand.
+- **A separate Theme section with a colour picker.** The sign-in page's colours moved out of
+  Appearance into their own section: a normal colour picker with the brand colours beside it,
+  with no hex to type by hand.
 
 - **A reminder about requisites.** The sign-in page has an "about the company" block built from
   your account requisites. If they are missing, the cabinet now says so and links to where they
