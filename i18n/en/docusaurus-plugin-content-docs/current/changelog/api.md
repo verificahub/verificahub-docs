@@ -10,6 +10,34 @@ slug: /changelog
 Changes to the public API and to how verification methods behave.
 Newest entries first.
 
+## 2026-10-22
+
+### Changed
+
+- **`GET /v1/prices` and `GET /dashboard/prices`: every method now carries `available`.** The tariff
+  stays in the list with its price, and `available` tells you whether your account may use that
+  method. An account with no restriction sees `true` on every row.
+
+  ```json
+  {
+    "prices": [
+      { "method": "mts_id", "price": { "amount": 2.50, "currency": "RUB" }, "available": true },
+      { "method": "sms",    "price": { "amount": 3.00, "currency": "RUB" }, "available": false }
+    ]
+  }
+  ```
+
+### Added
+
+- **New error code: `403` `method_not_available`.** Returned by `POST /v1/verify` when the method is
+  not available to your account right now; `detail` names the methods that are. It is the same rule
+  as `available` in the price list, so the list and what `/v1/verify` accepts never disagree. Methods
+  you already have configured are unaffected — the restriction is set per account, not applied
+  retroactively.
+- **`method_policy.steps` on phone-verification clients is checked when you save.** A step naming a
+  method your account may not use is refused with the same `403` `method_not_available` on create and
+  on edit, rather than silently dropping out of the ladder mid-flow.
+
 ## 2026-10-07
 
 ### Added
