@@ -11,6 +11,15 @@ What's changing in the customer dashboard — [app.verificahub.ru](https://app.v
 Public API changes have their [own changelog](./api.md).
 Newest entries first.
 
+## 1.13.0 — 2026-10-22
+
+### Added
+
+- **An invitation to discuss volumes, on the API keys page.** Verification channels are
+  rate-limited and SMS is opened for a new account by agreement, so expected volumes are better
+  settled before launch than discovered from refused requests. The contact for that conversation
+  sits alongside.
+
 ## 1.12.0 — 2026-10-22
 
 ### Added
