@@ -11,6 +11,19 @@ What's changing in the customer dashboard — [app.verificahub.ru](https://app.v
 Public API changes have their [own changelog](./api.md).
 Newest entries first.
 
+## 1.11.0 — 2026-10-22
+
+### Added
+
+- **A warning when SMS nears its ceiling.** Above 200 SMS confirmations a day, a line appears at
+  the top of the cabinet — early, before your users notice delivery slipping. It links to what
+  exactly hits the ceiling, how Mobile ID compares on price and delivery, and what to change in
+  the request to switch. The line can be dismissed.
+
+  The threshold is measured from your own data: SMS confirmations over the period divided by the
+  days in it. If you are already mostly on Mobile ID, the line stays hidden. The prices in the
+  comparison are your current tariffs, not fixed numbers.
+
 ## 1.10.0 — 2026-10-19
 
 ### Added
