@@ -15,37 +15,12 @@ Newest entries first.
 
 ### Added
 
-- **An invitation to discuss volumes, on the API keys page.** Verification channels are
-  rate-limited and SMS is opened for a new account by agreement, so expected volumes are better
-  settled before launch than discovered from refused requests. The contact for that conversation
-  sits alongside.
-
-## 1.12.0 — 2026-10-22
-
-### Added
-
-- **You can see which methods your account is enabled for.** SMS is closed by default for new
-  accounts, and the cabinet used to say nothing about it: the method sat in the tariff list like
-  any other and the request was then refused. A closed method now stays in the list with its
-  price, marked "Unavailable" — a vanished tariff would read as a glitch, a marked one reads as a
-  fact you can ask about. Beside it is who to message to have it enabled.
-
-- **A closed method cannot be selected in client settings.** The platform intersects the chosen
-  methods with the account's rights when saving, so a chosen-but-closed method would quietly
-  drop out of the configured chain. Those cards are now visible but not selectable, and say why.
-
-## 1.11.0 — 2026-10-22
-
-### Added
-
-- **A warning when SMS nears its ceiling.** Above 200 SMS confirmations a day, a line appears at
-  the top of the cabinet — early, before your users notice delivery slipping. It links to what
-  exactly hits the ceiling, how Mobile ID compares on price and delivery, and what to change in
-  the request to switch. The line can be dismissed.
-
-  The threshold is measured from your own data: SMS confirmations over the period divided by the
-  days in it. If you are already mostly on Mobile ID, the line stays hidden. The prices in the
-  comparison are your current tariffs, not fixed numbers.
+- **You can see which verification methods your account may use.** SMS is opened for a new
+  account by agreement, and the cabinet used to be silent about it: the method sat in the tariff
+  list like any other and the request was then refused. An unavailable method now stays in the
+  list with its price, marked — a vanished tariff would read as a glitch, a marked one is plain.
+  In client settings such a method cannot be selected: the platform would strip it on save
+  anyway, leaving the configured chain different from the one that runs.
 
 ## 1.10.0 — 2026-10-19
 
@@ -64,10 +39,6 @@ Newest entries first.
 - **A separate Theme section with a colour picker.** The sign-in page's colours moved out of
   Appearance into their own section: a normal colour picker with the brand colours beside it,
   with no hex to type by hand.
-
-- **A reminder about requisites.** The sign-in page has an "about the company" block built from
-  your account requisites. If they are missing, the cabinet now says so and links to where they
-  are filled in.
 
 ### Changed
 
@@ -111,13 +82,6 @@ Newest entries first.
   so its current state is readable without decoding a button label.
 
 ## 1.8.0 — 2026-10-18
-
-### Added
-
-- **Let us feature your project.** The home screen now carries a card: we publish integration
-  examples on verificahub.ru and are happy to discuss yours. The details — what exactly we
-  publish, on what terms, and how to reach us — are on their own page. The card can be dismissed;
-  the page stays under "More".
 
 ### Changed
 
