@@ -29,6 +29,16 @@ Newest entries first.
 
 ### Added
 
+- **SMS now names your site and your account — as `max_otp` already did.** The recipient can see
+  whose code it is:
+
+  ```
+  1057 - Vash kod podtverzhdeniya na resurse partnyora https://example.ru (Primer)
+  ```
+
+  The name comes from your account profile, plus your legal entity when your requisites are filled
+  in. The text stays Latin and still fits a single SMS, so the price of the method is unchanged.
+
 - **New error code: `403` `method_not_available`.** Returned by `POST /v1/verify` when the method is
   not available to your account right now; `detail` names the methods that are. It is the same rule
   as `available` in the price list, so the list and what `/v1/verify` accepts never disagree. Methods
