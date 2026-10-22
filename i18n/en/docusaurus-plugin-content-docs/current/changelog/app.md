@@ -11,6 +11,20 @@ What's changing in the customer dashboard — [app.verificahub.ru](https://app.v
 Public API changes have their [own changelog](./api.md).
 Newest entries first.
 
+## 1.12.0 — 2026-10-22
+
+### Added
+
+- **You can see which methods your account is enabled for.** SMS is closed by default for new
+  accounts, and the cabinet used to say nothing about it: the method sat in the tariff list like
+  any other and the request was then refused. A closed method now stays in the list with its
+  price, marked "Unavailable" — a vanished tariff would read as a glitch, a marked one reads as a
+  fact you can ask about. Beside it is who to message to have it enabled.
+
+- **A closed method cannot be selected in client settings.** The platform intersects the chosen
+  methods with the account's rights when saving, so a chosen-but-closed method would quietly
+  drop out of the configured chain. Those cards are now visible but not selectable, and say why.
+
 ## 1.11.0 — 2026-10-22
 
 ### Added
