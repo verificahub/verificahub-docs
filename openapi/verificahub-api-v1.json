@@ -129,7 +129,8 @@
         "tags": [
           "V1"
         ],
-        "summary": "List the live per-method verification prices for your account currency.",
+        "summary": "List the live verification and number-lookup prices for your account currency.",
+        "description": "Two lists: prices for the verification methods and lookups for the number-lookup\nservices. They are charged differently — a verification at its billing milestone, a lookup per\nanswer — so they are reported separately rather than merged into one table.",
         "operationId": "GetPrices",
         "responses": {
           "401": {
@@ -168,7 +169,8 @@
         "tags": [
           "V1"
         ],
-        "summary": "Aggregated verification usage over a date range.",
+        "summary": "Aggregated verification and number-lookup usage over a date range.",
+        "description": "Verifications make up the top-level fields; number lookups are counted separately under\nlookups, because they are a different service on a different billing rule. Add the two\ntotal_cost values to get what the account spent over the range.",
         "operationId": "GetUsage",
         "parameters": [
           {
@@ -356,6 +358,172 @@
           }
         ]
       }
+    },
+    "/v1/lookup/activity": {
+      "post": {
+        "tags": [
+          "V1"
+        ],
+        "summary": "Score how active a number is in the network (0…1).",
+        "description": "For cleaning a base before a campaign. Works on every Russian operator. It says nothing about\nwho holds the number — that is what verification is for.",
+        "operationId": "LookupActivity",
+        "requestBody": {
+          "x-name": "LookupRequest",
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LookupRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LookupResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "ExternalBasic": []
+          }
+        ]
+      }
+    },
+    "/v1/lookup/number-info": {
+      "post": {
+        "tags": [
+          "V1"
+        ],
+        "summary": "Look up a number's operator, region and porting status.",
+        "description": "Works on every Russian operator. This is the only reliable way to learn a number's real\noperator: a prefix table is wrong for any number that has been ported.",
+        "operationId": "LookupNumberInfo",
+        "requestBody": {
+          "x-name": "LookupRequest",
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LookupRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LookupResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "ExternalBasic": []
+          }
+        ]
+      }
     }
   },
   "components": {
@@ -520,6 +688,13 @@
             "items": {
               "$ref": "#/components/schemas/MethodPriceResponse"
             }
+          },
+          "lookups": {
+            "type": "array",
+            "description": "Live prices for the number-lookup services, in display order.",
+            "items": {
+              "$ref": "#/components/schemas/LookupPriceResponse"
+            }
           }
         }
       },
@@ -543,6 +718,10 @@
                 "$ref": "#/components/schemas/MoneyResponse"
               }
             ]
+          },
+          "available": {
+            "type": "boolean",
+            "description": "Whether this account may actually request the method."
           }
         }
       },
@@ -557,7 +736,8 @@
           "telegram_otp",
           "mts_id",
           "mts_id_sms_otp",
-          "max_bot"
+          "max_bot",
+          "max_otp"
         ],
         "enum": [
           "reverse_flash_call",
@@ -567,7 +747,45 @@
           "telegram_otp",
           "mts_id",
           "mts_id_sms_otp",
-          "max_bot"
+          "max_bot",
+          "max_otp"
+        ]
+      },
+      "LookupPriceResponse": {
+        "type": "object",
+        "description": "The price of one number-lookup service.",
+        "additionalProperties": false,
+        "properties": {
+          "method": {
+            "description": "Which lookup.",
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/LookupMethod"
+              }
+            ]
+          },
+          "price": {
+            "description": "The amount charged per answered lookup for this service.",
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/MoneyResponse"
+              }
+            ]
+          }
+        }
+      },
+      "LookupMethod": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "number_info",
+          "activity_score",
+          "sim_status"
+        ],
+        "enum": [
+          "number_info",
+          "activity_score",
+          "sim_status"
         ]
       },
       "GetUsageResponse": {
@@ -636,6 +854,14 @@
             "items": {
               "$ref": "#/components/schemas/UsageDayResponse"
             }
+          },
+          "lookups": {
+            "description": "Number-lookup usage over the same range, counted separately from verifications.",
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/LookupUsageResponse"
+              }
+            ]
           }
         }
       },
@@ -657,6 +883,67 @@
             "format": "int32"
           }
         }
+      },
+      "LookupUsageResponse": {
+        "type": "object",
+        "description": "Number-lookup usage in a usage report.",
+        "additionalProperties": false,
+        "properties": {
+          "total": {
+            "type": "integer",
+            "description": "Lookups requested in the range, answered or not.",
+            "format": "int32"
+          },
+          "billable": {
+            "type": "integer",
+            "description": "How many of those were charged for.",
+            "format": "int32"
+          },
+          "total_cost": {
+            "description": "What the lookups cost in total.",
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/MoneyResponse"
+              }
+            ]
+          },
+          "by_method": {
+            "type": "object",
+            "description": "Counts per lookup service.",
+            "x-dictionaryKey": {
+              "$ref": "#/components/schemas/LookupMethod"
+            },
+            "additionalProperties": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          "by_status": {
+            "type": "object",
+            "description": "Counts per outcome — where the share of \"no data\" shows up.",
+            "x-dictionaryKey": {
+              "$ref": "#/components/schemas/LookupStatus"
+            },
+            "additionalProperties": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        }
+      },
+      "LookupStatus": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "ok",
+          "no_data",
+          "out_of_coverage"
+        ],
+        "enum": [
+          "ok",
+          "no_data",
+          "out_of_coverage"
+        ]
       },
       "GetUsageRequest": {
         "type": "object",
@@ -767,7 +1054,8 @@
             "flash_call": "#/components/schemas/FlashCallInitiateResponse",
             "telegram_otp": "#/components/schemas/TelegramInitiateResponse",
             "mts_id": "#/components/schemas/MtsIdInitiateResponse",
-            "max_bot": "#/components/schemas/MaxBotInitiateResponse"
+            "max_bot": "#/components/schemas/MaxBotInitiateResponse",
+            "max_otp": "#/components/schemas/MaxOtpInitiateResponse"
           }
         },
         "description": "Response for POST /v1/verify, common fields shared by every method.",
@@ -901,6 +1189,18 @@
           }
         ]
       },
+      "MaxOtpInitiateResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/InitiateVerificationResponse"
+          },
+          {
+            "type": "object",
+            "description": "max_otp — the code was sent straight to the user's MAX account.",
+            "additionalProperties": false
+          }
+        ]
+      },
       "InitiateVerificationRequest": {
         "type": "object",
         "description": "Body for POST /v1/verify.",
@@ -923,6 +1223,106 @@
             "description": "Requested session TTL in seconds.",
             "format": "int32",
             "nullable": true
+          }
+        }
+      },
+      "LookupResponse": {
+        "type": "object",
+        "description": "Result of a number lookup.",
+        "additionalProperties": false,
+        "properties": {
+          "request_id": {
+            "type": "string",
+            "description": "Identifier of this lookup, for support and reconciliation.",
+            "format": "guid"
+          },
+          "phone_number": {
+            "type": "string",
+            "description": "The number, masked."
+          },
+          "method": {
+            "description": "Which lookup was performed.",
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/LookupMethod"
+              }
+            ]
+          },
+          "status": {
+            "description": "Whether there was data, nothing, or the number is outside coverage.",
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/LookupStatus"
+              }
+            ]
+          },
+          "operator": {
+            "description": "Subscriber's operator, when the answer carried one.",
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/MobileOperator"
+              }
+            ]
+          },
+          "region_code": {
+            "type": "integer",
+            "description": "Region the SIM was sold in, when the answer carried one.",
+            "format": "int32",
+            "nullable": true
+          },
+          "score": {
+            "type": "number",
+            "description": "Activity score from 0 (least active) to 1 (most), for the activity lookup.",
+            "format": "decimal",
+            "nullable": true
+          },
+          "ported": {
+            "type": "boolean",
+            "description": "Whether the number has been ported to another operator, for the number-info lookup.",
+            "nullable": true
+          },
+          "cost": {
+            "description": "What this lookup cost. Zero when the answer was not billable.",
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/MoneyResponse"
+              }
+            ]
+          },
+          "checked_at": {
+            "type": "string",
+            "description": "When the lookup ran (UTC).",
+            "format": "date-time"
+          }
+        }
+      },
+      "MobileOperator": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "mts",
+          "megafon",
+          "beeline",
+          "tele2",
+          "other"
+        ],
+        "enum": [
+          "mts",
+          "megafon",
+          "beeline",
+          "tele2",
+          "other"
+        ]
+      },
+      "LookupRequest": {
+        "type": "object",
+        "description": "Body of the POST /v1/lookup/* endpoints.",
+        "additionalProperties": false,
+        "properties": {
+          "phone_number": {
+            "type": "string",
+            "description": "The number to look up."
           }
         }
       }
