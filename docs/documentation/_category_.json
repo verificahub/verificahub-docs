@@ -1,0 +1,8 @@
+{
+  "label": "Документация на ПО",
+  "position": 45,
+  "link": {
+    "type": "doc",
+    "id": "documentation/index"
+  }
+}
