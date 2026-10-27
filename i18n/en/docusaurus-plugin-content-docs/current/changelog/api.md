@@ -10,6 +10,19 @@ slug: /changelog
 Changes to the public API and to how verification methods behave.
 Newest entries first.
 
+## 2026-10-27
+
+### Fixed
+
+- **`POST /v1/verify` no longer refuses verifications with `402 no_gateway_available` because of a
+  daily limit on our side.** On high-volume days the built-in daily issuance budget could run out
+  well before the day was over, and further requests were refused although the verification was
+  deliverable. The limit is gone. The `no_gateway_available` code stays — but it now means delivery
+  genuinely cannot be carried out, not that today's allowance is spent.
+
+  Retrying after this error is still worthwhile: the conditions that raise it are usually
+  short-lived.
+
 ## 2026-10-22
 
 ### Changed
