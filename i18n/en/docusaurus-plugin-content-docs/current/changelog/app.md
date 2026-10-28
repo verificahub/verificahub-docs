@@ -11,6 +11,16 @@ What's changing in the customer dashboard — [app.verificahub.ru](https://app.v
 Public API changes have their [own changelog](./api.md).
 Newest entries first.
 
+## 1.16.0 — 2026-10-29
+
+### Changed
+
+- **The pre-chat form no longer asks for what the cabinet already knows.** "Project" and "Site" are
+  filled from your account name and website — together with name and email that is every required
+  field on the form. Once the chat widget updates, the form will stop appearing at all and the chat
+  will open straight away. If your account has no website set, the form appears filled in and you
+  only add that one field before starting.
+
 ## 1.15.0 — 2026-10-28
 
 ### Changed
