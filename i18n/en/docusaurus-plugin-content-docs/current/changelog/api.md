@@ -12,6 +12,16 @@ Newest entries first.
 
 ## 2026-10-28
 
+### Fixed
+
+- **The pay-from-your-phone QR opens again.** On the balance top-up page the code could fail to load
+  and returned an error. It is now drawn on our side and is available for card, SBP and T-Pay
+  top-ups.
+
+  SberPay has no QR: its link opens by tapping it on the same device, and a phone camera does not
+  recognise it. The page keeps the payment button instead.
+
+
 ### Changed
 
 - **A new account opens after review.** Signing up in the dashboard now creates the account in a
