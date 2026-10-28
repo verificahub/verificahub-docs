@@ -11,6 +11,19 @@ What's changing in the customer dashboard — [app.verificahub.ru](https://app.v
 Public API changes have their [own changelog](./api.md).
 Newest entries first.
 
+## 1.15.0 — 2026-10-28
+
+### Changed
+
+- **Support chat opens from the cabinet, not from a button floating over the page.** On a phone the
+  chat used to live on its own page, because the widget's button covered the bottom menu. The
+  button is now hidden on narrow screens and the chat opens where you asked for it: from the
+  support page, or from any "Open the chat" button.
+
+- **The pre-chat form arrives filled in.** Your name and email come from your profile — one click
+  on "Start". Once the widget updates, the form will stop appearing at all unless it asks for
+  something we don't already know.
+
 ## 1.14.1 — 2026-10-28
 
 ### Fixed
