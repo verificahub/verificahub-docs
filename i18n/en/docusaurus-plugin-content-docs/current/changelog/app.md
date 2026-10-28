@@ -11,6 +11,17 @@ What's changing in the customer dashboard — [app.verificahub.ru](https://app.v
 Public API changes have their [own changelog](./api.md).
 Newest entries first.
 
+## 1.14.0 — 2026-10-28
+
+### Added
+
+- **A new account goes through review, and the cabinet says so.** Registration now creates an
+  account with the status "under review": sign-in and API keys work immediately, while sending
+  confirmations and topping up the balance open after approval. A line at the top of the cabinet
+  says the review is running, and the balance, verifications and number-lookup pages show what is
+  closed and what can already be done instead of empty tables. Support chat,
+  support@verificahub.ru and Telegram sit alongside.
+
 ## 1.13.0 — 2026-10-22
 
 ### Added
