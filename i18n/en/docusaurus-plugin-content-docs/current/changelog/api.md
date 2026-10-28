@@ -12,6 +12,23 @@ Newest entries first.
 
 ## 2026-10-28
 
+### Changed
+
+- **A new account opens after review.** Signing up in the dashboard now creates the account in a
+  pending-review state: dashboard access and API keys are available immediately, but `POST /v1/verify`
+  and the other API methods answer `401` until the account is approved. This normally takes a
+  business day — write to support@verificahub.ru if you need it sooner.
+
+  Existing accounts are unaffected: review applies to new sign-ups only.
+
+- **A `401` now tells a wrong secret apart from a closed account.** The two used to look identical,
+  which sent people hunting for a credentials bug that did not exist.
+
+- **The "website" field accepts the main domain only.** `https://your-company.com` is fine,
+  `https://your-company.com/account/requests` is not, and neither is a URL carrying ad-tracking
+  parameters. Enforced both at sign-up and when editing the profile.
+
+
 ### Added
 
 - **New method `pass_call` — voice verification.** A robot calls the number and dictates the code;
