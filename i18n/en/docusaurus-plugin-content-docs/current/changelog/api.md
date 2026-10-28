@@ -10,6 +10,25 @@ slug: /changelog
 Changes to the public API and to how verification methods behave.
 Newest entries first.
 
+## 2026-10-28
+
+### Added
+
+- **New method `pass_call` — voice verification.** A robot calls the number and dictates the code;
+  the user types it into `POST /v1/verify/check`, as with `sms`. The code is never delivered as a
+  message, so it cannot be read off a locked screen's notification.
+
+  ```json
+  { "phone_number": "+79161112233", "method": "pass_call" }
+  ```
+
+  Charged **when the call is requested**, not when it is answered: the carrier bills us for placing
+  it regardless of whether anyone picks up. An unanswered call returns `failed` with the charge
+  already made — unlike the reverse flash call, where you pay only for a successful verification.
+
+  Available on request: if it is not enabled for your account, `POST /v1/verify` answers
+  `method_not_supported`, as for any other method you do not have.
+
 ## 2026-10-27
 
 ### Fixed
