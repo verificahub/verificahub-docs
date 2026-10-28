@@ -26,6 +26,10 @@ Newest entries first.
   it regardless of whether anyone picks up. An unanswered call returns `failed` with the charge
   already made — unlike the reverse flash call, where you pay only for a successful verification.
 
+  The call carries the caller-ID label **"ИП Iskuzhin IT"** — a legal requirement for calls from
+  a legal entity, and your own service name cannot be substituted. Say so on your waiting screen:
+  the user will see a call from a name they do not recognise.
+
   Available on request: if it is not enabled for your account, `POST /v1/verify` answers
   `method_not_supported`, as for any other method you do not have.
 
