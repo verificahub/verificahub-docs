@@ -30,8 +30,10 @@ Newest entries first.
   a legal entity, and your own service name cannot be substituted. Say so on your waiting screen:
   the user will see a call from a name they do not recognise.
 
-  Available on request: if it is not enabled for your account, `POST /v1/verify` answers
-  `method_not_supported`, as for any other method you do not have.
+  Available on request. If the method is closed for your account, `POST /v1/verify` answers
+  **403** with `error_code: method_not_available`. If the method is not wired on the platform at
+  all, it answers **400** with `error_code: validation_error`. Worth telling apart: the first is
+  fixed by asking us, the second means nobody has it yet.
 
 ## 2026-10-27
 
