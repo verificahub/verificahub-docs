@@ -11,6 +11,14 @@ What's changing in the customer dashboard — [app.verificahub.ru](https://app.v
 Public API changes have their [own changelog](./api.md).
 Newest entries first.
 
+## 1.14.1 — 2026-10-28
+
+### Fixed
+
+- **The QR payment dialog named the wrong payment system.** The QR code is only shown for T-Pay
+  and SberPay, but the heading always said "Pay via SBP". It now names the system you are
+  actually paying with.
+
 ## 1.14.0 — 2026-10-28
 
 ### Added
