@@ -8,7 +8,7 @@
   },
   "servers": [
     {
-      "url": "https://api.verificahub.ru"
+      "url": "http://127.0.0.1:5199"
     }
   ],
   "paths": {
@@ -731,7 +731,7 @@
         "x-enumNames": [
           "reverse_flash_call",
           "flash_call",
-          "voice",
+          "pass_call",
           "sms",
           "telegram_otp",
           "mts_id",
@@ -742,7 +742,7 @@
         "enum": [
           "reverse_flash_call",
           "flash_call",
-          "voice",
+          "pass_call",
           "sms",
           "telegram_otp",
           "mts_id",
@@ -1055,7 +1055,8 @@
             "telegram_otp": "#/components/schemas/TelegramInitiateResponse",
             "mts_id": "#/components/schemas/MtsIdInitiateResponse",
             "max_bot": "#/components/schemas/MaxBotInitiateResponse",
-            "max_otp": "#/components/schemas/MaxOtpInitiateResponse"
+            "max_otp": "#/components/schemas/MaxOtpInitiateResponse",
+            "pass_call": "#/components/schemas/PassCallInitiateResponse"
           }
         },
         "description": "Response for POST /v1/verify, common fields shared by every method.",
@@ -1197,6 +1198,18 @@
           {
             "type": "object",
             "description": "max_otp — the code was sent straight to the user's MAX account.",
+            "additionalProperties": false
+          }
+        ]
+      },
+      "PassCallInitiateResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/InitiateVerificationResponse"
+          },
+          {
+            "type": "object",
+            "description": "Response for a PassCall verification — a robot calls the number\nand dictates the code, which the user types back into /v1/verify/check.",
             "additionalProperties": false
           }
         ]

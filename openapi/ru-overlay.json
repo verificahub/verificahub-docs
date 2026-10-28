@@ -292,8 +292,8 @@
     "ru": "Доступ запрещён"
   },
   "/paths/~1v1~1prices/get/summary": {
-    "en": "List the live per-method verification prices for your account currency.",
-    "ru": "Действующие цены по методам подтверждения в валюте вашего аккаунта."
+    "en": "List the live verification and number-lookup prices for your account currency.",
+    "ru": "Действующие цены на подтверждения и проверку номера в валюте вашего аккаунта."
   },
   "/paths/~1v1~1usage/get/parameters/0/description": {
     "en": "Inclusive start date.",
@@ -316,8 +316,8 @@
     "ru": "Доступ запрещён"
   },
   "/paths/~1v1~1usage/get/summary": {
-    "en": "Aggregated verification usage over a date range.",
-    "ru": "Сводная статистика подтверждений за период."
+    "en": "Aggregated verification and number-lookup usage over a date range.",
+    "ru": "Сводное потребление подтверждений и проверок номера за период."
   },
   "/paths/~1v1~1verify/post/description": {
     "en": "Starts a verification with the chosen method (reverse_flash_call, telegram_otp or mts_id). The 201 response shape is discriminated by the method property; the verification code is never returned.",
@@ -390,5 +390,169 @@
   "/paths/~1v1~1verify~1{request_id}/get/summary": {
     "en": "Fetch the current status of a verification.",
     "ru": "Текущий статус подтверждения."
+  },
+  "/components/schemas/PassCallInitiateResponse/allOf/1/description": {
+    "en": "Response for a PassCall verification — a robot calls the number\nand dictates the code, which the user types back into /v1/verify/check.",
+    "ru": "Ответ на подтверждение методом pass_call: робот звонит на номер и диктует код, который пользователь вводит в /v1/verify/check."
+  },
+  "/paths/~1v1~1prices/get/description": {
+    "en": "Two lists: prices for the verification methods and lookups for the number-lookup\nservices. They are charged differently — a verification at its billing milestone, a lookup per\nanswer — so they are reported separately rather than merged into one table.",
+    "ru": "Два списка: цены на методы подтверждения и на услуги проверки номера. Тарифицируются они по-разному — подтверждение в свою контрольную точку, проверка номера по факту ответа."
+  },
+  "/paths/~1v1~1usage/get/description": {
+    "en": "Verifications make up the top-level fields; number lookups are counted separately under\nlookups, because they are a different service on a different billing rule. Add the two\ntotal_cost values to get what the account spent over the range.",
+    "ru": "Подтверждения составляют поля верхнего уровня; проверки номера считаются отдельно, в lookups, потому что это другая услуга на другой основе тарификации."
+  },
+  "/paths/~1v1~1lookup~1activity/post/summary": {
+    "en": "Score how active a number is in the network (0…1).",
+    "ru": "Оценить, насколько номер активен в сети (0…1)."
+  },
+  "/paths/~1v1~1lookup~1activity/post/description": {
+    "en": "For cleaning a base before a campaign. Works on every Russian operator. It says nothing about\nwho holds the number — that is what verification is for.",
+    "ru": "Для очистки базы перед рассылкой. Работает по всем российским операторам. Ничего не говорит о том, кто владеет номером, — для этого существует подтверждение."
+  },
+  "/paths/~1v1~1lookup~1number-info/post/summary": {
+    "en": "Look up a number's operator, region and porting status.",
+    "ru": "Узнать оператора, регион и факт переноса номера."
+  },
+  "/paths/~1v1~1lookup~1number-info/post/description": {
+    "en": "Works on every Russian operator. This is the only reliable way to learn a number's real\noperator: a prefix table is wrong for any number that has been ported.",
+    "ru": "Работает по всем российским операторам. Это единственный надёжный способ узнать настоящего оператора номера: таблица префиксов врёт для любого номера, который переносили."
+  },
+  "/components/schemas/GetPricesResponse/properties/lookups/description": {
+    "en": "Live prices for the number-lookup services, in display order.",
+    "ru": "Действующие цены на услуги проверки номера, в порядке отображения."
+  },
+  "/components/schemas/MethodPriceResponse/properties/available/description": {
+    "en": "Whether this account may actually request the method.",
+    "ru": "Может ли этот аккаунт действительно запросить метод."
+  },
+  "/components/schemas/LookupPriceResponse/description": {
+    "en": "The price of one number-lookup service.",
+    "ru": "Цена одной услуги проверки номера."
+  },
+  "/components/schemas/LookupPriceResponse/properties/method/description": {
+    "en": "Which lookup.",
+    "ru": "Какая проверка."
+  },
+  "/components/schemas/LookupPriceResponse/properties/price/description": {
+    "en": "The amount charged per answered lookup for this service.",
+    "ru": "Сумма, списываемая за один отвеченный запрос по этой услуге."
+  },
+  "/components/schemas/GetUsageResponse/properties/lookups/description": {
+    "en": "Number-lookup usage over the same range, counted separately from verifications.",
+    "ru": "Потребление проверок номера за тот же период, отдельно от подтверждений."
+  },
+  "/components/schemas/LookupUsageResponse/description": {
+    "en": "Number-lookup usage in a usage report.",
+    "ru": "Потребление проверок номера в отчёте."
+  },
+  "/components/schemas/LookupUsageResponse/properties/total/description": {
+    "en": "Lookups requested in the range, answered or not.",
+    "ru": "Сколько проверок запрошено за период — отвеченных и нет."
+  },
+  "/components/schemas/LookupUsageResponse/properties/billable/description": {
+    "en": "How many of those were charged for.",
+    "ru": "Сколько из них было тарифицировано."
+  },
+  "/components/schemas/LookupUsageResponse/properties/total_cost/description": {
+    "en": "What the lookups cost in total.",
+    "ru": "Во сколько обошлись проверки суммарно."
+  },
+  "/components/schemas/LookupUsageResponse/properties/by_method/description": {
+    "en": "Counts per lookup service.",
+    "ru": "Количество по услугам проверки."
+  },
+  "/components/schemas/LookupUsageResponse/properties/by_status/description": {
+    "en": "Counts per outcome — where the share of \"no data\" shows up.",
+    "ru": "Количество по исходам — именно здесь видна доля «нет данных»."
+  },
+  "/components/schemas/MaxOtpInitiateResponse/allOf/1/description": {
+    "en": "max_otp — the code was sent straight to the user's MAX account.",
+    "ru": "max_otp — код отправлен прямо в аккаунт MAX пользователя."
+  },
+  "/components/schemas/LookupResponse/description": {
+    "en": "Result of a number lookup.",
+    "ru": "Результат проверки номера."
+  },
+  "/components/schemas/LookupResponse/properties/request_id/description": {
+    "en": "Identifier of this lookup, for support and reconciliation.",
+    "ru": "Идентификатор этой проверки — для поддержки и сверки."
+  },
+  "/components/schemas/LookupResponse/properties/phone_number/description": {
+    "en": "The number, masked.",
+    "ru": "Номер, в маскированном виде."
+  },
+  "/components/schemas/LookupResponse/properties/method/description": {
+    "en": "Which lookup was performed.",
+    "ru": "Какая проверка была выполнена."
+  },
+  "/components/schemas/LookupResponse/properties/status/description": {
+    "en": "Whether there was data, nothing, or the number is outside coverage.",
+    "ru": "Были ли данные, не было их, или номер вне зоны покрытия услуги."
+  },
+  "/components/schemas/LookupResponse/properties/operator/description": {
+    "en": "Subscriber's operator, when the answer carried one.",
+    "ru": "Оператор абонента, если он пришёл в ответе."
+  },
+  "/components/schemas/LookupResponse/properties/region_code/description": {
+    "en": "Region the SIM was sold in, when the answer carried one.",
+    "ru": "Регион, в котором продана SIM, если он пришёл в ответе."
+  },
+  "/components/schemas/LookupResponse/properties/score/description": {
+    "en": "Activity score from 0 (least active) to 1 (most), for the activity lookup.",
+    "ru": "Оценка активности от 0 (наименее активен) до 1 (наиболее) — для проверки активности."
+  },
+  "/components/schemas/LookupResponse/properties/ported/description": {
+    "en": "Whether the number has been ported to another operator, for the number-info lookup.",
+    "ru": "Переносился ли номер к другому оператору — для проверки сведений о номере."
+  },
+  "/components/schemas/LookupResponse/properties/cost/description": {
+    "en": "What this lookup cost. Zero when the answer was not billable.",
+    "ru": "Во сколько обошлась эта проверка. Ноль, если ответ не тарифицировался."
+  },
+  "/components/schemas/LookupResponse/properties/checked_at/description": {
+    "en": "When the lookup ran (UTC).",
+    "ru": "Когда проверка выполнена (UTC)."
+  },
+  "/components/schemas/LookupRequest/description": {
+    "en": "Body of the POST /v1/lookup/* endpoints.",
+    "ru": "Тело запроса эндпоинтов POST /v1/lookup/*."
+  },
+  "/components/schemas/LookupRequest/properties/phone_number/description": {
+    "en": "The number to look up.",
+    "ru": "Номер, который нужно проверить."
+  },
+  "/paths/~1v1~1lookup~1activity/post/responses/200/description": {
+    "en": "Success",
+    "ru": "Успешно"
+  },
+  "/paths/~1v1~1lookup~1activity/post/responses/400/description": {
+    "en": "Bad Request",
+    "ru": "Некорректный запрос"
+  },
+  "/paths/~1v1~1lookup~1activity/post/responses/401/description": {
+    "en": "Unauthorized",
+    "ru": "Не авторизован"
+  },
+  "/paths/~1v1~1lookup~1activity/post/responses/403/description": {
+    "en": "Forbidden",
+    "ru": "Доступ запрещён"
+  },
+  "/paths/~1v1~1lookup~1number-info/post/responses/200/description": {
+    "en": "Success",
+    "ru": "Успешно"
+  },
+  "/paths/~1v1~1lookup~1number-info/post/responses/400/description": {
+    "en": "Bad Request",
+    "ru": "Некорректный запрос"
+  },
+  "/paths/~1v1~1lookup~1number-info/post/responses/401/description": {
+    "en": "Unauthorized",
+    "ru": "Не авторизован"
+  },
+  "/paths/~1v1~1lookup~1number-info/post/responses/403/description": {
+    "en": "Forbidden",
+    "ru": "Доступ запрещён"
   }
 }
