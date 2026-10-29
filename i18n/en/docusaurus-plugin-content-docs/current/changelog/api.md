@@ -10,6 +10,19 @@ slug: /changelog
 Changes to the public API and to how verification methods behave.
 Newest entries first.
 
+## 2026-10-30
+
+### Changed
+
+- **Russian method labels in the dictionaries.** `pass_call` is now "Голосовой код" instead of
+  "Голосовое подтверждение", `sms` is "СМС", `mts_id` is "МТС ID". The values (`pass_call`, `sms`,
+  `mts_id`) are unchanged — only the labels in `GET /meta`, `GET /config` and
+  `GET /meta/dictionaries/methods` moved.
+
+  The old label didn't say the thing that matters: the user receives a code and has to type it.
+  In a list of methods that is the key distinction — `reverse_flash_call` verifies without a code,
+  `pass_call` with one.
+
 ## 2026-10-29
 
 ### Added
