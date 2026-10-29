@@ -15,9 +15,13 @@ Newest entries first.
 ### Changed
 
 - **Russian method labels in the dictionaries.** `pass_call` is now "Голосовой код" instead of
-  "Голосовое подтверждение", `sms` is "СМС", `mts_id` is "МТС ID". The values (`pass_call`, `sms`,
-  `mts_id`) are unchanged — only the labels in `GET /meta`, `GET /config` and
-  `GET /meta/dictionaries/methods` moved.
+  "Голосовое подтверждение", `sms` is "СМС", `mts_id` is "МТС ID", `max_otp` is "MAX — код" and
+  `max_bot` is "MAX — бот". The values are unchanged — only the labels in `GET /meta`,
+  `GET /config` and `GET /meta/dictionaries/methods` moved.
+
+- **Methods in the dictionaries now carry a description.** Every `methods` item has a
+  `description` field — one sentence on what the method does. Enough to render a method picker
+  entirely from the API response, without keeping the copy on your side.
 
   The old label didn't say the thing that matters: the user receives a code and has to type it.
   In a list of methods that is the key distinction — `reverse_flash_call` verifies without a code,
