@@ -65,6 +65,6 @@ Every method is called through the single `POST /v1/verify` endpoint — only th
 
 ## Next
 
-- [How the verification flows work](./flows.md) — a diagram per method.
+- [How the verification flows work](./flows/index.md) — a diagram per method.
 - [Webhooks](./webhooks.md) — receive statuses without polling.
 - [Best practices](./best_practices.md) — polling vs webhooks, idempotency, errors, limits.

@@ -32,6 +32,17 @@
       "privacy_policy": "/docs/legal/privacy_policy",
       "terms_of_use": "/docs/legal/terms_of_use",
       "personal_data_consent": "/docs/legal/personal_data_consent"
+    },
+    "integration_flows": {
+      "overview": "/docs/integration/flows",
+      "reverse_flash_call": "/docs/integration/flows/reverse_flash_call",
+      "sms": "/docs/integration/flows/sms",
+      "flash_call": "/docs/integration/flows/flash_call",
+      "pass_call": "/docs/integration/flows/pass_call",
+      "telegram_otp": "/docs/integration/flows/telegram_otp",
+      "max_otp": "/docs/integration/flows/max_otp",
+      "max_bot": "/docs/integration/flows/max_bot",
+      "mts_id": "/docs/integration/flows/mts_id"
     }
   }
 }

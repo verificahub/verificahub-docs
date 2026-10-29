@@ -23,7 +23,7 @@ SMS-OTP fallback. Key off the signal, not the method:
 - listen for the `verification.code_required` webhook, **or**
 - poll `awaiting_code` in `GET /v1/verify/{request_id}` — `true` means "a code is needed now".
 
-A hardcoded "enter the code" screen breaks `mts_id`. Details in [Verification flows](./flows.md).
+A hardcoded "enter the code" screen breaks `mts_id`. Details in [Verification flows](./flows/mts_id.md).
 
 ## Remember `mts_id` is asynchronous
 
@@ -34,8 +34,7 @@ the final step.
 ## Don't hardcode tariffs
 
 Prices change. Read them at runtime via `GET /v1/prices` (for integrators) or `GET /dashboard/prices`
-(for the dashboard) and show the current values. The response contains only the client price, no internal
-cost.
+(for the dashboard) and show the current values.
 
 ## Branch on `error_code`
 
