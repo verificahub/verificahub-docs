@@ -10,6 +10,21 @@ slug: /changelog
 Changes to the public API and to how verification methods behave.
 Newest entries first.
 
+## 2026-10-29
+
+### Added
+
+- **Value dictionaries, so you don't keep your own copy.** `GET /meta/dictionaries` lists the
+  dictionaries on offer and `GET /meta/dictionaries/{name}` returns one: values exactly as the API
+  sends them, with labels in the language of the request (`Accept-Language`). No authentication
+  required.
+
+  Dictionaries are named after the fields they describe: an `operator` value resolves against
+  `operators`, a `status` against `statuses`. Responses are cached for an hour.
+
+  Why: a label table living in frontend code drifts from the API silently — and breaks on exactly
+  the values that were added most recently.
+
 ## 2026-10-28
 
 ### Fixed
