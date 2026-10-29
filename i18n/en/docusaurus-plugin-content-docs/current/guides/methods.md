@@ -14,14 +14,14 @@ Verificahub supports several ways to verify a number. They all use the same endp
 | --- | --- | --- | --- |
 | Reverse flash-call | `reverse_flash_call` | The user calls our number; we confirm by Caller ID — no code | **₽0.25** |
 | Flash Call | `flash_call` | A drop-call to the user's number; the code is the last digits of the incoming number | **₽0.80** |
-| Telegram | `telegram_otp` | The code arrives in Telegram via the official bot | **₽0.90** |
-| MAX | `max_bot` | The code arrives in the MAX messenger after the user shares their number in the bot | *per-account rate* |
+| Telegram | `telegram_otp` | The code arrives in Telegram via the official bot | **₽1.20** |
+| MAX Bot | `max_bot` | The code arrives in MAX after the user shares their number in the bot | **₽0.30** |
+| MAX | `max_otp` | The code goes straight to the number in MAX, no bot | **₽2.00** |
 | SMS | `sms` | A classic code over SMS — works on any phone | **₽3.00** |
 | MTS ID | `mts_id` | MTS confirms on the SIM (no code entry); on fallback — a code over SMS | **₽2.00** |
-| Voice OTP | `voice` | A voice robot dictates the code | *coming soon* |
+| Voice code | `pass_call` | A robot calls and dictates the code | **₽2.40** |
 
-Prices are indicative; see current rates at [verificahub.ru](https://verificahub.ru). The `max_bot` method is
-available if enabled for your account; check its price in the dashboard or via `GET /v1/prices`.
+Prices are indicative; see current rates at [verificahub.ru](https://verificahub.ru).
 
 ## Two integration patterns
 
