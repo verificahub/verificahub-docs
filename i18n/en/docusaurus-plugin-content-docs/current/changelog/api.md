@@ -19,7 +19,15 @@ Newest entries first.
   `max_bot` is "MAX — бот". The values are unchanged — only the labels in `GET /meta`,
   `GET /config` and `GET /meta/dictionaries/methods` moved.
 
-- **Methods in the dictionaries now carry a description.** Every `methods` item has a
+- **VK ID and Яндекс ID sign-in prices in `GET /dashboard/prices`.** A `providers` list now
+  carries the charge per completed sign-in. It is deliberately absent from `GET /v1/prices`: a
+  provider sign-in cannot be requested through `POST /v1/verify` — it happens inside the hosted
+  sign-in page and is enabled in the client's settings. Listing it publicly would advertise a
+  method the API would refuse.
+
+  A provider with no configured price is not listed — it is live and free.
+
+ Every `methods` item has a
   `description` field — one sentence on what the method does. Enough to render a method picker
   entirely from the API response, without keeping the copy on your side.
 
