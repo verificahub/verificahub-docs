@@ -11,6 +11,24 @@ What's changing in the customer dashboard — [app.verificahub.ru](https://app.v
 Public API changes have their [own changelog](./api.md).
 Newest entries first.
 
+## 1.17.0 — 2026-10-29
+
+### Changed
+
+- **The "Clients" tab is now "VerificaHub ID".** Beside the list: what it is, what it gives you, and
+  a live example — the real sign-in page on a test request, right there on the tab. A client here
+  is one VerificaHub ID integration, and the name now says so. A short version of the same case,
+  without the example, now sits on the API keys tab too.
+
+- **Support is reached through the chat, not a personal Telegram.** Everywhere the cabinet offers
+  to put you in touch — a closed verification method, an account under review, a conversation
+  about volumes — it opens the support chat, with support@verificahub.ru still beside it.
+
+### Fixed
+
+- **Client cards labelled every new verification method "SMS".** MAX, flash call and reverse flash
+  call had been mislabelled since the method list grew to seven.
+
 ## 1.16.0 — 2026-10-29
 
 ### Changed
