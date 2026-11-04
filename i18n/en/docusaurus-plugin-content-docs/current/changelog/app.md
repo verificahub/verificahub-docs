@@ -11,6 +11,24 @@ What's changing in the customer dashboard — [app.verificahub.ru](https://app.v
 Public API changes have their [own changelog](./api.md).
 Newest entries first.
 
+## 1.19.0 — 2026-11-04
+
+### Changed
+
+- **The "Number lookup" section is gone from the dashboard.** Checking a list of numbers from a
+  file is no longer offered: there is no item in the header, the bottom menu or the "More" page.
+  Past charges for lookups stay in the transaction history. The "Checks" item in the header now
+  goes straight to verifications.
+
+## 1.18.0 — 2026-11-04
+
+### Added
+
+- **Platform notices.** When something changes on our side — a channel constraint, a verification
+  method closing, new terms — the cabinet now shows it: a strip at the top of the page, and behind
+  it a "Notices" page with every notice and its full text. The bell in the header shows how many
+  notices are not hidden yet. An ordinary notice can be hidden; a critical one stays while it applies.
+
 ## 1.17.0 — 2026-10-29
 
 ### Changed
