@@ -36,6 +36,4 @@ Verificahub is a single platform for verifying user phone numbers: reverse flash
 - [Terms of use](./legal/terms_of_use)
 - [Personal data consent](./legal/personal_data_consent)
 
-:::note
-Legal documents are published in Russian only and are legally binding in that version.
-:::
+> The English legal documents are drafts pending legal review and are not yet in effect.

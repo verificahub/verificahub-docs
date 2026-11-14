@@ -1,5 +1,5 @@
 {
-  "version": "2026-10-18",
+  "version": "2026-11-14",
   "sections": {
     "start": {
       "overview": "/docs/start"
@@ -43,6 +43,16 @@
       "max_otp": "/docs/integration/flows/max_otp",
       "max_bot": "/docs/integration/flows/max_bot",
       "mts_id": "/docs/integration/flows/mts_id"
+    }
+  },
+  "localized_sections": {
+    "en": {
+      "legal": {
+        "public_offer": "/en/docs/legal/public_offer",
+        "privacy_policy": "/en/docs/legal/privacy_policy",
+        "terms_of_use": "/en/docs/legal/terms_of_use",
+        "personal_data_consent": "/en/docs/legal/personal_data_consent"
+      }
     }
   }
 }

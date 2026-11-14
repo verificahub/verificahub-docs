@@ -1,0 +1,10 @@
+{
+  "sidebar.tutorialSidebar.category.Юридические документы": {
+    "message": "Legal documents",
+    "description": "The label for category 'Юридические документы' in sidebar 'tutorialSidebar'"
+  },
+  "sidebar.tutorialSidebar.category.Юридические документы.link.generated-index.title": {
+    "message": "Legal documents",
+    "description": "The generated-index page title for category 'Юридические документы' in sidebar 'tutorialSidebar'"
+  }
+}
