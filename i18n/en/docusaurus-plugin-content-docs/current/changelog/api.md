@@ -10,6 +10,52 @@ slug: /changelog
 Changes to the public API and to how verification methods behave.
 Newest entries first.
 
+## 2026-11-17
+
+### Added
+
+- **Private MAX account management.** When enabled for your account, connect and manage your own
+  MAX senders, scan QR codes, submit requested passwords and poll reconnect actions. This channel
+  uses only your own accounts, without shared fallback. Existing MAX callers keep their current
+  behavior until enrolled. Account management is available by default. Enabling MAX in your
+  app grants access for an active account; sending becomes available once a sender is connected.
+  If no usable senders remain, sending stops and resumes automatically when one becomes available.
+
+### Changed
+
+- **`sms_v2` pilot paused.** It is disabled by default and omitted from offered-method lists.
+  Existing verification methods keep their current behavior.
+
+## 2026-11-13
+
+### Changed
+
+- **Dedicated `sms_v2` routes.** Price lists and new verifications use only routes available to
+  your account. If access to a selected route changes before sending, the request is marked
+  `not_sent` and its reserved funds are released without a send charge.
+
+## 2026-11-10
+
+### Added
+
+- **`sms_v2` verification pilot.** Initiation returns `202 Accepted` with `dispatch_status` once
+  accepted for processing. Polling separates submission progress from verification; acceptance for
+  sending is not a delivery confirmation. Access is off by default and requires explicit account
+  enablement; resetting account method access to defaults disables `sms_v2`. Existing `sms` keeps
+  its current behavior.
+- **Operator price ceilings.** `operator_prices` in the public and dashboard price lists gives the
+  current maximum complete-verification price per destination operator and availability for your
+  account. The exact quote returned when starting a verification remains fixed afterward.
+- **Reserved spending.** Balance and dashboard account responses include `reserved`; `available`
+  excludes those holds. Queued attempts are charged once when accepted for sending. Unsent attempts
+  release their holds, and an uncharged quote cannot produce a refund credit.
+
+## 2026-11-09
+
+### Fixed
+
+- **Voice-code request failures.** `pass_call` returns `502 provider_error` for upstream HTTP refusals, unreadable responses and transport failures. Rejected requests are not charged.
+
 ## 2026-10-30
 
 ### Changed
@@ -25,7 +71,9 @@ Newest entries first.
   sign-in page and is enabled in the client's settings. Listing it publicly would advertise a
   method the API would refuse.
 
-  A provider with no configured price is not listed — it is live and free.
+  The list reaches only accounts that run an active Verificahub ID client: without one there is no
+  sign-in page to open, so the tariff would describe something they cannot buy. A provider with no
+  configured price is not listed for them either — it is live and free.
 
  Every `methods` item has a
   `description` field — one sentence on what the method does. Enough to render a method picker
