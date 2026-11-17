@@ -11,6 +11,16 @@ What's changing in the customer dashboard — [app.verificahub.ru](https://app.v
 Public API changes have their [own changelog](./api.md).
 Newest entries first.
 
+## 1.20.0 — 2026-11-17
+
+### Added
+
+- **Your own MAX accounts.** The MAX tab in Integration guides you through enabling
+  the channel, connecting an account by QR code and entering a password when needed.
+  Add more accounts, reconnect them, disable or disconnect them, and pause sending
+  without removing your connections. Sending uses only your own usable accounts.
+  Connection setup can be continued after a page refresh in the same browser tab.
+
 ## 1.19.0 — 2026-11-04
 
 ### Changed
