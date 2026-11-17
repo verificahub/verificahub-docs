@@ -20,11 +20,7 @@ Newest entries first.
   behavior until enrolled. Account management is available by default. Enabling MAX in your
   app grants access for an active account; sending becomes available once a sender is connected.
   If no usable senders remain, sending stops and resumes automatically when one becomes available.
-
-### Changed
-
-- **`sms_v2` pilot paused.** It is disabled by default and omitted from offered-method lists.
-  Existing verification methods keep their current behavior.
+  You can pause new MAX sends and resume them later without disconnecting your accounts.
 
 ## 2026-11-13
 
