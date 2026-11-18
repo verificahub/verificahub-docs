@@ -11,6 +11,16 @@ What's changing in the customer dashboard — [app.verificahub.ru](https://app.v
 Public API changes have their [own changelog](./api.md).
 Newest entries first.
 
+## 1.20.1 — 2026-11-18
+
+### Added
+
+- **MAX account-blocking risk notice.** Setup and account management now explain
+  that the integration is used at your own risk and VerificaHub is not responsible
+  for possible account blocking by the MAX platform.
+- **MAX profile customization.** Before connecting, setup explains that you can
+  customize your photo, name, and other profile settings in the MAX app.
+
 ## 1.20.0 — 2026-11-17
 
 ### Added
