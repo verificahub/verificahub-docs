@@ -28,6 +28,8 @@ Verificahub — единая платформа верификации поль�
 - [Баланс и статистика](./guides/balance_and_usage)
 - [Статусы и ошибки](./guides/errors_and_statuses)
 
+- [Подключение аккаунтов MAX](./guides/max_accounts)
+
 ### Частые вопросы
 - [FAQ](./faq)
 

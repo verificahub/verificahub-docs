@@ -1,5 +1,5 @@
 {
-  "version": "2026-11-14",
+  "version": "2026-11-18",
   "sections": {
     "start": {
       "overview": "/docs/start"
@@ -20,7 +20,8 @@
       "reverse_flash_call": "/docs/guides/reverse_flash_call",
       "code_verification": "/docs/guides/code_verification",
       "balance_and_usage": "/docs/guides/balance_and_usage",
-      "errors_and_statuses": "/docs/guides/errors_and_statuses"
+      "errors_and_statuses": "/docs/guides/errors_and_statuses",
+      "max_accounts": "/docs/guides/max_accounts"
     },
     "faq": "/docs/faq",
     "changelog": {

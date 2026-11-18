@@ -41,9 +41,9 @@
     "responses": {
       "200": {
         "prices": [
-          {"method": "reverse_flash_call", "price": {"amount": 0.25, "currency": "RUB"}},
-          {"method": "telegram_otp", "price": {"amount": 0.90, "currency": "RUB"}},
-          {"method": "mts_id", "price": {"amount": 2.00, "currency": "RUB"}}
+          {"method": "reverse_flash_call", "price": {"amount": 0.25, "currency": "RUB"}, "available": true},
+          {"method": "telegram_otp", "price": {"amount": 0.90, "currency": "RUB"}, "available": true},
+          {"method": "mts_id", "price": {"amount": 2.00, "currency": "RUB"}, "available": true}
         ]
       }
     }
@@ -66,7 +66,10 @@
   "GetBalance": {
     "responses": {
       "200": {
-        "balance": {"amount": 1500.0, "currency": "RUB"}
+        "balance": {"amount": 1500.0, "currency": "RUB"},
+        "credit_limit": null,
+        "reserved": {"amount": 0.0, "currency": "RUB"},
+        "available": {"amount": 1500.0, "currency": "RUB"}
       }
     }
   },
@@ -79,7 +82,7 @@
         "total_verifications": 1280,
         "successful": 1205,
         "success_rate": 0.9414,
-        "total_cost": {"amount": 320.0, "currency": "RUB"},
+        "total_cost": {"amount": 301.25, "currency": "RUB"},
         "by_method": {"reverse_flash_call": 1280},
         "by_status": {"verified": 1205, "expired": 60, "failed": 15},
         "daily": [

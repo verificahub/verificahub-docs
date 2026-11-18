@@ -27,6 +27,8 @@ Verificahub is a single platform for verifying user phone numbers: reverse flash
 - [Balance and usage](./guides/balance_and_usage)
 - [Statuses and errors](./guides/errors_and_statuses)
 
+- [Connect MAX accounts](./guides/max_accounts)
+
 ### FAQ
 - [FAQ](./faq)
 

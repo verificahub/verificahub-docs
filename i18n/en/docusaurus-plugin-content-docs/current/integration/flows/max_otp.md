@@ -6,8 +6,10 @@ sidebar_position: 7
 
 # `max_otp` — a code in the MAX messenger
 
-The code arrives as a message in MAX. No links, no extra steps: it is already delivered by the time
-you get the response to `POST /v1/verify`.
+The code is submitted as a MAX message without a bot link or contact-sharing
+step. First [connect your MAX accounts](../../guides/max_accounts.md) in the
+dashboard. A successful `POST /v1/verify` confirms accepted submission,
+not handset receipt or reading.
 
 ```mermaid
 sequenceDiagram
@@ -17,8 +19,8 @@ sequenceDiagram
     participant VH as Verificahub
     participant MAX as MAX
     App->>VH: POST /v1/verify {method: max_otp}
-    VH->>MAX: code delivery
-    MAX-->>U: code in MAX
+    VH->>MAX: submit through own account
+    MAX-->>U: code in MAX (asynchronous delivery)
     VH-->>App: request_id, code_length, status: sent
     App-->>U: code input (code_length digits)
     U-->>App: entered code
@@ -32,3 +34,10 @@ sequenceDiagram
   their number; here they do nothing — the message simply arrives. Most integrations want `max_otp`.
 - **Show the code input straight away** after the `POST /v1/verify` response: the code is already sent.
 - **The user needs MAX on that number** — otherwise there is nowhere to deliver it.
+
+## Private senders and errors
+
+Once enrolled, only your accounts are used. Sending is unavailable without a
+usable sender; there is no shared fallback. An unregistered destination returns
+`422 delivery_unavailable` without a charge. Do not automatically retry an
+unknown submission as a new verification.

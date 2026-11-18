@@ -67,6 +67,12 @@ Edits made in this repo are overwritten on the next one — change the source in
 | `docs/changelog/api.md` | `verificahub-api/docs/changelog/{ru,en}.md` |
 | `docs/changelog/app.md` | `verificahub-web-app/docs/changelog/{ru,en}.md` |
 
+`openapi/verificahub-api-v1.json` and `openapi/export-metadata.json` are also copied
+from the backend-generated release artifact after successful API deployment. Do not
+hand-edit the exported schema; maintain translations and examples in their overlays.
+The backend script `scripts/regen-openapi.sh` can regenerate all documents locally
+through the integration-test host without a running API or database.
+
 Each page pins its public URL with `slug:` in its front matter, so the files can be
 regrouped without breaking links. `_category_.json` is hand-maintained — CI writes only
 the two `.md` files and never touches it.

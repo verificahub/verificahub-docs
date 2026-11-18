@@ -6,18 +6,20 @@ sidebar_position: 3
 
 # Code verification
 
-The `telegram_otp`, `sms`, `flash_call` and `max_bot` methods follow the same flow: the user receives or reads a short code, enters it in your app, and you confirm the code via the API. Only the delivery channel differs — `max_bot` has an extra "share number" step in the MAX messenger.
+The `telegram_otp`, `sms`, `flash_call`, `max_otp`, `pass_call` and `max_bot` methods follow the same flow: the user receives or reads a short code, enters it in your app, and you confirm the code via the API. Only the delivery channel differs — `max_bot` has an extra "share number" step in the MAX messenger.
 
 | Method | Where the user gets the code |
 | --- | --- |
 | `telegram_otp` | The code arrives as a Telegram message |
 | `sms` | The code arrives over SMS |
+| `max_otp` | The code arrives in MAX through your connected accounts |
+| `pass_call` | An incoming call dictates the code |
 | `flash_call` | A drop-call to the user's number; the code is the **last digits of the incoming number** |
 | `max_bot` | The code arrives in the MAX messenger after the user opens the bot via `deep_link` and shares their number |
 
 ## Step 1. Initiate the verification
 
-Set the `method` you need (`sms`, `telegram_otp`, `flash_call` or `max_bot`):
+Set the `method` you need (`sms`, `telegram_otp`, `flash_call`, `max_otp`, `pass_call` or `max_bot`):
 
 ```bash
 curl -X POST https://api.verificahub.ru/v1/verify \
@@ -53,7 +55,10 @@ For `max_bot`, the response additionally contains a `deep_link` field (`https://
 
 - **Telegram / SMS** — the user receives the code in a message and types it in.
 - **Flash Call** — the user gets a short drop-call; the code is the last `code_length` digits of the calling number. The user types them in (no need to answer).
-- **MAX** — the user opens the MAX bot via the `deep_link`, taps "Share number", after which the code arrives in MAX and the user types it in.
+- **MAX Bot (`max_bot`)** — the user opens the MAX bot via the `deep_link`, taps "Share number", after which the code arrives in MAX and the user types it in.
+
+- **MAX (`max_otp`)** — the user receives a code message without opening a bot.
+- **Voice code (`pass_call`)** — the user answers the call and enters the dictated code.
 
 ## Step 3. Check the code
 
@@ -79,7 +84,7 @@ Response `200 OK`:
 }
 ```
 
-`status: "verified"` means the code is correct and the number is confirmed. If the code is wrong or the session expired, you get `400` — show the user a message and let them request a new code.
+`status: "verified"` means the code is correct and the number is confirmed. A wrong code returns `400 invalid_code`; an expired or failed session returns `409 not_pending` — show the user a message and let them request a new code.
 
 :::note
 This flow does not apply to `reverse_flash_call` — there verification is automatic, with no code entry. See [Reverse flash-call](./reverse_flash_call.md).

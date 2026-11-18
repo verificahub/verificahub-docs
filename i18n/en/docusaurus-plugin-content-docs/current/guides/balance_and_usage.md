@@ -6,7 +6,7 @@ sidebar_position: 4
 
 # Balance and usage
 
-Verificahub is prepaid (pay-as-you-go): each initiated verification is charged at the method's rate. Two endpoints help you track spending.
+A verification price is quoted at initiation; the charge is posted at the method-specific billing milestone. Reverse flash-call, for example, is charged only after successful verification. An agreed credit limit may apply. Two endpoints help you track spending.
 
 ## Current balance
 
@@ -17,12 +17,16 @@ curl https://api.verificahub.ru/v1/balance \
 
 ```json
 {
-  "balance": { "amount": 1500.0, "currency": "RUB" }
+  "balance": { "amount": 1500.0, "currency": "RUB" },
+  "credit_limit": null,
+  "reserved": { "amount": 0.0, "currency": "RUB" },
+  "available": { "amount": 1500.0, "currency": "RUB" }
 }
 ```
 
 :::tip
-Check the balance on a schedule and set up an alert when it drops below a threshold — with a zero balance you can't initiate a verification (error `402`).
+Check the balance on a schedule and set up an alert when it drops below a threshold — insufficient `available` causes new requests to return `402`.
+`available` is balance plus credit limit minus reserved spending. A reservation is not a charge.
 :::
 
 ## Usage over a period

@@ -60,3 +60,10 @@ and no charge is applied.
 - **`request_id`** — your key for status, `check`, and webhook dedup; store it right away.
 - **Secret stays server-side.** `api_secret` must not reach a browser or mobile app; rotate keys in the
   dashboard.
+
+## Do not automatically repeat an unknown submission
+
+Each new `POST /v1/verify` creates a separate verification. If a private MAX
+submission returns an unknown outcome, retain `request_id` from the error when
+present. Inspect the status and contact support when needed. Retrying as a new
+verification may send a duplicate message.

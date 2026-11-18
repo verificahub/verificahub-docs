@@ -48,3 +48,9 @@ The error body uses the [Problem Details](https://datatracker.ietf.org/doc/html/
 - **Idempotency on your side.** Store the `request_id` and don't create a new verification while the current one is active.
 - **Clear messages.** On `400` during code entry, show "Invalid code" and let the user request a new one.
 - **Balance monitoring.** Catch `402` and warn about a low balance in advance — see [Balance and usage](./balance_and_usage.md).
+
+## Unknown MAX submission outcome
+
+A `503` with `max_delivery_unknown` or `max_response_unconfirmed` does not prove
+that no message was sent. Retain `request_id` when present in ProblemDetails. Do
+not create a new verification automatically. See [MAX accounts](./max_accounts.md).

@@ -56,6 +56,8 @@ Every method is called through the single `POST /v1/verify` endpoint — only th
 | `reverse_flash_call` | The user calls a number we return; we verify by caller id | No |
 | `flash_call` | We place a dropped call to the user; the code is the trailing digits of the incoming number | Yes — via `/v1/verify/check` |
 | `sms` | A code is delivered by SMS; the user enters it in your UI | Yes — via `/v1/verify/check` |
+| `max_otp` | MAX code through connected accounts | Yes — via `/v1/verify/check` |
+| `pass_call` | An incoming call dictates the code | Yes — via `/v1/verify/check` |
 | `telegram_otp` | A code is delivered in Telegram; the user enters it in your UI | Yes — via `/v1/verify/check` |
 | `max_bot` | A code is delivered in the MAX messenger — after the user opens the bot via `deep_link` and shares their number; they enter it in your UI | Yes — via `/v1/verify/check` |
 | `mts_id` | MTS Mobile ID pushes a confirmation to the SIM; on fallback, an SMS code | Only on the SMS-OTP fallback |
@@ -68,3 +70,6 @@ Every method is called through the single `POST /v1/verify` endpoint — only th
 - [How the verification flows work](./flows/index.md) — a diagram per method.
 - [Webhooks](./webhooks.md) — receive statuses without polling.
 - [Best practices](./best_practices.md) — polling vs webhooks, idempotency, errors, limits.
+
+For `max_otp`, first [connect MAX accounts](../guides/max_accounts.md).
+Method permission and current sender readiness are separate requirements.
