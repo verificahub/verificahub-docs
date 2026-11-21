@@ -1077,6 +1077,7 @@
             "sms": "#/components/schemas/SmsInitiateResponse",
             "flash_call": "#/components/schemas/FlashCallInitiateResponse",
             "telegram_otp": "#/components/schemas/TelegramInitiateResponse",
+            "whatsapp_otp": "#/components/schemas/WhatsAppInitiateResponse",
             "mts_id": "#/components/schemas/MtsIdInitiateResponse",
             "max_bot": "#/components/schemas/MaxBotInitiateResponse",
             "max_otp": "#/components/schemas/MaxOtpInitiateResponse",
@@ -1180,6 +1181,18 @@
           {
             "type": "object",
             "description": "Response for a TelegramOtp verification — Telegram delivers the\ncode to the user's Telegram account.",
+            "additionalProperties": false
+          }
+        ]
+      },
+      "WhatsAppInitiateResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/InitiateVerificationResponse"
+          },
+          {
+            "type": "object",
+            "description": "Response for a WhatsappOtp verification — the code is delivered\nin WhatsApp through an approved authentication template.",
             "additionalProperties": false
           }
         ]
