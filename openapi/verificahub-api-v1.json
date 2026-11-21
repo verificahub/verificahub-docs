@@ -129,8 +129,7 @@
         "tags": [
           "V1"
         ],
-        "summary": "List the live verification and number-lookup prices for your account currency.",
-        "description": "Two lists: prices for the verification methods and lookups for the number-lookup\nservices. They are charged differently — a verification at its billing milestone, a lookup per\nanswer — so they are reported separately rather than merged into one table.",
+        "summary": "List the live verification prices for your account currency.",
         "operationId": "GetPrices",
         "responses": {
           "401": {
@@ -292,7 +291,7 @@
           "V1"
         ],
         "summary": "Initiate a phone verification.",
-        "description": "Starts a verification with a method enabled for your account. The 201 response shape is discriminated by the method property; the verification code is never returned. sms_v2 returns 202 only after durable queue admission; dispatch_status reports submission progress separately from delivery.",
+        "description": "Starts a verification with a method enabled for your account. The 201 response shape is discriminated by the method property; the verification code is never returned.",
         "operationId": "InitiateVerification",
         "requestBody": {
           "x-name": "InitiateVerificationRequest",
@@ -310,16 +309,6 @@
         "responses": {
           "201": {
             "description": "Created",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/InitiateVerificationResponse"
-                }
-              }
-            }
-          },
-          "202": {
-            "description": "Accepted",
             "content": {
               "application/json": {
                 "schema": {
@@ -387,172 +376,6 @@
                 }
               }
             }
-          }
-        },
-        "security": [
-          {
-            "ExternalBasic": []
-          }
-        ]
-      }
-    },
-    "/v1/lookup/activity": {
-      "post": {
-        "tags": [
-          "V1"
-        ],
-        "summary": "Score how active a number is in the network (0…1).",
-        "description": "For cleaning a base before a campaign. Works on every Russian operator. It says nothing about\nwho holds the number — that is what verification is for.",
-        "operationId": "LookupActivity",
-        "requestBody": {
-          "x-name": "LookupRequest",
-          "description": "",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/LookupRequest"
-              }
-            }
-          },
-          "required": true,
-          "x-position": 1
-        },
-        "responses": {
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "application/problem+json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/problem+json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "402": {
-            "description": "",
-            "content": {
-              "application/problem+json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "503": {
-            "description": "",
-            "content": {
-              "application/problem+json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/LookupResponse"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Forbidden"
-          }
-        },
-        "security": [
-          {
-            "ExternalBasic": []
-          }
-        ]
-      }
-    },
-    "/v1/lookup/number-info": {
-      "post": {
-        "tags": [
-          "V1"
-        ],
-        "summary": "Look up a number's operator, region and porting status.",
-        "description": "Works on every Russian operator. This is the only reliable way to learn a number's real\noperator: a prefix table is wrong for any number that has been ported.",
-        "operationId": "LookupNumberInfo",
-        "requestBody": {
-          "x-name": "LookupRequest",
-          "description": "",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/LookupRequest"
-              }
-            }
-          },
-          "required": true,
-          "x-position": 1
-        },
-        "responses": {
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "application/problem+json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/problem+json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "402": {
-            "description": "",
-            "content": {
-              "application/problem+json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "503": {
-            "description": "",
-            "content": {
-              "application/problem+json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/LookupResponse"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Forbidden"
           }
         },
         "security": [
@@ -657,14 +480,6 @@
         "description": "Response for GET /v1/balance.",
         "additionalProperties": false,
         "properties": {
-          "reserved": {
-            "description": "Spending held for queued submissions, not yet posted as a charge.",
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/MoneyResponse"
-              }
-            ]
-          },
           "balance": {
             "description": "The account's current balance. Negative when the account is spending against an agreed\ncredit_limit.",
             "oneOf": [
@@ -716,10 +531,14 @@
         "type": "string",
         "description": "",
         "x-enumNames": [
-          "RUB"
+          "RUB",
+          "UZS",
+          "USD"
         ],
         "enum": [
-          "RUB"
+          "RUB",
+          "UZS",
+          "USD"
         ]
       },
       "GetPricesResponse": {
@@ -727,11 +546,11 @@
         "description": "The live per-method verification prices for the caller's account currency. Shared by the\nexternal (GET /v1/prices) and dashboard (GET /dashboard/prices) surfaces.",
         "additionalProperties": false,
         "properties": {
-          "operator_prices": {
+          "sms_prices": {
             "type": "array",
-            "description": "Current complete-verification ceilings for the A2P pilot by destination operator.",
+            "description": "SMS (sms) prices per message part: local rows per operator, international rows\nper country.",
             "items": {
-              "$ref": "#/components/schemas/OperatorPriceResponse"
+              "$ref": "#/components/schemas/SmsPriceResponse"
             }
           },
           "prices": {
@@ -741,37 +560,34 @@
               "$ref": "#/components/schemas/MethodPriceResponse"
             }
           },
-          "lookups": {
-            "type": "array",
-            "description": "Live prices for the number-lookup services, in display order.",
-            "items": {
-              "$ref": "#/components/schemas/LookupPriceResponse"
-            }
-          },
           "providers": {
             "type": "array",
-            "description": "Live prices for signing in through an identity provider (VK ID, Яндекс ID).",
+            "description": "Live prices for signing in through an identity provider.",
             "items": {
               "$ref": "#/components/schemas/ProviderPriceResponse"
             }
           }
         }
       },
-      "OperatorPriceResponse": {
+      "SmsPriceResponse": {
         "type": "object",
-        "description": "Published operator retail ceiling; never contains supplier cost, margin or route identity.",
+        "description": "One destination of the SMS price list.",
         "additionalProperties": false,
         "properties": {
-          "method": {
-            "description": "Pilot verification method.",
+          "scope": {
+            "description": "local (priced per operator) or international (priced per country).",
             "oneOf": [
               {
-                "$ref": "#/components/schemas/VerificationMethod"
+                "$ref": "#/components/schemas/SmsTrafficScope"
               }
             ]
           },
+          "country": {
+            "type": "string",
+            "description": "Destination country (ISO 3166-1 alpha-2)."
+          },
           "operator": {
-            "description": "Destination operator, or null for an explicitly priced unknown destination.",
+            "description": "Destination operator for local rows; absent for country-wide rows.",
             "nullable": true,
             "oneOf": [
               {
@@ -779,8 +595,8 @@
               }
             ]
           },
-          "max_price": {
-            "description": "Maximum price for the whole verification, including its permitted message parts.",
+          "price_per_part": {
+            "description": "Price per message part.",
             "oneOf": [
               {
                 "$ref": "#/components/schemas/MoneyResponse"
@@ -789,45 +605,20 @@
           },
           "available": {
             "type": "boolean",
-            "description": "Whether this caller is admitted to the pilot and method."
-          },
-          "effective_from": {
-            "type": "string",
-            "description": "Effective start of the published pricing terms.",
-            "format": "date-time"
-          },
-          "price_version": {
-            "type": "string",
-            "description": "Price version frozen with accepted verification quotes."
+            "description": "Whether this account may send there (default regions, or an admin grant)."
           }
         }
       },
-      "VerificationMethod": {
+      "SmsTrafficScope": {
         "type": "string",
         "description": "",
         "x-enumNames": [
-          "reverse_flash_call",
-          "flash_call",
-          "pass_call",
-          "sms",
-          "telegram_otp",
-          "mts_id",
-          "mts_id_sms_otp",
-          "max_bot",
-          "max_otp",
-          "sms_v2"
+          "local",
+          "international"
         ],
         "enum": [
-          "reverse_flash_call",
-          "flash_call",
-          "pass_call",
-          "sms",
-          "telegram_otp",
-          "mts_id",
-          "mts_id_sms_otp",
-          "max_bot",
-          "max_otp",
-          "sms_v2"
+          "local",
+          "international"
         ]
       },
       "MobileOperator": {
@@ -907,7 +698,14 @@
           "m_telecom",
           "metro_pay",
           "orange_business",
-          "other"
+          "other",
+          "uz_beeline",
+          "ucell",
+          "mobiuz",
+          "uzmobile",
+          "humans",
+          "perfectum",
+          "oq"
         ],
         "enum": [
           "mts",
@@ -983,7 +781,14 @@
           "m_telecom",
           "metro_pay",
           "orange_business",
-          "other"
+          "other",
+          "uz_beeline",
+          "ucell",
+          "mobiuz",
+          "uzmobile",
+          "humans",
+          "perfectum",
+          "oq"
         ]
       },
       "MethodPriceResponse": {
@@ -1013,41 +818,32 @@
           }
         }
       },
-      "LookupPriceResponse": {
-        "type": "object",
-        "description": "The price of one number-lookup service.",
-        "additionalProperties": false,
-        "properties": {
-          "method": {
-            "description": "Which lookup.",
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/LookupMethod"
-              }
-            ]
-          },
-          "price": {
-            "description": "The amount charged per answered lookup for this service.",
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/MoneyResponse"
-              }
-            ]
-          }
-        }
-      },
-      "LookupMethod": {
+      "VerificationMethod": {
         "type": "string",
         "description": "",
         "x-enumNames": [
-          "number_info",
-          "activity_score",
-          "sim_status"
+          "reverse_flash_call",
+          "flash_call",
+          "pass_call",
+          "sms",
+          "telegram_otp",
+          "mts_id",
+          "mts_id_sms_otp",
+          "max_bot",
+          "max_otp",
+          "whatsapp_otp"
         ],
         "enum": [
-          "number_info",
-          "activity_score",
-          "sim_status"
+          "reverse_flash_call",
+          "flash_call",
+          "pass_call",
+          "sms",
+          "telegram_otp",
+          "mts_id",
+          "mts_id_sms_otp",
+          "max_bot",
+          "max_otp",
+          "whatsapp_otp"
         ]
       },
       "ProviderPriceResponse": {
@@ -1151,14 +947,6 @@
             "items": {
               "$ref": "#/components/schemas/UsageDayResponse"
             }
-          },
-          "lookups": {
-            "description": "Number-lookup usage over the same range, counted separately from verifications.",
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/LookupUsageResponse"
-              }
-            ]
           }
         }
       },
@@ -1181,67 +969,6 @@
           }
         }
       },
-      "LookupUsageResponse": {
-        "type": "object",
-        "description": "Number-lookup usage in a usage report.",
-        "additionalProperties": false,
-        "properties": {
-          "total": {
-            "type": "integer",
-            "description": "Lookups requested in the range, answered or not.",
-            "format": "int32"
-          },
-          "billable": {
-            "type": "integer",
-            "description": "How many of those were charged for.",
-            "format": "int32"
-          },
-          "total_cost": {
-            "description": "What the lookups cost in total.",
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/MoneyResponse"
-              }
-            ]
-          },
-          "by_method": {
-            "type": "object",
-            "description": "Counts per lookup service.",
-            "x-dictionaryKey": {
-              "$ref": "#/components/schemas/LookupMethod"
-            },
-            "additionalProperties": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          "by_status": {
-            "type": "object",
-            "description": "Counts per outcome — where the share of \"no data\" shows up.",
-            "x-dictionaryKey": {
-              "$ref": "#/components/schemas/LookupStatus"
-            },
-            "additionalProperties": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        }
-      },
-      "LookupStatus": {
-        "type": "string",
-        "description": "",
-        "x-enumNames": [
-          "ok",
-          "no_data",
-          "out_of_coverage"
-        ],
-        "enum": [
-          "ok",
-          "no_data",
-          "out_of_coverage"
-        ]
-      },
       "GetUsageRequest": {
         "type": "object",
         "description": "Query for GET /v1/usage.",
@@ -1252,15 +979,6 @@
         "description": "Status response.",
         "additionalProperties": false,
         "properties": {
-          "dispatch_status": {
-            "description": "Submission progress for sms_v2 only; absent for legacy methods.",
-            "nullable": true,
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/SmsDispatchStatus"
-              }
-            ]
-          },
           "request_id": {
             "type": "string",
             "description": "The session's id.",
@@ -1325,28 +1043,6 @@
           }
         }
       },
-      "SmsDispatchStatus": {
-        "type": "string",
-        "description": "",
-        "x-enumNames": [
-          "queued",
-          "leased",
-          "submitting",
-          "submitted",
-          "rejected",
-          "unknown",
-          "not_sent"
-        ],
-        "enum": [
-          "queued",
-          "leased",
-          "submitting",
-          "submitted",
-          "rejected",
-          "unknown",
-          "not_sent"
-        ]
-      },
       "VerificationFailureReason": {
         "type": "string",
         "description": "",
@@ -1379,7 +1075,6 @@
           "mapping": {
             "reverse_flash_call": "#/components/schemas/ReverseFlashCallInitiateResponse",
             "sms": "#/components/schemas/SmsInitiateResponse",
-            "sms_v2": "#/components/schemas/SmsV2InitiateResponse",
             "flash_call": "#/components/schemas/FlashCallInitiateResponse",
             "telegram_otp": "#/components/schemas/TelegramInitiateResponse",
             "mts_id": "#/components/schemas/MtsIdInitiateResponse",
@@ -1462,41 +1157,6 @@
             "type": "object",
             "description": "Response for a Sms verification — the code is delivered in the SMS.",
             "additionalProperties": false
-          }
-        ]
-      },
-      "SmsV2InitiateResponse": {
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/InitiateVerificationResponse"
-          },
-          {
-            "type": "object",
-            "description": "Queued A2P SMS response; acceptance here is local queue admission, not handset delivery.",
-            "additionalProperties": false,
-            "properties": {
-              "operator": {
-                "description": "Destination row used for pricing, or null for the unknown-destination row.",
-                "nullable": true,
-                "oneOf": [
-                  {
-                    "$ref": "#/components/schemas/MobileOperator"
-                  }
-                ]
-              },
-              "price_version": {
-                "type": "string",
-                "description": "Accepted operator price version, frozen with the verification."
-              },
-              "dispatch_status": {
-                "description": "Current supplier submission progress, independent of verification status.",
-                "oneOf": [
-                  {
-                    "$ref": "#/components/schemas/SmsDispatchStatus"
-                  }
-                ]
-              }
-            }
           }
         ]
       },
@@ -1600,88 +1260,6 @@
             "description": "Requested session TTL in seconds.",
             "format": "int32",
             "nullable": true
-          }
-        }
-      },
-      "LookupResponse": {
-        "type": "object",
-        "description": "Result of a number lookup.",
-        "additionalProperties": false,
-        "properties": {
-          "request_id": {
-            "type": "string",
-            "description": "Identifier of this lookup, for support and reconciliation.",
-            "format": "guid"
-          },
-          "phone_number": {
-            "type": "string",
-            "description": "The number, masked."
-          },
-          "method": {
-            "description": "Which lookup was performed.",
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/LookupMethod"
-              }
-            ]
-          },
-          "status": {
-            "description": "Whether there was data, nothing, or the number is outside coverage.",
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/LookupStatus"
-              }
-            ]
-          },
-          "operator": {
-            "description": "Subscriber's operator, when the answer carried one.",
-            "nullable": true,
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/MobileOperator"
-              }
-            ]
-          },
-          "region_code": {
-            "type": "integer",
-            "description": "Region the SIM was sold in, when the answer carried one.",
-            "format": "int32",
-            "nullable": true
-          },
-          "score": {
-            "type": "number",
-            "description": "Activity score from 0 (least active) to 1 (most), for the activity lookup.",
-            "format": "decimal",
-            "nullable": true
-          },
-          "ported": {
-            "type": "boolean",
-            "description": "Whether the number has been ported to another operator, for the number-info lookup.",
-            "nullable": true
-          },
-          "cost": {
-            "description": "What this lookup cost. Zero when the answer was not billable.",
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/MoneyResponse"
-              }
-            ]
-          },
-          "checked_at": {
-            "type": "string",
-            "description": "When the lookup ran (UTC).",
-            "format": "date-time"
-          }
-        }
-      },
-      "LookupRequest": {
-        "type": "object",
-        "description": "Body of the POST /v1/lookup/* endpoints.",
-        "additionalProperties": false,
-        "properties": {
-          "phone_number": {
-            "type": "string",
-            "description": "The number to look up."
           }
         }
       }
