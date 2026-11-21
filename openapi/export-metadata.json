@@ -1,8 +1,8 @@
 {
   "source_repository": "verificahub/verificahub-api",
-  "source_commit": "05e0368d11f5a01c71e5818589145dd93434ab33",
+  "source_commit": "695d715330ece1f12e66b67f0e08421e288a6e42",
   "source_worktree_dirty": false,
-  "exported_at_utc": "2026-11-21T07:35:45.8095614+00:00",
+  "exported_at_utc": "2026-11-21T11:20:12.4495596+00:00",
   "public_document": "verificahub-api-v1",
   "public_paths": 6
 }
